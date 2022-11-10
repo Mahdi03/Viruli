@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
+[CreateAssetMenu(menuName = "Items/Create New Potion")]
 public class Potion : Item {
 	Potion() {
 		this.itemType = "Potion";
@@ -12,8 +11,7 @@ public class Potion : Item {
 		base.showOnSceneRing();
 
 	}
-	public override void OnEndDrag(PointerEventData eventData) {
-		base.OnEndDrag(eventData);
-		//For the potion we want it to create a permanent colored ring that is causing damage on the scene at that point
-	}
+	public int effectRadius;
+	public float timeout = 5f;
+	public List<Item> recipe;
 }

@@ -31,7 +31,8 @@ public static class JsonHelper {
 
 
 public class Inventory : IEnumerable {
-	private List<Item> inventory;
+	//TODO: make List<(Item, int)>
+	private List<Item> inventory = new List<Item>();
 	private const string PlayerPrefsKeyName = "MahdiViruliStoredInventory";
 
 	/*C++-fying the C+ List*/

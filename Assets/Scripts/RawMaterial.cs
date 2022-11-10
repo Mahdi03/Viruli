@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Items/Create New Raw Material")]
 public class RawMaterial : Item {
 	public bool droppedByEnemy;
 	RawMaterial() {

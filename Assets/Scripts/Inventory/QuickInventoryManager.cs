@@ -18,6 +18,7 @@ public class QuickInventoryManager : MonoBehaviour {
 		for (float i = -numOfQuickInventorySlots / 2f; i < numOfQuickInventorySlots / 2f; i++) {
 			GameObject newSlot = Instantiate(inventorySlotPrefab, transform);
 			newSlot.GetComponent<Image>().rectTransform.anchoredPosition = new Vector2(i * slotWidth, 0);
+			newSlot.GetComponent<InventorySlot>().SetSlotID((int)i);
 		}
 	}
 
