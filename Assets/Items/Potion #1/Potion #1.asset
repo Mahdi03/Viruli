@@ -18,7 +18,8 @@ MonoBehaviour:
     type: 3}
   threeDimensionalPrefab: {fileID: 5562583840306413252, guid: b82e58cc704587241b740f24b3600adf,
     type: 3}
+  itemType: Potion
   itemID: 0
+  effectRingPrefab: {fileID: 0}
   effectRadius: 0
   timeout: 0
-  recipe: []

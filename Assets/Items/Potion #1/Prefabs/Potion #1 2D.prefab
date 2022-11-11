@@ -85,7 +85,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7406779019849519766}
-  - component: {fileID: 5270419372512984416}
+  - component: {fileID: -2469404011148990601}
+  - component: {fileID: 5549410491110194257}
+  - component: {fileID: -3953524989305066849}
+  - component: {fileID: -25868836466310748}
   m_Layer: 5
   m_Name: Potion #1 2D
   m_TagString: Untagged
@@ -116,7 +119,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5270419372512984416
+--- !u!114 &-2469404011148990601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7336456791080179910}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f0b06313160724c834672feb2f9923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackable: 1
+  XPValue: 0
+  twoDimensionalPrefab: {fileID: 7336456791080179910}
+  threeDimensionalPrefab: {fileID: 5562583840306413252, guid: b82e58cc704587241b740f24b3600adf,
+    type: 3}
+  itemType: Potion
+  itemID: 0
+--- !u!114 &5549410491110194257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,9 +147,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 7336456791080179910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba373d913c8fc82419eca92e827533c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dfff9f1dac6f3a4c9f2092bedc56950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3953524989305066849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7336456791080179910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f28828ed968fc46b58301887abf390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-25868836466310748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7336456791080179910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c87523064e96e348b1886c293ac5772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackable: 1
+  XPValue: 0
+  twoDimensionalPrefab: {fileID: 7336456791080179910}
+  threeDimensionalPrefab: {fileID: 5562583840306413252, guid: b82e58cc704587241b740f24b3600adf,
+    type: 3}
+  itemType: Potion
+  itemID: 0
+  effectRingPrefab: {fileID: 0}
+  effectRadius: 0
+  timeout: 0
 --- !u!1 &7337453813925817802
 GameObject:
   m_ObjectHideFlags: 0
