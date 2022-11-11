@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9129192614960368969}
   m_Layer: 5
   m_Name: inventorySlotTemplate
-  m_TagString: Untagged
+  m_TagString: inventorySlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,6 @@ MonoBehaviour:
   container: {fileID: 9129192614960368967}
   item: {fileID: 9129192616116940330}
   countText: {fileID: 9129192616630844157}
-  clicked: 0
 --- !u!1 &9129192616116940328
 GameObject:
   m_ObjectHideFlags: 0
