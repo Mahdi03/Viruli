@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public interface IDraggableObject : IPointerDownHandler,
+public interface IDraggableObject :
 	/*Drag Events*/
 	IBeginDragHandler, IEndDragHandler, //For begin and end drag events
 	IDragHandler //For while dragging (called each frame)

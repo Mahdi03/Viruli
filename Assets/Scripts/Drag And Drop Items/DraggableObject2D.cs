@@ -16,15 +16,19 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 		twoDimensionsItemsContainerInCanvas = GameObject.FindGameObjectWithTag("2DItemsContainerInCanvas");
 
 		m_RectTransform = GetComponent<RectTransform>();
-		canvasGroup = (CanvasGroup)gameObject.AddComponent<CanvasGroup>();
+		canvasGroup = GetComponent<CanvasGroup>(); //Try to get the canvas group before we make one so we don't keep making one
+		if (canvasGroup == null) {
+			canvasGroup = (CanvasGroup)gameObject.AddComponent<CanvasGroup>();
+		}
 	}
 	
 	public virtual void OnBeginDrag(PointerEventData eventData) {
 		Debug.Log("BeginDrag");
 		canvasGroup.blocksRaycasts = false;
 		canvasGroup.alpha = 0.75f;
-
-		m_RectTransform.SetParent(twoDimensionsItemsContainerInCanvas.transform, true);
+		if (m_RectTransform != null) {
+			m_RectTransform.SetParent(twoDimensionsItemsContainerInCanvas.transform, true);
+		}
 
 	}
 
@@ -32,6 +36,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 		Debug.Log("Dragging");
 		if (m_RectTransform != null) {
 			m_RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor; //Adds the change in mouse position to the canvas position of our object
+			//If we can move the object 
 		}
 	}
 
@@ -40,10 +45,11 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 		canvasGroup.blocksRaycasts = true;
 		canvasGroup.alpha = 1f;
 	}
-
+	/*
 	public virtual void OnPointerDown(PointerEventData eventData) {
 		Debug.Log("PointerDown");
 	}
+	*/
 
 	/*
 private Vector2 startPos = new Vector2(0, 0);
