@@ -31,25 +31,79 @@ public static class JsonHelper {
 
 
 public class Inventory : IEnumerable {
-	//TODO: make List<(Item, int)>
-	private List<Item> inventory = new List<Item>();
+	
+	private List<(IItem, int)> inventory;
 	private const string PlayerPrefsKeyName = "MahdiViruliStoredInventory";
-
+	public Inventory(int initialElements = 0) {
+		this.inventory = new List<(IItem, int)>(initialElements);
+	}
 	/*C++-fying the C+ List*/
-	public Item at(int index) {
+	public (IItem, int) at(int index) {
 		if (index < 0 || index >= inventory.Count) {
 			throw new System.Exception("Index " + index + " out of range. Length of array is " + this.length());
 		}
 		return inventory[index];
 	}
-	public void push(Item item) {
-		inventory.Add(item);
+	public void push(IItem item) {
+		if (!item.GetStackable()) {
+			//We can't stack the item anyways, add it to the end
+			inventory.Add((item, 1));
+			return; //We've already added it, we can stop here
+		}
+		else {
+			//Search through vector to see if item already exists or not since we can stack it
+			for (int i = 0; i < inventory.Count; i++) {
+				(IItem, int) currentVal = this.at(i);
+				//Use Item1 for first item of tuple, Item2, for 2nd, ItemN for Nth-element of tuple
+				if (currentVal.Item1.GetItemID() == item.GetItemID()) {
+					//These items are the same ID, we can add them
+					currentVal.Item2++;
+					return; //We don't need to go any further
+				}
+			}
+			//If we made it this far then we still have not added it, add it to the end since it does not exist
+			inventory.Add((item, 1));
+		}
+	}
+	private void push((IItem, int) inventoryItem) {
+		inventory.Add(inventoryItem);
+	}
+	public void push((IItem, int) inventoryItem, int index) { //Change the element at a given index
+		inventory[index] = inventoryItem; //Replace the element here with a new element
+	}
+	public void swap((IItem, int) a, (IItem, int) b) {
+		//Swap the position of the two elements in the inventory array
+		int indexA = this.indexOf(a), indexB = this.indexOf(b);
+		if (indexA < 0 || indexB < 0) {
+			throw new System.IndexOutOfRangeException("Item not found within array to swap");
+		}
+		else { }
+
 	}
 	public void pop() {
-		inventory.RemoveAt(this.length() - 1);
+		this.removeAt(this.length() - 1);
 	}
-	public int indexOf(Item item) {
-		return inventory.IndexOf(item);
+	public void removeAt(int index) {
+		inventory.RemoveAt(index);
+	}
+	public int indexOf(IItem item) {
+		//Search through inventory to find the first index of an item with a matching ID
+		for (int index = 0; index < this.length(); index++) {
+            (IItem, int) currentVal = this.at(index);
+			if (currentVal.Item1.GetItemID() == item.GetItemID()) {
+				return index;
+			}
+        }
+		return -1; //Return -1 when not found
+	}
+	public int indexOf((IItem, int) inventoryItem) {
+		for (int index = 0; index < this.length(); index++) {
+            (IItem, int) currentVal = this.at(index);
+			if (currentVal == inventoryItem) {
+				return index;
+			}
+        }
+		return -1;
 	}
 	public int length() {
 		return inventory.Count;
@@ -67,10 +121,10 @@ public class Inventory : IEnumerable {
 		}
 	}
 	private void loadFromJSONString(string json) {
-		Item[] items = JsonHelper.FromJson<Item>(json);
+		(IItem, int)[] items = JsonHelper.FromJson<(IItem, int)>(json);
 		inventory.Clear();
-		foreach (Item item in items) {
-			this.push(item);
+		foreach ((IItem, int) currentInventoryItem in items) {
+			this.push(currentInventoryItem);
 		}
 	}
 	public void saveInventoryToPlayerPrefs() {
