@@ -15,11 +15,27 @@ public class QuickInventoryManager : MonoBehaviour {
 		//Get width of each slot
 		slotWidth = inventorySlotPrefab.GetComponent<Image>().rectTransform.sizeDelta.x;
 		//Debug.Log(slotWidth);
+		int i = 0;
+		for (i = 0; i < numOfQuickInventorySlots; i++) {
+			float currentSlotPos = (i - numOfQuickInventorySlots / 2f) * slotWidth;
+			//Debug.Log("a:" + currentSlotPos);
+            
+			GameObject newSlot = Instantiate(inventorySlotPrefab, transform);
+            newSlot.GetComponent<Image>().rectTransform.anchoredPosition = new Vector2(currentSlotPos, 0);
+            newSlot.GetComponent<InventorySlot>().SetSlotID((int)i);
+			
+        }
+		//Now i is a value we can use to add our button prefab to open the entire inventory
+
+		/*
 		for (float i = -numOfQuickInventorySlots / 2f; i < numOfQuickInventorySlots / 2f; i++) {
+			Debug.Log("b:" + i * slotWidth);
+			
 			GameObject newSlot = Instantiate(inventorySlotPrefab, transform);
 			newSlot.GetComponent<Image>().rectTransform.anchoredPosition = new Vector2(i * slotWidth, 0);
 			newSlot.GetComponent<InventorySlot>().SetSlotID((int)i);
 		}
+		*/
 	}
 
 }
