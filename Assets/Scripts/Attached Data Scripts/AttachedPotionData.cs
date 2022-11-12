@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AttachedPotionData : AttachedItemData {
-
+    /*
     public GameObject effectRingPrefab;
     public int effectRadius;
 	public float timeout = 5f;
@@ -32,4 +32,5 @@ public class AttachedPotionData : AttachedItemData {
         thisPotion.init(this);
         return thisPotion;
     }
+    */
 }

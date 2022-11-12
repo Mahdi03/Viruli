@@ -11,9 +11,14 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 	private Dictionary<int, IItem> itemsDatabase;
 
 	//Provide a getter method to get items from the dictionary so we can use the data
+	/*
+	 Make sure you are checking the value of itemID before trying to access it
+	 */
 	public IItem getItemByID(int itemID) {
 		IItem item;
-		itemsDatabase.TryGetValue(itemID, out item);
+		if (!itemsDatabase.TryGetValue(itemID, out item)) {
+			throw new System.IndexOutOfRangeException("Item with ID: " + itemID + " does not exist");
+		}
 		return item;
 	}
 

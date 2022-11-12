@@ -7,6 +7,9 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
     //This class should be added to 2D prefabs that can be clicked on to add to inventory
     public void OnPointerDown(PointerEventData eventData) {
         //We were clicked on, now add this item to inventory
+        int itemID = GetComponent<ItemInstance>().itemID;
+        InventoryManager.Instance.pickupItem(itemID);
+        /*
         string itemType = GetComponent<AttachedItemData>().itemType;
         switch (itemType.ToLower()) {
             case "potion":
@@ -21,6 +24,7 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
                 InventoryManager.Instance.pickupItem(thisRawMaterial);
                 break;
         }
+        */
         //Now remove this object from the game altogether
         //Destroy(eventData.pointerPress);
         Destroy(gameObject);

@@ -4,14 +4,13 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Create New Potion")]
 public class Potion : Item {
-	public Potion() {
-		this.itemType = "Potion";
-	}
     public GameObject effectRingPrefab;
     public int effectRadius;
     public float timeout = 5f;
     public List<(Item, int)> recipe;
 
+    public override string itemType { get { return this.GetType().Name; } }
+    /*
     public void init(AttachedPotionData attachedPotionData) {
         //Everything inherited from Item
         this.stackable = attachedPotionData.stackable;
@@ -26,10 +25,11 @@ public class Potion : Item {
         this.timeout = attachedPotionData.timeout;
         this.recipe = attachedPotionData.recipe;
     }
-
+    */
     public override void showOnSceneRing() {
 		base.showOnSceneRing();
 	}
+    /*
     public override void init2DGameObject() {
         base.init2DGameObject();
         AttachedItemData itemData = twoDimensionalPrefab.GetComponent<AttachedItemData>();
@@ -75,5 +75,6 @@ public class Potion : Item {
         Destroy(itemData);
         //this.threeDimensionalPrefabInitialized = true;
     }
+    */
 
 }

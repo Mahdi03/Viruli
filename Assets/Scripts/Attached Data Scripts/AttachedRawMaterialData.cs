@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AttachedRawMaterialData : AttachedItemData {
+    /*
     public bool droppedByEnemy;
 
     public void init(AttachedItemData attachedItemData, bool droppedByEnemy) {
@@ -24,4 +25,5 @@ public class AttachedRawMaterialData : AttachedItemData {
         thisRawMaterial.init(this);
         return thisRawMaterial;
     }
+    */
 }

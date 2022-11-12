@@ -22,12 +22,12 @@ public class InventoryManager : MonoBehaviour {
 			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0);
 			
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-            //myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
         }
 	}
 
-	public void pickupItem(IItem item) {
-		currentInventory.push(item); //This will take care of putting it in the right place whether or not it is stackable
+	public void pickupItem(int itemID) {
+		currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
 		/*
 		var myPrefab = item.Get2DPrefab();
 		Destroy(item.Get2DPrefab());
@@ -41,27 +41,34 @@ public class InventoryManager : MonoBehaviour {
 		GameObject[] inventorySlots = GameObject.FindGameObjectsWithTag("inventorySlot"); //Find all GameObjects that are inventorySlots
 		foreach (GameObject inventorySlot in inventorySlots) {
 			InventorySlot inventorySlotAssociatedInfo = inventorySlot.GetComponent<InventorySlot>();
+            //All inventory slots have the first two elements being the count and the background,
+            // everything else is deleted
             inventorySlotAssociatedInfo.ClearAllItemsInSlot();
 
             int inventorySlotID = inventorySlotAssociatedInfo.GetSlotID();
-			//Make sure we only try to access values that are within the length of the inventory array
+            //Make sure we only try to access values that are within the length of the inventory array
+            //If our inventory slot ID is an acceptable index within our internal inventory list
             if (!(inventorySlotID < 0 || inventorySlotID >= currentInventory.length())) {
-				//If our inventory slot ID is an acceptable index within our internal inventory list
-				//All inventory slots have the first two elements being the count and the background,
-				// everything else was deleted
-				(IItem currentItem, int count) = currentInventory.at(inventorySlotID);
-
-                if (currentItem.GetItemType() != null) { //Using itemType = null as empty placeholders
-					//Add this item to the inventory slot at the right position
-					
-					GameObject item2DPrefab = Instantiate(currentItem.Get2DPrefab(), inventorySlots[inventorySlotID].gameObject.transform);
-                    Item.makeDraggable2D(item2DPrefab);
-                    Item.disableClickCollectible2D(item2DPrefab);
-                    Item.disableHoverFloat2D(item2DPrefab);
-                    item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-					//currentItem.SetCurrent2DPrefab(item2DPrefab);
-					inventorySlotAssociatedInfo.SetCount(count);
+				
+				(int currentItemID, int count) = currentInventory.at(inventorySlotID);
+				if (currentItemID < 0) {
+					//This object is an empty placeholder, skip
 				}
+				else {
+                    IItem currentItem = InGameItemsDatabaseManager.Instance.getItemByID(currentItemID);
+                    if (currentItem.itemType != null) { //Using itemType = null as empty placeholders
+						//Add this item to the inventory slot at the right position
+                        GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlots[inventorySlotID].gameObject.transform);
+						Item.attachItemInstance(item2DPrefab, currentItemID);
+                        Item.makeDraggable2D(item2DPrefab);
+                        Item.disableClickCollectible2D(item2DPrefab);
+                        Item.disableHoverFloat2D(item2DPrefab);
+                        item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+                        //currentItem.SetCurrent2DPrefab(item2DPrefab);
+                        inventorySlotAssociatedInfo.SetCount(count);
+                    }
+                }
+				
 			}
 		}
 	}

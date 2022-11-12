@@ -6,23 +6,25 @@ using UnityEngine;
 public interface IItem {
 
 	//Getters and setters
-	bool stackable { get; } //Set through scriptable objects
-	int ID {
+	public bool Stackable { get; } //Set through scriptable objects
+	public int ID {
 		get; set; //Allow settable for DatabaseManager
 	}
-	public string GetItemType();
-	public GameObject Get2DPrefab();
-	public GameObject Get3DPrefab();
 
-	public int GetInventorySlotIDOccupied();
-	public void SetInventorySlotIDOccupied(int id);
-	public virtual void init2DGameObject() { }
-	public virtual void init3DGameObject() { }
+	public abstract string itemType { get; } //Make it abstract so that we can override it later
+
+	public GameObject TwoDimensionalPrefab { get; } //Set thru editor
+	public GameObject ThreeDimensionalPrefab { get; } //Set thru editor
+
+	int inventorySlotIDOccupied { get; set; }
 	public virtual void drop2DSprite(Vector2 pos, Quaternion rotation) { }
+	/*
 	void SetCurrent2DPrefab(GameObject item2DPrefab);
+	*/
 	public virtual void drop3DSprite(Vector3 worldPos, Quaternion rotation) { }
 
 	/* Enabling and disabling scripts */
+	public static void attachItemInstance(GameObject twoDimensionalPrefab, int itemID) {}
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {}
 	public static void disableDraggable2D(GameObject twoDimensionalPrefab) {}
 	public static void makeHoverFloat2D(GameObject twoDimensionalPrefab) {}
@@ -39,32 +41,35 @@ public interface IItem {
 
 
 public class Item : ScriptableObject, IItem {
-	public bool stackable { get; } //Automatically makes private variable under the hood and works the same
+	/*
+	 * Use SerializeField and an explicit private variable to expose these values to the Unity editor since they don't 
+	 * support the automatic property thingy yet
+	 */
+	[SerializeField]
+	private bool stackable;
+	public bool Stackable { get { return stackable; } }
+
+
 	public int XPValue = 0;
-	public GameObject
-		twoDimensionalPrefab,
-		threeDimensionalPrefab;
-	public GameObject Get2DPrefab() { return twoDimensionalPrefab; }
-	public void SetCurrent2DPrefab(GameObject item2DPrefab) {
-		this.twoDimensionalPrefab = item2DPrefab;
-	}
-	public GameObject Get3DPrefab() { return threeDimensionalPrefab; }
-	public string itemType;
-	public string GetItemType() { return itemType; }
+
+	[SerializeField]
+	private GameObject twoDimensionalPrefab;
+	public GameObject TwoDimensionalPrefab { get { return twoDimensionalPrefab; } }
+	[SerializeField]
+	private GameObject threeDimensionalPrefab;
+	public GameObject ThreeDimensionalPrefab { get { return threeDimensionalPrefab; } }
+	
+	virtual public string itemType { get; }
+
+	//[SerializeField] - We don't set this ourselves because it is set by the DatabaseManager
 	private int itemID;
 	public int ID {
 		get { return itemID; }
-		set { itemID = value; }
+		set { itemID = value; } //We need the setter because it is set by the DatabaseManager
 	}
-	public int GetItemID() { return itemID; }
 
-	private int inventorySlotIDOccupied = -1;
-	public int GetInventorySlotIDOccupied() {
-		return inventorySlotIDOccupied;
-	}
-	public void SetInventorySlotIDOccupied(int id) {
-		inventorySlotIDOccupied = id;
-	}
+	public int inventorySlotIDOccupied { get; set; } = -1;
+	
 	/*
 	protected bool
 		twoDimensionalPrefabInitialized = false,
@@ -72,13 +77,14 @@ public class Item : ScriptableObject, IItem {
 	*/
 
 	protected bool currently2D;
+	/*
 	public void switch2Dto3DPrefab() { }
 	public void switch3Dto2DPrefab() { }
-
-
+	*/
 
 	public virtual void showOnSceneRing() { }
 
+	/*
 	//We can attach script components to the 2D and 3D prefabs so that when we want access to their Item class we can access them here
 	public virtual void init2DGameObject() {
 		AttachedItemData itemData = twoDimensionalPrefab.GetComponent<AttachedItemData>();
@@ -97,6 +103,7 @@ public class Item : ScriptableObject, IItem {
 
 		//this.twoDimensionalPrefabInitialized = true;
 	}
+	*/
 	/*
 	public void enableScript<Unity.Component<T>>() {
 		T script = twoDimensionalPrefab.GetComponent<T>();
@@ -114,7 +121,14 @@ public class Item : ScriptableObject, IItem {
 		}
 	}
 	*/
-
+	//Works with both 2D and 3D prefabs
+	public static void attachItemInstance(GameObject prefab, int itemID) {
+		ItemInstance itemInstance = prefab.GetComponent<ItemInstance>();
+		if (itemInstance == null) {
+			itemInstance = prefab.AddComponent<ItemInstance>();
+		}
+		itemInstance.itemID = itemID; //Give prefab the item ID that it corresponds to
+	}
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {
 		DraggableObject2D draggableObject2DScript = twoDimensionalPrefab.GetComponent<DraggableObject2D>();
 		if (draggableObject2DScript == null) {
@@ -166,16 +180,18 @@ public class Item : ScriptableObject, IItem {
 	 * Call this function at the location of a zombie death to drop a 2-D collectible item
 	 */
 	public virtual void drop2DSprite(Vector2 pos, Quaternion rotation) {
+		/*
 		//if (!this.twoDimensionalPrefabInitialized) {
 			init2DGameObject();
 		//}
-		
+		*/
 		Transform twoDimensionalSpritesContainer = GameObject.FindGameObjectWithTag("2DItemsContainerInCanvas").transform;
-		var newSprite = Instantiate(twoDimensionalPrefab, new Vector2(0, 0), rotation, twoDimensionalSpritesContainer);
-        makeClickCollectible2D(newSprite);
-        makeHoverFloat2D(newSprite);
-        disableDraggable2D(newSprite);
-        var newSpriteRectTransform = newSprite.GetComponent<RectTransform>();
+		var newSprite = Instantiate(TwoDimensionalPrefab, new Vector2(0, 0), rotation, twoDimensionalSpritesContainer);
+		attachItemInstance(newSprite, ID); //Send it just the ID, we don't need to send it all the details
+		makeClickCollectible2D(newSprite);
+		makeHoverFloat2D(newSprite);
+		disableDraggable2D(newSprite);
+		var newSpriteRectTransform = newSprite.GetComponent<RectTransform>();
 		newSpriteRectTransform.anchoredPosition = pos;
 	}
 
@@ -183,7 +199,7 @@ public class Item : ScriptableObject, IItem {
 	public virtual void drop3DSprite(Vector3 worldPos, Quaternion rotation) {
 		throw new System.NotImplementedException();
 	}
-
+	/*
 	public virtual void init3DGameObject() {
 		AttachedItemData itemData = twoDimensionalPrefab.GetComponent<AttachedItemData>();
 		if (itemData == null) {
@@ -202,11 +218,6 @@ public class Item : ScriptableObject, IItem {
 		//this.threeDimensionalPrefabInitialized = true;
 		
 	}
+	*/
 
-}
-
-public class EmptyItem: Item {
-	public EmptyItem() {
-		this.itemType = null;
-	}
 }
