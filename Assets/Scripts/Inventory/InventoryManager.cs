@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour {
 	public static InventoryManager Instance { get { return instance; } }
 	//This class set to control both foreground and background inventory?
 
-    private Inventory currentInventory;
+	private Inventory currentInventory;
 
 	private void Awake() {
 		if (instance != this && instance != null) {
@@ -15,15 +15,15 @@ public class InventoryManager : MonoBehaviour {
 		}
 		else {
 			instance = this;
-            //Now we can instantiate stuff
-            currentInventory = new Inventory(100);
+			//Now we can instantiate stuff
+			currentInventory = new Inventory(100);
 			//TODO: Have an if resume game catch here
-            currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
+			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
 			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0);
 			
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
-        }
+			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+		}
 	}
 
 	public void pickupItem(int itemID) {
@@ -36,38 +36,38 @@ public class InventoryManager : MonoBehaviour {
 		GameObject[] inventorySlots = GameObject.FindGameObjectsWithTag("inventorySlot"); //Find all GameObjects that are inventorySlots
 		foreach (GameObject inventorySlot in inventorySlots) {
 			InventorySlot inventorySlotAssociatedInfo = inventorySlot.GetComponent<InventorySlot>();
-            //All inventory slots have the first two elements being the count and the background,
-            // everything else is deleted
-            inventorySlotAssociatedInfo.ClearAllItemsInSlot();
+			//All inventory slots have the first two elements being the count and the background,
+			// everything else is deleted
+			inventorySlotAssociatedInfo.ClearAllItemsInSlot();
 
-            int inventorySlotID = inventorySlotAssociatedInfo.GetSlotID();
-            //Make sure we only try to access values that are within the length of the inventory array
-            //If our inventory slot ID is an acceptable index within our internal inventory list
-            if (!(inventorySlotID < 0 || inventorySlotID >= currentInventory.length())) {
+			int inventorySlotID = inventorySlotAssociatedInfo.slotID;
+			//Make sure we only try to access values that are within the length of the inventory array
+			//If our inventory slot ID is an acceptable index within our internal inventory list
+			if (!(inventorySlotID < 0 || inventorySlotID >= currentInventory.length())) {
 				
 				(int currentItemID, int count) = currentInventory.at(inventorySlotID);
 				if (currentItemID < 0) {
 					//This object is an empty placeholder, skip
 				}
 				else {
-                    IItem currentItem = InGameItemsDatabaseManager.Instance.getItemByID(currentItemID);
-                    if (currentItem.itemType != null) { //Using itemType = null as empty placeholders
+					IItem currentItem = InGameItemsDatabaseManager.Instance.getItemByID(currentItemID);
+					if (currentItem.itemType != null) { //Using itemType = null as empty placeholders
 						//Add this item to the inventory slot at the right position
-                        GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlots[inventorySlotID].gameObject.transform);
-						Item.attachItemInstance(item2DPrefab, currentItemID);
-                        Item.makeDraggable2D(item2DPrefab);
-                        Item.disableClickCollectible2D(item2DPrefab);
-                        Item.disableHoverFloat2D(item2DPrefab);
-                        item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-                        //currentItem.SetCurrent2DPrefab(item2DPrefab);
-                        inventorySlotAssociatedInfo.SetCount(count);
-                    }
-                }
+						GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlots[inventorySlotID].gameObject.transform);
+						Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
+						Item.makeDraggable2D(item2DPrefab);
+						Item.disableClickCollectible2D(item2DPrefab);
+						Item.disableHoverFloat2D(item2DPrefab);
+						item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+						//currentItem.SetCurrent2DPrefab(item2DPrefab);
+						inventorySlotAssociatedInfo.Count = count;
+					}
+				}
 				
 			}
 		}
 	}
-    public int findIDOfNextOpenInventorySlot() {
-        return currentInventory.length(); //TODO: Fix because there might be open spots in the middle
-    }
+	public int findIDOfNextOpenInventorySlot() {
+		return currentInventory.length(); //TODO: Fix because there might be open spots in the middle
+	}
 }

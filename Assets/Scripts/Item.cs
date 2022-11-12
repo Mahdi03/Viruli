@@ -92,12 +92,13 @@ public class Item : ScriptableObject, IItem {
 	}
 	*/
 	//Works with both 2D and 3D prefabs
-	public static void attachItemInstance(GameObject prefab, int itemID) {
+	public static void attachItemInstance(GameObject prefab, int itemID, int attachedInventorySlotID = -1) {
 		ItemInstance itemInstance = prefab.GetComponent<ItemInstance>();
 		if (itemInstance == null) {
 			itemInstance = prefab.AddComponent<ItemInstance>();
 		}
 		itemInstance.itemID = itemID; //Give prefab the item ID that it corresponds to
+		itemInstance.attachedInventorySlotID = attachedInventorySlotID;
 	}
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {
 		DraggableObject2D draggableObject2DScript = twoDimensionalPrefab.GetComponent<DraggableObject2D>();
