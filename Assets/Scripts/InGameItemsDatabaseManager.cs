@@ -26,11 +26,27 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			instance = this;
 			//Now we can initialize stuff
 			itemsDatabase = new Dictionary<int, IItem>();
+			/*
+			 * Using TryAdd will try to add it to the dictionary if the key does not already exist
+			 * If the key already exists, it will simply do nothing and return false
+			 * Use false value to error handle
+			 */
+
+			//Also automatically provide ID's here instead of having to manually assign in each scriptable object
+			int itemID = 0;
             foreach (var potion in db.potions) {
-                itemsDatabase.Add(potion.GetItemID(), potion);
+				potion.ID = itemID; //Set ID in here just in case we need access to it from the actual object
+				if (!itemsDatabase.TryAdd(itemID, potion)) {
+                    throw new System.Exception("An item with this key already exists in the database");
+                }
+				itemID++;
             }
             foreach (var rawMaterial in db.rawMaterials) {
-                itemsDatabase.Add(rawMaterial.GetItemID(), rawMaterial);
+				rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
+                if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
+                    throw new System.Exception("An item with this key already exists in the database");
+                }
+				itemID++;
             }
         }
 	}

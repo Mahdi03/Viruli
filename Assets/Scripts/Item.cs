@@ -7,7 +7,9 @@ public interface IItem {
 
 	//Getters and setters
 	public bool GetStackable();
-	public int GetItemID();
+	int ID {
+		get; set;
+	}
 	public string GetItemType();
 	public GameObject Get2DPrefab();
 	public GameObject Get3DPrefab();
@@ -50,7 +52,11 @@ public class Item : ScriptableObject, IItem {
 	public GameObject Get3DPrefab() { return threeDimensionalPrefab; }
 	public string itemType;
 	public string GetItemType() { return itemType; }
-	public int itemID;
+	private int itemID;
+	public int ID {
+		get { return itemID; }
+		set { itemID = value; }
+	}
 	public int GetItemID() { return itemID; }
 
 	private int inventorySlotIDOccupied = -1;
