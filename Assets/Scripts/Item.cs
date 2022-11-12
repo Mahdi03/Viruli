@@ -6,9 +6,9 @@ using UnityEngine;
 public interface IItem {
 
 	//Getters and setters
-	public bool GetStackable();
+	bool stackable { get; } //Set through scriptable objects
 	int ID {
-		get; set;
+		get; set; //Allow settable for DatabaseManager
 	}
 	public string GetItemType();
 	public GameObject Get2DPrefab();
@@ -39,8 +39,7 @@ public interface IItem {
 
 
 public class Item : ScriptableObject, IItem {
-	public bool stackable = false;
-	public bool GetStackable() { return stackable; }
+	public bool stackable { get; } //Automatically makes private variable under the hood and works the same
 	public int XPValue = 0;
 	public GameObject
 		twoDimensionalPrefab,

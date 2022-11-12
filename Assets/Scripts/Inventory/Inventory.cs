@@ -31,8 +31,11 @@ public static class JsonHelper {
 
 
 public class Inventory : IEnumerable {
+	private struct InternalInventoryItem {
+
+	}
 	
-	private List<(IItem, int)> inventory;
+	private List<(IItem, int)> inventory; //This will store an item instance from the game with the count
 	private const string PlayerPrefsKeyName = "MahdiViruliStoredInventory";
 	public Inventory(int initialElements = 0) {
 		this.inventory = new List<(IItem, int)>(initialElements);
@@ -45,7 +48,7 @@ public class Inventory : IEnumerable {
 		return inventory[index];
 	}
 	public void push(IItem item) {
-		if (!item.GetStackable()) {
+		if (!item.stackable) {
 			//We can't stack the item anyways, add it to the end
 			inventory.Add((item, 1));
 			return; //We've already added it, we can stop here
@@ -55,7 +58,7 @@ public class Inventory : IEnumerable {
 			for (int i = 0; i < inventory.Count; i++) {
 				(IItem, int) currentVal = this.at(i);
 				//Use Item1 for first item of tuple, Item2, for 2nd, ItemN for Nth-element of tuple
-				if (currentVal.Item1.GetItemID() == item.GetItemID()) {
+				if (currentVal.Item1.ID == item.ID) {
 					//These items are the same ID, we can add them
 					currentVal.Item2++;
 					return; //We don't need to go any further
@@ -90,7 +93,7 @@ public class Inventory : IEnumerable {
 		//Search through inventory to find the first index of an item with a matching ID
 		for (int index = 0; index < this.length(); index++) {
             (IItem, int) currentVal = this.at(index);
-			if (currentVal.Item1.GetItemID() == item.GetItemID()) {
+			if (currentVal.Item1.ID == item.ID) {
 				return index;
 			}
         }
