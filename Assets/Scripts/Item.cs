@@ -156,8 +156,8 @@ public class Item : ScriptableObject, IItem {
 			init2DGameObject();
 		//}
 		*/
-		Transform twoDimensionalSpritesContainer = GameObject.FindGameObjectWithTag("2DItemsContainerInCanvas").transform;
-		var newSprite = Instantiate(TwoDimensionalPrefab, new Vector2(0, 0), rotation, twoDimensionalSpritesContainer);
+		Transform twoDimensionalSpritesDroppingContainer = GameObject.FindGameObjectWithTag("2DItemsContainerForDroppingItemsInCanvas").transform;
+		var newSprite = Instantiate(TwoDimensionalPrefab, new Vector2(0, 0), rotation, twoDimensionalSpritesDroppingContainer);
 		attachItemInstance(newSprite, ID); //Send it just the ID, we don't need to send it all the details
 		makeClickCollectible2D(newSprite);
 		makeHoverFloat2D(newSprite);

@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour {
 
 	private Inventory currentInventory;
 
-	private void Awake() {
+	private void Start() { //This relies on another component to already be initialized so we do that component in Awake and this one in Start
 		if (instance != this && instance != null) {
 			Destroy(gameObject);
 		}
@@ -30,9 +30,17 @@ public class InventoryManager : MonoBehaviour {
             myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
+
+
+
+			
         }
 	}
 
+
+	public int getTotalItemsCount() {
+		return this.currentInventory.length();
+	}
 	public void pickupItem(int itemID) {
 		currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
 		//Update inventory UI to reflect inventory array changes
@@ -66,12 +74,32 @@ public class InventoryManager : MonoBehaviour {
 					IItem currentItem = InGameItemsDatabaseManager.Instance.getItemByID(currentItemID);
 					if (currentItem.itemType != null) { //Using itemType = null as empty placeholders
 						//Add this item to the inventory slot at the right position
-						GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlots[inventorySlotID].gameObject.transform);
-						Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
-						Item.makeDraggable2D(item2DPrefab);
-						Item.disableClickCollectible2D(item2DPrefab);
-						Item.disableHoverFloat2D(item2DPrefab);
-						item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+						//We are making two of these here because when the id of the slot is 0, we only instantiate it at 0, not 
+						//We need to brute force it I guess
+						if (inventorySlots.Length > 10) {
+							//We now need to consider the duplicate 
+						}
+						if ((inventorySlotID >= 0 && inventorySlotID < 10)) {
+							/*
+							 * When our ID is between 0-9 and we have more than 10 inventory slots on the screen
+							 * we can assume that they have the inventory open so we need to instantiate the item
+							 * at both places
+							 */
+
+						}
+						//Let's loop thru all the elements and make sure to add the prefab to all slots that match the slotID
+						foreach (var inventorySlotA in inventorySlots) {
+                            InventorySlot inventorySlotAssociatedInfoA = inventorySlotA.GetComponent<InventorySlot>();
+							if (inventorySlotAssociatedInfoA.slotID == inventorySlotID) {
+                                GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform);
+                                Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
+                                Item.makeDraggable2D(item2DPrefab);
+                                Item.disableClickCollectible2D(item2DPrefab);
+                                Item.disableHoverFloat2D(item2DPrefab);
+								item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+								inventorySlotAssociatedInfoA.Count = count;
+                            }
+                        }
 						//currentItem.SetCurrent2DPrefab(item2DPrefab);
 						
 					}

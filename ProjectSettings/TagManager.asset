@@ -4,8 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - 2DItemsContainerInCanvas
   - inventorySlot
+  - FullInventoryContent
+  - 2DItemsContainerForDraggingInCanvas
+  - 2DItemsContainerForDroppingItemsInCanvas
   layers:
   - Default
   - TransparentFX

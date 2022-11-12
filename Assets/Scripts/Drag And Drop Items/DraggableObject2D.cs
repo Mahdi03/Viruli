@@ -6,14 +6,14 @@ using UnityEngine.EventSystems;
 /*Labelling methods as virtual so that deriving classes can override them and add more functionality on the same behaviors */
 public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 	private Canvas canvas;
-	private GameObject twoDimensionsItemsContainerInCanvas;
+	private GameObject twoDimensionsItemsContainerForDraggingInCanvas;
 	private CanvasGroup canvasGroup;
 	private RectTransform m_RectTransform;
 	private GameObject ring;
 
 	private void Awake() {
 		canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its scale factor
-		twoDimensionsItemsContainerInCanvas = GameObject.FindGameObjectWithTag("2DItemsContainerInCanvas");
+		twoDimensionsItemsContainerForDraggingInCanvas = GameObject.FindGameObjectWithTag("2DItemsContainerForDraggingInCanvas");
 
 		m_RectTransform = GetComponent<RectTransform>();
 		canvasGroup = GetComponent<CanvasGroup>(); //Try to get the canvas group before we make one so we don't keep making one
@@ -27,7 +27,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 		canvasGroup.blocksRaycasts = false;
 		canvasGroup.alpha = 0.75f;
 		if (m_RectTransform != null) {
-			m_RectTransform.SetParent(twoDimensionsItemsContainerInCanvas.transform, true);
+			m_RectTransform.SetParent(twoDimensionsItemsContainerForDraggingInCanvas.transform, true);
 		}
 
 	}

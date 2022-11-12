@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class QuickInventoryManager : MonoBehaviour {
 	public GameObject inventorySlotPrefab;
+	public GameObject fullInventoryButton;
+	public GameObject fullInventory;
 	public int numOfQuickInventorySlots;
 	private float slotWidth;
 
@@ -26,8 +28,11 @@ public class QuickInventoryManager : MonoBehaviour {
 			
 		}
 		//Now i is a value we can use to add our button prefab to open the entire inventory
-
-		/*
+		GameObject button = Instantiate(fullInventoryButton, transform);
+        button.GetComponent<Image>().rectTransform.anchoredPosition = new Vector2((i - numOfQuickInventorySlots / 2f) * slotWidth, 0);
+		button.GetComponent<FullInventoryButton>().init(fullInventory); //Pass on the value from the unity editor to this new button
+        //newSlot.GetComponent<InventorySlot>().slotID = (int)i;
+        /*
 		for (float i = -numOfQuickInventorySlots / 2f; i < numOfQuickInventorySlots / 2f; i++) {
 			Debug.Log("b:" + i * slotWidth);
 			
@@ -36,6 +41,6 @@ public class QuickInventoryManager : MonoBehaviour {
 			newSlot.GetComponent<InventorySlot>().SetSlotID((int)i);
 		}
 		*/
-	}
+    }
 
 }
