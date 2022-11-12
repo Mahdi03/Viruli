@@ -57,6 +57,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 				if (currentItemAlreadyInSlotInstance != null && itemDroppedIntoSlotInstance != null) {
 					if (currentItemAlreadyInSlotInstance.itemID == itemDroppedIntoSlotInstance.itemID) {
 						//Then they are the same object
+						/*
+						 * TODO
+						 * SOOOOO this is called when 2 things happen, either they start dragging and then realize they don't want to
+						 * so they drag it back in place (in which case on this drop 
+						*/
 						//Let's check if it is stackable
 						IItem currentItem = InGameItemsDatabaseManager.Instance.getItemByID(currentItemAlreadyInSlotInstance.itemID);
 						if (currentItem.Stackable) {
@@ -65,22 +70,34 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 
 							//This method is highly unlikely
 							throw new System.NotImplementedException("This is pretty unlikely and I don't see it happening");
+
 						}
 						else {
 							//They are not stackable so we can swap the two items but that's stupid if it's the same item because they'll be identical, they'll never know
+							//So do nothing
 						}
 
 					}
 					else {
 						//Items do not match, we want to swap the two elements
 						//Call the internal swap function with the index of the two elements in the inventory and then reflect the changes in the UI
+						//The index of the elements should be equal to the index in the inventory array equal to the inventorySlotID
+						InventoryManager.Instance.swapItemsInInventory(currentItemAlreadyInSlotInstance.attachedInventorySlotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
+						Debug.Log("We are being called");
 					}
 				}
 				else {
 					throw new System.Exception("Could not find ItemInstance scripts on drop");
 				}
 			}
-			
+			else {
+                //This slot is empty, if we wanna move it here we should swap this empty slot with the slot where this item is coming from
+                ItemInstance itemDroppedIntoSlotInstance = itemDroppedIntoSlot.GetComponent<ItemInstance>();
+                InventoryManager.Instance.swapItemsInInventory(slotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
+                Debug.Log("Uhm no we are");
+				Destroy(itemDroppedIntoSlot); //We instantiate a new one inside InventoryManager that is set to the correct position
+            }
+			/*
 			//Set its canvas relative position to the same position as this container (snap effect)
 			count++;
 			countText.SetActive(!(count < 2)); //Disable count text if there is 1 or none
@@ -90,7 +107,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 			rectTransformOfDroppedItem.anchorMin = currentSlotRectTransformAnchorMin;
 			rectTransformOfDroppedItem.anchorMax = currentSlotRectTransformAnchorMax;
 			rectTransformOfDroppedItem.anchoredPosition = currentSlotRectTransformAnchorPos;
-
+			*/
 		}
 	}
 }

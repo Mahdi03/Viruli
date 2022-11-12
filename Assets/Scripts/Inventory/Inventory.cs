@@ -38,7 +38,7 @@ public class Inventory : IEnumerable {
 	//This will store the itemID with the count
 	[Serializable]
     private struct InternalInventoryItem {
-		public InternalInventoryItem(int itemID, int count) {
+		public InternalInventoryItem(int itemID = -1, int count = -1) {
 			this.itemID = itemID;
 			this.count = count;
 		}
@@ -49,7 +49,11 @@ public class Inventory : IEnumerable {
 	private List<InternalInventoryItem> inventory; 
 	private const string PlayerPrefsKeyName = "MahdiViruliStoredInventory";
 	public Inventory(int initialElements = 0) {
-		this.inventory = new List<InternalInventoryItem>(initialElements);
+		this.inventory = new List<InternalInventoryItem>();
+		InternalInventoryItem item = new InternalInventoryItem(-1, -1);
+		for (int i = 0; i < initialElements; i++) {
+			this.inventory.Add(item);
+		}
 	}
 	/*C++-fying the C+ List*/
 	public (int, int) at(int index) {
@@ -120,7 +124,7 @@ public class Inventory : IEnumerable {
 		}
 	}
 	public void swap(int indexA, int indexB) {
-        if ((indexA < 0 || indexA > this.length()) || (indexB < 0 || indexB > this.length())) {
+        if ((indexA < 0 || indexA >= this.length()) || (indexB < 0 || indexB >= this.length())) {
             throw new System.IndexOutOfRangeException("Indices provided are out of the range of the inventory array");
         }
 		

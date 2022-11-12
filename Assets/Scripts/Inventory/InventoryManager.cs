@@ -31,6 +31,12 @@ public class InventoryManager : MonoBehaviour {
 		//Update inventory UI to reflect inventory array changes
 		UpdateInventoryUIToReflectInternalInventoryChanges();
 	}
+	public void swapItemsInInventory(int indexA, int indexB) {
+		currentInventory.swap(indexA, indexB);
+		UpdateInventoryUIToReflectInternalInventoryChanges();
+	}
+	//This is a hard refresh method for all items in inventory, batch instantiation and destruction is expensive,
+	// find a less lazy programming approach
 	public void UpdateInventoryUIToReflectInternalInventoryChanges() {
 		//Inventory Slot ID matches with index in Inventory list
 		GameObject[] inventorySlots = GameObject.FindGameObjectsWithTag("inventorySlot"); //Find all GameObjects that are inventorySlots
@@ -60,14 +66,12 @@ public class InventoryManager : MonoBehaviour {
 						Item.disableHoverFloat2D(item2DPrefab);
 						item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
 						//currentItem.SetCurrent2DPrefab(item2DPrefab);
-						inventorySlotAssociatedInfo.Count = count;
+						
 					}
 				}
-				
-			}
+                inventorySlotAssociatedInfo.Count = count; //Make sure to update the count for all slots even empty placeholders
+
+            }
 		}
-	}
-	public int findIDOfNextOpenInventorySlot() {
-		return currentInventory.length(); //TODO: Fix because there might be open spots in the middle
 	}
 }
