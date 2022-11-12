@@ -23,7 +23,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 	}
 	
 	public virtual void OnBeginDrag(PointerEventData eventData) {
-		Debug.Log("BeginDrag");
+		//Debug.Log("BeginDrag");
 		canvasGroup.blocksRaycasts = false;
 		canvasGroup.alpha = 0.75f;
 		if (m_RectTransform != null) {
@@ -33,7 +33,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 	}
 
 	public virtual void OnDrag(PointerEventData eventData) {
-		Debug.Log("Dragging");
+		//Debug.Log("Dragging");
 		if (m_RectTransform != null) {
 			m_RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor; //Adds the change in mouse position to the canvas position of our object
 			//If we can move the object 
@@ -41,7 +41,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 	}
 
 	public virtual void OnEndDrag(PointerEventData eventData) {
-		Debug.Log("EndDrag");
+		//Debug.Log("EndDrag");
 		canvasGroup.blocksRaycasts = true;
 		canvasGroup.alpha = 1f;
 	}

@@ -721,9 +721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b4cdd7383bfc94b9905b24ec69e67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potionList:
-  - {fileID: 11400000, guid: 2c154343d1b684d408bbc12ad2b38daf, type: 2}
-  rawMaterials: []
 --- !u!4 &1283569834
 Transform:
   m_ObjectHideFlags: 0

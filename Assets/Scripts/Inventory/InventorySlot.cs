@@ -74,7 +74,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 						}
 						else {
 							//They are not stackable so we can swap the two items but that's stupid if it's the same item because they'll be identical, they'll never know
-							//So do nothing
+							//So reset UI and destroy that object
+							Destroy(itemDroppedIntoSlot);
+							InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
 						}
 
 					}
@@ -84,6 +86,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 						//The index of the elements should be equal to the index in the inventory array equal to the inventorySlotID
 						InventoryManager.Instance.swapItemsInInventory(currentItemAlreadyInSlotInstance.attachedInventorySlotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
 						Debug.Log("We are being called");
+						Destroy(itemDroppedIntoSlot);
 					}
 				}
 				else {
