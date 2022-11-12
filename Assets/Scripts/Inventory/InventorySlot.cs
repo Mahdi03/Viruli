@@ -56,24 +56,35 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
                 }
                 //An item already exists, get the last child's item's ID and check with this item's ID to add it
                 GameObject currentItemAlreadyInSlot = transform.GetChild(transform.childCount - 1).gameObject;
-                AttachedItemData alreadyInSlotItemData = currentItemAlreadyInSlot.GetComponent<AttachedItemData>();
-                AttachedItemData currentItemData = itemDroppedIntoSlot.GetComponent<AttachedItemData>();
-                if (alreadyInSlotItemData != null && currentItemData != null) {
-                    if (alreadyInSlotItemData.itemID == currentItemData.itemID) {
-                        //Then we can add the current item to inventory, get count of that item and then make that the current text
+                ItemInstance currentItemAlreadyInSlotInstance = currentItemAlreadyInSlot.GetComponent<ItemInstance>();
+                ItemInstance itemDroppedIntoSlotInstance = itemDroppedIntoSlot.GetComponent<ItemInstance>();
+                if (currentItemAlreadyInSlotInstance != null && itemDroppedIntoSlotInstance != null) {
+                    if (currentItemAlreadyInSlotInstance.itemID == itemDroppedIntoSlotInstance.itemID) {
+                        //Then they are the same object
+                        //Let's check if it is stackable
+                        IItem currentItem = InGameItemsDatabaseManager.Instance.getItemByID(currentItemAlreadyInSlotInstance.itemID);
+                        if (currentItem.Stackable) {
+                            //Then we can add the current item to this slot, get count of that item and then make that the current text
+                            //We should merge it in the Inventory class and then just reflect the changes in the UI
+
+                            //This method is highly unlikely
+                            throw new System.NotImplementedException("This is pretty unlikely and I don't see it happening");
+                        }
+                        else {
+                            //They are not stackable so we can swap the two items but that's stupid if it's the same item because they'll be identical, they'll never know
+                        }
+
                     }
                     else {
-                        //Items do not match, we want to place the new item at this position of the array and then add the other item to the nearest empty spot or the end of the line
+                        //Items do not match, we want to swap the two elements
+                        //Call the internal swap function with the index of the two elements in the inventory and then reflect the changes in the UI
                     }
                 }
                 else {
-                    throw new System.Exception("Could not find AttachedItemData scripts");
+                    throw new System.Exception("Could not find ItemInstance scripts on drop");
                 }
             }
-            //if itemID = item.id, add it to this one
-            //else if itemID = -1, also add it to this one
-            //else (there is another item here, let's insert this one here and find a new place for the current item)
-
+            
             //Set its canvas relative position to the same position as this container (snap effect)
             count++;
             countText.SetActive(!(count < 2)); //Disable count text if there is 1 or none
@@ -83,7 +94,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
             rectTransformOfDroppedItem.anchorMin = currentSlotRectTransformAnchorMin;
             rectTransformOfDroppedItem.anchorMax = currentSlotRectTransformAnchorMax;
             rectTransformOfDroppedItem.anchoredPosition = currentSlotRectTransformAnchorPos;
-            //itemDroppedIntoSlot.GetComponent<RectTransform>() = rectTransformOfDroppedItem;
 
         }
     }

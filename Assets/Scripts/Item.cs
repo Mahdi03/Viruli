@@ -70,40 +70,10 @@ public class Item : ScriptableObject, IItem {
 
 	public int inventorySlotIDOccupied { get; set; } = -1;
 	
-	/*
-	protected bool
-		twoDimensionalPrefabInitialized = false,
-		threeDimensionalPrefabInitialized = false;
-	*/
-
 	protected bool currently2D;
-	/*
-	public void switch2Dto3DPrefab() { }
-	public void switch3Dto2DPrefab() { }
-	*/
 
 	public virtual void showOnSceneRing() { }
 
-	/*
-	//We can attach script components to the 2D and 3D prefabs so that when we want access to their Item class we can access them here
-	public virtual void init2DGameObject() {
-		AttachedItemData itemData = twoDimensionalPrefab.GetComponent<AttachedItemData>();
-		if (itemData == null) {
-			itemData = twoDimensionalPrefab.AddComponent<AttachedItemData>();
-		}
-		//Everything inherited from Item
-		itemData.stackable = this.stackable;
-		itemData.XPValue = this.XPValue;
-		itemData.twoDimensionalPrefab = this.twoDimensionalPrefab;
-		itemData.threeDimensionalPrefab = this.threeDimensionalPrefab;
-		itemData.itemType = this.itemType;
-		itemData.itemID = this.itemID;
-		itemData.SetInventorySlotIDOccupied(this.inventorySlotIDOccupied);
-		
-
-		//this.twoDimensionalPrefabInitialized = true;
-	}
-	*/
 	/*
 	public void enableScript<Unity.Component<T>>() {
 		T script = twoDimensionalPrefab.GetComponent<T>();
@@ -199,25 +169,5 @@ public class Item : ScriptableObject, IItem {
 	public virtual void drop3DSprite(Vector3 worldPos, Quaternion rotation) {
 		throw new System.NotImplementedException();
 	}
-	/*
-	public virtual void init3DGameObject() {
-		AttachedItemData itemData = twoDimensionalPrefab.GetComponent<AttachedItemData>();
-		if (itemData == null) {
-			itemData = twoDimensionalPrefab.AddComponent<AttachedItemData>();
-		}
-		//Everything inherited from Item
-		itemData.stackable = this.stackable;
-		itemData.XPValue = this.XPValue;
-		itemData.twoDimensionalPrefab = this.twoDimensionalPrefab;
-		itemData.threeDimensionalPrefab = this.threeDimensionalPrefab;
-		itemData.itemType = this.itemType;
-		itemData.itemID = this.itemID;
-		itemData.SetInventorySlotIDOccupied(this.inventorySlotIDOccupied);
-
-
-		//this.threeDimensionalPrefabInitialized = true;
-		
-	}
-	*/
 
 }

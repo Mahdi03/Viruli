@@ -28,11 +28,6 @@ public class InventoryManager : MonoBehaviour {
 
 	public void pickupItem(int itemID) {
 		currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
-		/*
-		var myPrefab = item.Get2DPrefab();
-		Destroy(item.Get2DPrefab());
-		item.SetCurrent2DPrefab(myPrefab);
-		*/
 		//Update inventory UI to reflect inventory array changes
 		UpdateInventoryUIToReflectInternalInventoryChanges();
 	}

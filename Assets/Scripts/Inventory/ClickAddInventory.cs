@@ -9,24 +9,7 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
         //We were clicked on, now add this item to inventory
         int itemID = GetComponent<ItemInstance>().itemID;
         InventoryManager.Instance.pickupItem(itemID);
-        /*
-        string itemType = GetComponent<AttachedItemData>().itemType;
-        switch (itemType.ToLower()) {
-            case "potion":
-                gameObject.SetActive(false);
-                AttachedPotionData potionData = GetComponent<AttachedPotionData>();
-                Potion thisPotion = potionData.toPotionClass();
-                InventoryManager.Instance.pickupItem(thisPotion);
-                break;
-            case "rawmaterial":
-                AttachedRawMaterialData rawMaterialData = GetComponent<AttachedRawMaterialData>();
-                RawMaterial thisRawMaterial = rawMaterialData.toRawMaterialClass();
-                InventoryManager.Instance.pickupItem(thisRawMaterial);
-                break;
-        }
-        */
         //Now remove this object from the game altogether
-        //Destroy(eventData.pointerPress);
         Destroy(gameObject);
     }
 }

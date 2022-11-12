@@ -45,51 +45,5 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject {
 		canvasGroup.blocksRaycasts = true;
 		canvasGroup.alpha = 1f;
 	}
-	/*
-	public virtual void OnPointerDown(PointerEventData eventData) {
-		Debug.Log("PointerDown");
-	}
-	*/
-
-	/*
-private Vector2 startPos = new Vector2(0, 0);
-
-private float mouseZCoordinate;
-private Vector3 mouseOffset;
-
-void OnMouseDown() {
-	Debug.Log("MouseDownOn2DSprite");
-
-	canvasGroup.blocksRaycasts = false;
-	canvasGroup.alpha = 0.75f;
-
-	mouseZCoordinate = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-
-	mouseOffset = gameObject.transform.position - GetMousePositionInWorldCoordinates();
-}
-private Vector3 GetMousePositionInWorldCoordinates() {
-	Vector3 mousePos = Input.mousePosition;
-	mousePos.z = 0;
-
-	return Camera.main.ScreenToWorldPoint(mousePos);
-}
-
-private void OnMouseDrag() {
-	transform.localPosition = GetMousePositionInWorldCoordinates();// + mouseOffset;
-
-}
-
-private void OnMouseUp() {
-	Debug.Log("MouseUpOn2DSprite");
-	canvasGroup.blocksRaycasts = true;
-	canvasGroup.alpha = 1f;
-}
-private void Update() {
-	//Vector3 pos = transform.position;
-	//pos.y = 2;
-	//transform.position = pos;
-
-}
-*/
 
 }
