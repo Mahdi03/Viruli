@@ -6,11 +6,6 @@ public class InventoryManager : MonoBehaviour {
 	private static InventoryManager instance;
 	public static InventoryManager Instance { get { return instance; } }
 	//This class set to control both foreground and background inventory?
-	public List<Potion> potionList;
-	public List<RawMaterial> rawMaterials;
-	[SerializeField]
-	private List<IItem> mainItemsList; //Use a list of IItems to combine anything that is of type potion or raw material that derives from IItem
-	private Dictionary<int, IItem> itemsDatabase;
 
     private Inventory currentInventory;
 
@@ -24,18 +19,10 @@ public class InventoryManager : MonoBehaviour {
             currentInventory = new Inventory(100);
 			//TODO: Have an if resume game catch here
             currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
-			//mainItemsList = new List<IItem>();
-			itemsDatabase = new Dictionary<int, IItem>();
-			foreach (var potion in potionList) {
-				itemsDatabase.Add(potion.GetItemID(), potion);
-				//itemsDictionary.Add(potion);
-			}
-			foreach (var rawMaterial in rawMaterials) {
-				itemsDatabase.Add(rawMaterial.GetItemID(), rawMaterial);
-			}
+			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0);
 			
-			itemsDatabase[0].drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-            //itemsDictionary[0].drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            //myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
         }
 	}
 
