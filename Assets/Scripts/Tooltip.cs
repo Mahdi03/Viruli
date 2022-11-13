@@ -19,14 +19,17 @@ public class Tooltip : MonoBehaviour {
 		m_TextMeshProUGUI = text.GetComponent<TextMeshProUGUI>();
 		
 		
-		ShowTooltip("helllllllllllo");
+		ShowTooltip("Potion #1");
 	}
 
 	public void Update() {
-		//Vector2 localPoint;
-		//transform.position = Input.mousePosition;
-		//RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), Input.mousePosition, m_Camera, out localPoint);
-		//transform.localPosition = localPoint;
+		//Input.mousePosition has (0,0) and the bottom left corner and the rest are screen coordinates
+		Debug.Log(Input.mousePosition);
+		Vector2 localPoint;
+		//Convert screen coordinates to local coordinates within overarching rectangle
+		//Since canvas uses screen space overlay, we set the screen camera to null since we don't have one
+		RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), Input.mousePosition, null, out localPoint);
+		transform.localPosition = localPoint;
 	}
 
 
