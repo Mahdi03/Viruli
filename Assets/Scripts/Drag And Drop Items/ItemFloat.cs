@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemHover : MonoBehaviour {
+public class ItemFloat : MonoBehaviour {
     private float mainY = 0, /*rotationSpeed = 35f,*/ timeElasped = 0f;
     private RectTransform rectTransform;
     // Start is called before the first frame update

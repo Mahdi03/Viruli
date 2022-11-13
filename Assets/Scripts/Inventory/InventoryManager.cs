@@ -95,7 +95,8 @@ public class InventoryManager : MonoBehaviour {
                                 Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
                                 Item.makeDraggable2D(item2DPrefab);
                                 Item.disableClickCollectible2D(item2DPrefab);
-                                Item.disableHoverFloat2D(item2DPrefab);
+                                Item.disableItemFloat2D(item2DPrefab);
+								Item.allowHoverTooltip(item2DPrefab);
 								item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
 								inventorySlotAssociatedInfoA.Count = count;
                             }

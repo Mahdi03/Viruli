@@ -12,6 +12,7 @@ public interface IItem {
 	}
 
 	public abstract string itemType { get; } //Make it abstract so that we can override it later
+	public abstract string itemName { get; }
 
 	public GameObject TwoDimensionalPrefab { get; } //Set thru editor
 	public GameObject ThreeDimensionalPrefab { get; } //Set thru editor
@@ -27,8 +28,8 @@ public interface IItem {
 	public static void attachItemInstance(GameObject twoDimensionalPrefab, int itemID) {}
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {}
 	public static void disableDraggable2D(GameObject twoDimensionalPrefab) {}
-	public static void makeHoverFloat2D(GameObject twoDimensionalPrefab) {}
-	public static void disableHoverFloat2D(GameObject twoDimensionalPrefab) {}
+	public static void makeItemFloat2D(GameObject twoDimensionalPrefab) {}
+	public static void disableItemFloat2D(GameObject twoDimensionalPrefab) {}
 	public static void makeClickCollectible2D(GameObject twoDimensionalPrefab) {}
 	public static void disableClickCollectible2D(GameObject twoDimensionalPrefab) {}
 
@@ -60,6 +61,7 @@ public class Item : ScriptableObject, IItem {
 	public GameObject ThreeDimensionalPrefab { get { return threeDimensionalPrefab; } }
 	
 	virtual public string itemType { get; }
+	public string itemName { get { return this.name; } }
 
 	//[SerializeField] - We don't set this ourselves because it is set by the DatabaseManager
 	private int itemID;
@@ -75,10 +77,10 @@ public class Item : ScriptableObject, IItem {
 	public virtual void showOnSceneRing() { }
 
 	/*
-	public void enableScript<Unity.Component<T>>() {
+	public void enableScript<T>() {
 		T script = twoDimensionalPrefab.GetComponent<T>();
 		if (script == null) {
-			twoDimensionalPrefab.AddComponent<T>(); //This line is problematic...why?
+			twoDimensionalPrefab.AddComponent(T); //This line is problematic...why?
 		}
 		else {
 			script.enabled = true;
@@ -100,6 +102,22 @@ public class Item : ScriptableObject, IItem {
 		itemInstance.itemID = itemID; //Give prefab the item ID that it corresponds to
 		itemInstance.attachedInventorySlotID = attachedInventorySlotID;
 	}
+	//Make sure this function is called after attachItemInstance()
+	public static void allowHoverTooltip(GameObject prefab) {
+		OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
+        if (onHoverTooltip == null) {
+            prefab.AddComponent<OnHoverTooltip>();
+        }
+        else {
+            onHoverTooltip.enabled = true;
+        }
+    }
+	public static void disallowHoverTooltip(GameObject prefab) {
+        OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
+        if (onHoverTooltip != null) {
+            onHoverTooltip.enabled = false;
+        }
+    }
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {
 		DraggableObject2D draggableObject2DScript = twoDimensionalPrefab.GetComponent<DraggableObject2D>();
 		if (draggableObject2DScript == null) {
@@ -116,19 +134,19 @@ public class Item : ScriptableObject, IItem {
 		}
 	}
 
-	public static void makeHoverFloat2D(GameObject twoDimensionalPrefab) {
-		ItemHover itemHoverScript = twoDimensionalPrefab.GetComponent<ItemHover>();
-		if (itemHoverScript == null) {
-			twoDimensionalPrefab.AddComponent<ItemHover>();
+	public static void makeItemFloat2D(GameObject twoDimensionalPrefab) {
+		ItemFloat itemFloatScript = twoDimensionalPrefab.GetComponent<ItemFloat>();
+		if (itemFloatScript == null) {
+			twoDimensionalPrefab.AddComponent<ItemFloat>();
 		}
 		else {
-			itemHoverScript.enabled = true;
+			itemFloatScript.enabled = true;
 		}
 	}
-	public static void disableHoverFloat2D(GameObject twoDimensionalPrefab) {
-		ItemHover itemHoverScript = twoDimensionalPrefab.GetComponent<ItemHover>();
-		if (itemHoverScript != null) {
-			itemHoverScript.enabled = false;
+	public static void disableItemFloat2D(GameObject twoDimensionalPrefab) {
+		ItemFloat itemFloatScript = twoDimensionalPrefab.GetComponent<ItemFloat>();
+		if (itemFloatScript != null) {
+			itemFloatScript.enabled = false;
 		}
 	}
 	public static void makeClickCollectible2D(GameObject twoDimensionalPrefab) {
@@ -160,8 +178,9 @@ public class Item : ScriptableObject, IItem {
 		var newSprite = Instantiate(TwoDimensionalPrefab, new Vector2(0, 0), rotation, twoDimensionalSpritesDroppingContainer);
 		attachItemInstance(newSprite, ID); //Send it just the ID, we don't need to send it all the details
 		makeClickCollectible2D(newSprite);
-		makeHoverFloat2D(newSprite);
+		makeItemFloat2D(newSprite);
 		disableDraggable2D(newSprite);
+		disallowHoverTooltip(newSprite);
 		var newSpriteRectTransform = newSprite.GetComponent<RectTransform>();
 		newSpriteRectTransform.anchoredPosition = pos;
 	}
