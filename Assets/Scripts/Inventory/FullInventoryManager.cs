@@ -15,8 +15,11 @@ public class FullInventoryManager : MonoBehaviour {
         gameObject.SetActive(true);
         //Now refresh the UI with all the elements
         InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
-        //Every time they open the UI make sure to scroll to the top
-        scrollRect.normalizedPosition = new Vector2(0, 1);
+        //We'll use a null check here because the object might not have fully instantiated just yet when we open the inventory for the first time but that's ok because it'll start at the top anyways
+        if (scrollRect != null) {
+            //Every time they open the UI make sure to scroll to the top
+            scrollRect.normalizedPosition = new Vector2(0, 1);
+        }
     }
 
     // Start is called before the first frame update
