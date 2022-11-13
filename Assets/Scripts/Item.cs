@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,18 @@ public interface IItem {
 
 	//Getters and setters
 	public bool Stackable { get; } //Set through scriptable objects
-	public int ID {
+	public bool Craftable { get; } //Set through scriptable objects
+	
+	[Serializable]
+	public class recipeItem {
+		public Item item;
+		public int countRequired;
+	}
+	public recipeItem[] dirtyRecipe { get; } //Set through scriptable objects
+
+    public List<(int, int)> Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+
+    public int ID {
 		get; set; //Allow settable for DatabaseManager
 	}
 
@@ -47,11 +59,20 @@ public class Item : ScriptableObject, IItem {
 	 * support the automatic property thingy yet
 	 */
 	[SerializeField]
-	private bool stackable;
+	private bool stackable = true;
 	public bool Stackable { get { return stackable; } }
+	[SerializeField]
+	private bool craftable = false;
+	public bool Craftable { get { return craftable; } }
+
+	[SerializeField]
+	private IItem.recipeItem[] myrecipe;
+    public IItem.recipeItem[] dirtyRecipe { get { return myrecipe; } }
+    public List<(int, int)> Recipe { get; set; }
 
 
-	public int XPValue = 0;
+
+    public int XPValue = 0;
 
 	[SerializeField]
 	private GameObject twoDimensionalPrefab;

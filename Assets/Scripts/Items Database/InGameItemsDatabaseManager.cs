@@ -53,6 +53,29 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
                 }
 				itemID++;
             }
+
+
+			/*
+			 * Loop through the dictionary of items and then set each Recipe property as an array of itemIDs
+			 * and countRequired's instead of actual Item objects and their counts because the Unity editor
+			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
+			 */
+
+			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
+				if (itemEntry.Value.Craftable) {
+					//Then we set the recipe correctly
+					List<(int, int)> finalRecipe = new List<(int, int)>();
+
+					IItem item = itemEntry.Value;
+					var dirtyRecipeItems = item.dirtyRecipe;
+					for (int i = 0; i < dirtyRecipeItems.Length; i++) {
+						int id = dirtyRecipeItems[i].item.ID;
+						int count = dirtyRecipeItems[i].countRequired;
+						finalRecipe.Add((id, count));
+                    }
+					item.Recipe = finalRecipe;
+				}
+			}
         }
 	}
 }

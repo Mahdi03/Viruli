@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea298c6c764f53f4bb3ccd2309fc6aea, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: 
-  stackable: 0
-  XPValue: 0
+  stackable: 1
+  craftable: 0
+  myrecipe: []
+  XPValue: 10
   twoDimensionalPrefab: {fileID: 4504690238519469438, guid: 014e37a5a7a52dc4abcbf6d9eace2236,
     type: 3}
   threeDimensionalPrefab: {fileID: 8122114857979880778, guid: 648a128d03416f343ba43b03218c015e,

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   stackable: 1
-  XPValue: 0
+  craftable: 0
+  myrecipe: []
+  XPValue: 5
   twoDimensionalPrefab: {fileID: 5790725867562603618, guid: e08ee174d2f892c4387c2f218b9f1f3a,
     type: 3}
   threeDimensionalPrefab: {fileID: 8050120179880737813, guid: e6bbc8070ca65f744a46438150d2e981,
