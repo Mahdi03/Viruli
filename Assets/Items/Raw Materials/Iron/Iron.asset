@@ -20,4 +20,5 @@ MonoBehaviour:
     type: 3}
   threeDimensionalPrefab: {fileID: 8122114857979880778, guid: 648a128d03416f343ba43b03218c015e,
     type: 3}
+  itemDescription: 
   droppedByEnemy: 0

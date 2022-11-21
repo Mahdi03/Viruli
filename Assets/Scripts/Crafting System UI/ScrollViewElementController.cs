@@ -37,6 +37,9 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
             this.selected = value; //Setting this property itself to the same value results in circular logic
         }
     }
+
+
+    private int itemID = -1;
     
 
     private void Awake() {
@@ -50,6 +53,10 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
     }
     public void setText(string txt) {
         textBox.text = txt;
+    }
+
+    public void setItemID(int id) {
+        this.itemID = id;
     }
 
 
@@ -84,9 +91,32 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
         //Then select this one - the background color stuff is taken care of with the Selected property
         this.Selected = true;
 
-        //Now load the rest of the craftable item's data from the database into the UI
+        //Now load the rest of the craftable item's data from the database into the UI using the itemID
+        clearAllInfo();
+        ShowCraftableItemInfo();
     }
-    
-    
+    protected void clearAllInfo() {
+        var CraftingUIInfoContainer = GameObject.FindGameObjectWithTag("CraftingUIInfoContainer");
+        var CraftingUIActionContainer = GameObject.FindGameObjectWithTag("CraftingUIActionContainer");
+        //GameManager.clearAllChildrenOfObj(CraftingUIInfoContainer);
+        GameManager.clearAllChildrenOfObj(CraftingUIActionContainer);
+    }
+    void ShowCraftableItemInfo() {
+        var CraftingUIInfoContainer = GameObject.FindGameObjectWithTag("CraftingUIInfoContainer");
+
+        var CraftableItemInfoGroup = CraftingUIInfoContainer.transform.GetChild(0);
+        var craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
+        CraftableItemInfoGroup.gameObject.SetActive(true);
+
+        var item = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+
+        craftableUIInfoGroupContainerController.SetIcon(item.TwoDimensionalPrefab);
+        craftableUIInfoGroupContainerController.SetItemName(item.itemName);
+        craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
+        craftableUIInfoGroupContainerController.SetItemStatsText("- Effect Radius: " + item.EffectRadius + "ft\n- Effect Timeout: " + item.EffectTimeout + "sec");
+    }
+    void ShowCraftableItemAction() {
+
+    }
 
 }

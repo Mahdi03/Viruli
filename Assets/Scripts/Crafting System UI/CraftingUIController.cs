@@ -25,7 +25,20 @@ public class CraftingUIController : MonoBehaviour {
             ScrollViewElementController newScrollViewElementController = newScrollViewElement.GetComponent<ScrollViewElementController>();
             newScrollViewElementController.setIcon(keyValuePair.Value.TwoDimensionalPrefab);
             newScrollViewElementController.setText(keyValuePair.Value.itemName);
+            newScrollViewElementController.setItemID(keyValuePair.Value.ID);
         }
+        /*Testing out new table library
+        var aTransform = scrollView.transform.parent.parent.parent.parent.GetChild(1).GetChild(0);
+        var table = Table.createNewTable(aTransform, tableWidth: 220, tableHeight: 100);
+        for (int i = 0; i < 2; i++) {
+            //Create rows
+            var row = Table.createTableRow(table.transform, 30f);
+            for (int j = 0; j < 5; j++) {
+                var tableCell = Table.createTableCell(row.transform, 50f, borderColor: Color.blue, borderWidth: 1f, paddingColor: Color.white);
+            }
+        }
+        */
+        
     }
 
     public void populateScrollViewWithWalls() { }

@@ -22,6 +22,8 @@ MonoBehaviour:
     type: 3}
   threeDimensionalPrefab: {fileID: 5562583840306413252, guid: b82e58cc704587241b740f24b3600adf,
     type: 3}
+  itemDescription: This potion will stun your enemies for 3 seconds. Use carefully
+    as it only lasts for a couple seconds!
   effectRingPrefab: {fileID: 0}
-  effectRadius: 0
-  timeout: 0
+  effectRadius: 5
+  timeout: 2
