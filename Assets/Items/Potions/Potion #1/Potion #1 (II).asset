@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Potion #1
+  m_Name: Potion #1 (II)
   m_EditorClassIdentifier: 
   stackable: 0
   craftable: 1
   myrecipe:
   - item: {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
-    countRequired: 3
+    countRequired: 4
   XPValue: 0
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 4967415289cccb040aeea2a43b53eb74,
     type: 3}
