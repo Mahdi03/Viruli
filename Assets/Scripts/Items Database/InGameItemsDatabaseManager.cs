@@ -23,6 +23,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 		return item;
 	}
 
+
 	private void Awake() {
 		//Singleton initialization code
 		if (instance != this && instance != null) {

@@ -94,6 +94,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
         //Now load the rest of the craftable item's data from the database into the UI using the itemID
         clearAllInfo();
         ShowCraftableItemInfo();
+        ShowCraftableItemAction();
     }
     protected void clearAllInfo() {
         var CraftingUIInfoContainer = GameObject.FindGameObjectWithTag("CraftingUIInfoContainer");
@@ -105,6 +106,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
         var CraftingUIInfoContainer = GameObject.FindGameObjectWithTag("CraftingUIInfoContainer");
 
         var CraftableItemInfoGroup = CraftingUIInfoContainer.transform.GetChild(0);
+        //TODO: Next time we might need to instantiate the prefab and not just find it in the hierarchy depending on how the walls system works
         var craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
         CraftableItemInfoGroup.gameObject.SetActive(true);
 
@@ -115,8 +117,52 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
         craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
         craftableUIInfoGroupContainerController.SetItemStatsText("- Effect Radius: " + item.EffectRadius + "ft\n- Effect Timeout: " + item.EffectTimeout + "sec");
     }
-    void ShowCraftableItemAction() {
+    private Color tableBorderColor = Color.white;
+    private Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
 
+    void ShowCraftableItemAction() {
+        var CraftingUIActionContainer = GameObject.FindGameObjectWithTag("CraftingUIActionContainer");
+        var table = Table.createNewTable(CraftingUIActionContainer.transform, 220, 100);
+        var arrOfRecipeItems = InGameItemsDatabaseManager.Instance.getItemByID(itemID).Recipe;
+        var craftable = true;
+        foreach (var item in arrOfRecipeItems) {
+            var id = item.Item1;
+            var requiredItem = InGameItemsDatabaseManager.Instance.getItemByID(id);
+            var countRequired = item.Item2 * 1;//TODO: multiply by the amount they put in the input
+            var countAvailable = InventoryManager.Instance.getItemCountByID(id);
+            //Make a row
+            var row = Table.createTableRow(table.transform, 30f);
+            //In the first cell instantiate the prefab
+            var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
+            var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
+            //Add hover tooltip
+            Item.attachItemInstance(requiredItemIcon, id); //Give the 2D Icon an ID so that the HoverTooltip can read it
+            Item.allowHoverTooltip(requiredItemIcon);
+
+            //In the second cell put in the amount required
+            var requiredAmountCell = Table.createTableCell(row.transform, cellWidth: 190f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
+            var textbox = new GameObject("Required Amount");
+            
+            var text = textbox.AddComponent<TextMeshProUGUI>();
+            text.text = "<color=\"" + ((countAvailable < countRequired) ? "red" : "green") + "\">" + countAvailable + "</color>/" + countRequired;
+            //Set font size to 16
+            text.fontSize = 16f;
+            text.verticalAlignment = VerticalAlignmentOptions.Middle;
+            if (countAvailable < countRequired) {
+                craftable = false;
+            }
+
+            var rectTransform = textbox.GetComponent<RectTransform>();
+            rectTransform.parent = requiredAmountCell.transform;
+            rectTransform.localScale = Vector3.one;
+            rectTransform.anchoredPosition = new Vector2(0, 0);
+            rectTransform.anchorMin = new Vector2(0, 0);
+            rectTransform.anchorMax = new Vector2(1, 1);
+
+            //Give 5px padding on the left
+            rectTransform.offsetMin = new Vector2(5, 0); //(Left, Bottom)
+            rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
+        }
     }
 
 }
