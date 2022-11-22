@@ -25,20 +25,30 @@ public class InventoryManager : MonoBehaviour {
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
 
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(1);
+			myItem = InGameItemsDatabaseManager.Instance.getItemByID(2);
 
 			myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
 
 
 
-			
-		}
+
+        }
+	}
+
+	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
+		currentInventory.removeByID(itemIDToRemove, amountToRemove);
 	}
 
 
-	public int getTotalItemsCount() {
+    public int getTotalItemsCount() {
 		return this.currentInventory.length();
 	}
 

@@ -736,7 +736,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 28256372073838192}
         m_TargetAssemblyTypeName: CraftingUIPotionCraftingInputGroupController, Assembly-CSharp
-        m_MethodName: UpdateTheCar
+        m_MethodName: CraftPotion
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
