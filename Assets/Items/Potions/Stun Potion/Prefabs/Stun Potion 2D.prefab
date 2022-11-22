@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7406779019849519766}
   m_Layer: 5
-  m_Name: Potion #1 2D
+  m_Name: Stun Potion 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -15,6 +15,10 @@ MonoBehaviour:
   potions:
   - {fileID: 11400000, guid: 2c154343d1b684d408bbc12ad2b38daf, type: 2}
   - {fileID: 11400000, guid: fa4fc24a60608c24ab7149a49a5337c7, type: 2}
+  - {fileID: 11400000, guid: 0f4a573021f709a42a19d9b4217b2693, type: 2}
+  - {fileID: 11400000, guid: 362980411aaf196489f1b41ed50f767c, type: 2}
+  - {fileID: 11400000, guid: 0ed28ddd427a8b846be6acf09f07b4c7, type: 2}
+  - {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
   rawMaterials:
   - {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
   - {fileID: 11400000, guid: 089fe6d9e27203048a2cdbca7602b26f, type: 2}

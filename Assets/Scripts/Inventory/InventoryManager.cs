@@ -19,23 +19,26 @@ public class InventoryManager : MonoBehaviour {
 			currentInventory = new Inventory(100);
 			//TODO: Have an if resume game catch here
 			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
-			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0);
+			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(7);
 			
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(0-4, 0+49), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
 
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(2);
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(6);
 
 			myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(10, 38), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(90, 15), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-5, -1), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(20, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(3, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-17, 10), Quaternion.identity);
 
 
 
