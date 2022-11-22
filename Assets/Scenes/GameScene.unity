@@ -1308,7 +1308,7 @@ GameObject:
   - component: {fileID: 464844807}
   m_Layer: 5
   m_Name: Potion Info
-  m_TagString: CraftingUIInfoContainer
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5706,7 +5706,7 @@ GameObject:
   - component: {fileID: 2017833834}
   m_Layer: 5
   m_Name: Craft Potion
-  m_TagString: CraftingUIActionContainer
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

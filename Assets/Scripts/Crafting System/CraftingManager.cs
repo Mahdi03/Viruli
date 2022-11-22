@@ -14,6 +14,8 @@ public class CraftingManager : MonoBehaviour {
 
 		//TODO: spend XP to craft
 		//Then add it to the inventory in the next convenient location
-		InventoryManager.Instance.pickupItem(itemID); //This will automatically also refresh our inventory UI to reflect the new changes
+		for (int i = 0; i < amountToCraft; i++) {
+			InventoryManager.Instance.pickupItem(itemID); //This will automatically also refresh our inventory UI to reflect the new changes
+		}
 	}
 }
