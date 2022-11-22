@@ -85,7 +85,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 						//Call the internal swap function with the index of the two elements in the inventory and then reflect the changes in the UI
 						//The index of the elements should be equal to the index in the inventory array equal to the inventorySlotID
 						InventoryManager.Instance.swapItemsInInventory(currentItemAlreadyInSlotInstance.attachedInventorySlotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
-						Debug.Log("We are being called");
+						//Debug.Log("We are being called");
 						Destroy(itemDroppedIntoSlot);
 					}
 				}
@@ -97,7 +97,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
                 //This slot is empty, if we wanna move it here we should swap this empty slot with the slot where this item is coming from
                 ItemInstance itemDroppedIntoSlotInstance = itemDroppedIntoSlot.GetComponent<ItemInstance>();
                 InventoryManager.Instance.swapItemsInInventory(slotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
-                Debug.Log("Uhm no we are");
+                //Debug.Log("Uhm no we are");
 				Destroy(itemDroppedIntoSlot); //We instantiate a new one inside InventoryManager that is set to the correct position
             }
 			/*

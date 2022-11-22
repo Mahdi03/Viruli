@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 //Place any methods in here you want access to inside of InventoryManager
 public interface IItem {
@@ -25,6 +26,11 @@ public interface IItem {
 
 	public abstract string itemType { get; } //Make it abstract so that we can override it later
 	public abstract string itemName { get; }
+
+	public abstract int EffectRadius { get; }
+	public abstract float EffectTimeout { get; }
+
+	public abstract string ItemDescription { get; }
 
 	public GameObject TwoDimensionalPrefab { get; } //Set thru editor
 	public GameObject ThreeDimensionalPrefab { get; } //Set thru editor
@@ -70,7 +76,8 @@ public class Item : ScriptableObject, IItem {
     public IItem.recipeItem[] dirtyRecipe { get { return myrecipe; } }
     public List<(int, int)> Recipe { get; set; }
 
-
+	public virtual int EffectRadius { get { return -1; } }
+	public virtual float EffectTimeout { get { return -1f; } }
 
     public int XPValue = 0;
 
@@ -80,7 +87,11 @@ public class Item : ScriptableObject, IItem {
 	[SerializeField]
 	private GameObject threeDimensionalPrefab;
 	public GameObject ThreeDimensionalPrefab { get { return threeDimensionalPrefab; } }
-	
+
+	[SerializeField]
+	private string itemDescription;
+	virtual public string ItemDescription { get { return itemDescription; } }
+
 	virtual public string itemType { get; }
 	public string itemName { get { return this.name; } }
 

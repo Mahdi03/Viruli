@@ -6,7 +6,9 @@ using UnityEngine;
 public class Potion : Item {
     public GameObject effectRingPrefab;
     public int effectRadius;
+    public override int EffectRadius { get => effectRadius; }
     public float timeout = 5f;
+    public override float EffectTimeout { get => timeout; }
 
     /* We want to make publicly available
      * List<(int, int)>

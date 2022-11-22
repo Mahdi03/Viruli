@@ -37,14 +37,14 @@ public class Inventory : IEnumerable {
 
 	//This will store the itemID with the count
 	[Serializable]
-    private struct InternalInventoryItem {
+	private struct InternalInventoryItem {
 		public InternalInventoryItem(int itemID = -1, int count = -1) {
 			this.itemID = itemID;
 			this.count = count;
 		}
 		public int itemID { get; set; }
 		public int count { get; set; }
-    }
+	}
 	
 	private List<InternalInventoryItem> inventory; 
 	private const string PlayerPrefsKeyName = "MahdiViruliStoredInventory";
@@ -62,7 +62,7 @@ public class Inventory : IEnumerable {
 		}
 		var itemInfo = inventory[index];
 
-        return (itemInfo.itemID, itemInfo.count);
+		return (itemInfo.itemID, itemInfo.count);
 	}
 	private void insertIntoNextOpenSpot(int itemID, int count = 1, bool stackable = true) {
 		if (count < 1) {
@@ -78,20 +78,20 @@ public class Inventory : IEnumerable {
 					return; //We are done adding, we don't need to go any further
 				}
 				else {
-                    //We need to recursively add each item in the next open spot until we have no more items to insert
-                    InternalInventoryItem itemToAdd = new InternalInventoryItem(itemID, 1);
-                    this.inventory[i] = itemToAdd;
+					//We need to recursively add each item in the next open spot until we have no more items to insert
+					InternalInventoryItem itemToAdd = new InternalInventoryItem(itemID, 1);
+					this.inventory[i] = itemToAdd;
 					this.insertIntoNextOpenSpot(itemID, count - 1, stackable); //At least O(n^2)
-                    return; //We are done adding, we don't need to go any further
-                }
+					return; //We are done adding, we don't need to go any further
+				}
 			}
 		}
 		//If we made it here that means no empty spots were found, let's just add it to the end
 		if (stackable) {
 			//We can add all of them at once
 			InternalInventoryItem itemToAdd = new InternalInventoryItem(itemID, count);
-            this.inventory.Add(itemToAdd); //Pushes it to the end (direct method of List)
-        }
+			this.inventory.Add(itemToAdd); //Pushes it to the end (direct method of List)
+		}
 		else {
 			//We should just add them consecutively instead of recursively calling and looping again each time unnecessarily
 			for (int i = 0; i < count; i++) {
@@ -124,12 +124,12 @@ public class Inventory : IEnumerable {
 		}
 	}
 	public void swap(int indexA, int indexB) {
-        if ((indexA < 0 || indexA >= this.length()) || (indexB < 0 || indexB >= this.length())) {
-            throw new System.IndexOutOfRangeException("Indices provided are out of the range of the inventory array");
-        }
+		if ((indexA < 0 || indexA >= this.length()) || (indexB < 0 || indexB >= this.length())) {
+			throw new System.IndexOutOfRangeException("Indices provided are out of the range of the inventory array");
+		}
 		
-        //Swap the position of the two elements in the inventory array
-        InternalInventoryItem itemA = this.inventory[indexA];
+		//Swap the position of the two elements in the inventory array
+		InternalInventoryItem itemA = this.inventory[indexA];
 		this.inventory[indexA] = this.inventory[indexB];
 		this.inventory[indexB] = itemA;
 	}
@@ -143,26 +143,73 @@ public class Inventory : IEnumerable {
 	public int indexOf(IItem item) {
 		//Search through inventory to find the first index of an item with a matching ID
 		for (int index = 0; index < this.length(); index++) {
-            (IItem, int) currentVal = this.at(index);
+			(IItem, int) currentVal = this.at(index);
 			if (currentVal.Item1.ID == item.ID) {
 				return index;
 			}
-        }
+		}
 		return -1; //Return -1 when not found
 	}
 	public int indexOf((IItem, int) inventoryItem) {
 		for (int index = 0; index < this.length(); index++) {
-            (IItem, int) currentVal = this.at(index);
+			(IItem, int) currentVal = this.at(index);
 			if (currentVal == inventoryItem) {
 				return index;
 			}
-        }
+		}
 		return -1;
 	}
 	*/
 	public int length() {
 		return this.inventory.Count;
 	}
+
+	/*Use in crafting system to judge whether the recipe can hold */
+	public int getItemCountByID(int itemID) {
+		int count = 0;
+		foreach (InternalInventoryItem item in this.inventory) {
+			if (item.itemID == itemID) {
+				count += item.count;
+			}
+		}
+		return count;
+	}
+
+	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
+		if (amountToRemove <= 0) { return; }
+		if (this.getItemCountByID(itemIDToRemove) < amountToRemove) {
+			throw new SystemException("Trying to remove more elements than currently exist in inventory");
+		}
+		for (int i = 0; i < this.inventory.Count; i++) {
+			//Loop through all the items in the inventory until we find a matching itemID
+			var currentItem = this.inventory[i];
+			if (currentItem.itemID == itemIDToRemove) {
+				//We need to remove as much as possible from here
+				int originalCountOfItemsInInventory = currentItem.count; //Store original amount of how much of this item there was
+
+				if (amountToRemove < originalCountOfItemsInInventory) {
+					//We are removing less than the total amount that exists here, we can simply change it and then save it later
+					currentItem.count -= amountToRemove;
+				}
+				else {
+					//We are either removing the same amount or more than what is stored in this slot (if it weren't stackable)
+					// so we need to empty this slot
+					currentItem = new InternalInventoryItem(-1, -1);
+					if (amountToRemove > originalCountOfItemsInInventory) {
+						//We need to remove more since there are some removals left over
+						removeByID(itemIDToRemove, amountToRemove - originalCountOfItemsInInventory); //Since we already removed the original number of items in this slot
+					}
+				}
+
+				//Now that we made it here let us save the new values to the inventory
+				this.inventory[i] = currentItem;
+				return; //We could either break or return but let's just end the function here
+				//Avoids looping and finding the next element and then removing extra elements
+			}
+		}
+		//If we made it here then our code could not find the item
+	}
+
 	//Inherit from IEnumerable so that we can use a foreach loop on this container
 	public IEnumerator GetEnumerator() {
 		for (int i = 0; i < this.length(); i++) {

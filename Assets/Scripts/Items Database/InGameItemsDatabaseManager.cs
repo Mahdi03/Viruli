@@ -8,7 +8,8 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 
 	[SerializeField] //Make it editable but still private to this class only
 	private GameItemsDatabase db; //Create scriptable object and then add this through the editor
-	private Dictionary<int, IItem> itemsDatabase;
+	private Dictionary<int, IItem> itemsDatabase; //Actual database that will store all the types of items in the game
+	public Dictionary<int, IItem> craftableItems { get; private set; }
 
 	//Provide a getter method to get items from the dictionary so we can use the data
 	/*
@@ -21,6 +22,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 		}
 		return item;
 	}
+
 
 	private void Awake() {
 		//Singleton initialization code
@@ -60,8 +62,9 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			 * and countRequired's instead of actual Item objects and their counts because the Unity editor
 			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
 			 */
-
+			craftableItems = new Dictionary<int, IItem>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
+				Debug.Log(itemEntry);
 				if (itemEntry.Value.Craftable) {
 					//Then we set the recipe correctly
 					List<(int, int)> finalRecipe = new List<(int, int)>();
@@ -74,6 +77,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 						finalRecipe.Add((id, count));
                     }
 					item.Recipe = finalRecipe;
+					craftableItems.TryAdd(itemEntry.Key, item);
 				}
 			}
         }
