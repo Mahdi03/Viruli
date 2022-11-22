@@ -41,7 +41,7 @@ public class Table : MonoBehaviour {
 		/*rect transform*/
 		var rectTransform = table.GetComponent<RectTransform>(); //new GameObject() automatically comes with new transform
 
-		rectTransform.parent = parent;
+		rectTransform.SetParent(parent, false);
 		//Will align to center top
 		rectTransform.anchorMin = new Vector2(0.5f, 1);
 		rectTransform.anchorMax = new Vector2(0.5f, 1);
@@ -72,7 +72,7 @@ public class Table : MonoBehaviour {
 
 		/*rect transform*/
 		var rectTransform = row.GetComponent<RectTransform>();
-		rectTransform.parent = parentTable;
+		rectTransform.SetParent(parentTable, false);
 		//Anchors are controlled by parent vertical layout group
 		//rectTransform.anchorMin = new Vector2(0.5f, 1);
 		//rectTransform.anchorMax = new Vector2(0.5f, 1);
@@ -102,7 +102,7 @@ public class Table : MonoBehaviour {
 		borderImage.color = borderColor;
 
 		var borderRectTransform = border.GetComponent<RectTransform>();
-		borderRectTransform.parent = parentRow;
+		borderRectTransform.SetParent(parentRow, false);
 		borderRectTransform.sizeDelta = new Vector2(cellWidth, 0);
 		borderRectTransform.localScale = new Vector2(1, 1);
 
@@ -113,7 +113,7 @@ public class Table : MonoBehaviour {
 		paddingImage.color = paddingColor;
 
 		var paddingRectTransform = padding.GetComponent<RectTransform>();
-		paddingRectTransform.parent = borderRectTransform;
+		paddingRectTransform.SetParent(borderRectTransform, false);
 		paddingRectTransform.localScale = new Vector2(1, 1);
 
 		//Sets to stretch

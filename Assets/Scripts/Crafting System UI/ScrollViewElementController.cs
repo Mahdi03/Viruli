@@ -152,7 +152,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
             }
 
             var rectTransform = textbox.GetComponent<RectTransform>();
-            rectTransform.parent = requiredAmountCell.transform;
+            rectTransform.SetParent(requiredAmountCell.transform, false);
             rectTransform.localScale = Vector3.one;
             rectTransform.anchoredPosition = new Vector2(0, 0);
             rectTransform.anchorMin = new Vector2(0, 0);
@@ -164,7 +164,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
         }
 
         //TODO: Instantiate the input group prefab
-
+        Instantiate(CraftingUIController.Instance.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer.transform);
     }
 
 }
