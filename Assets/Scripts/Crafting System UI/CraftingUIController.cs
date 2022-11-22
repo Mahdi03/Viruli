@@ -64,10 +64,8 @@ public class CraftingUIController : MonoBehaviour {
     private Color tableBorderColor = Color.white;
     [SerializeField]
     private Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
-
-    private void ShowCraftableItemAction(int amountToCraft = 1) {
-
-        var table = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
+    public void UpdateRecipeTable(int amountToCraft) {
+        GameManager.clearAllChildrenOfObj(this.table);
         var arrOfRecipeItems = InGameItemsDatabaseManager.Instance.getItemByID(itemID).Recipe;
         this.craftable = true;
         foreach (var item in arrOfRecipeItems) {
@@ -76,7 +74,7 @@ public class CraftingUIController : MonoBehaviour {
             var countRequired = item.Item2 * amountToCraft;
             var countAvailable = InventoryManager.Instance.getItemCountByID(id);
             //Make a row
-            var row = Table.createTableRow(table.transform, 30f);
+            var row = Table.createTableRow(this.table.transform, 30f);
             //In the first cell instantiate the prefab
             var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
             var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
@@ -109,12 +107,28 @@ public class CraftingUIController : MonoBehaviour {
             rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
         }
 
-        //TODO: Instantiate the input group prefab
-        var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform);
-        //
-        var inputGroupController = 7;
-    }
 
+        inputGroupController.SetAmountToCraft(amountToCraft);
+        if (this.craftable) {
+            inputGroupController.EnableCraftingButton();
+        }
+        else {
+            inputGroupController.DisableCraftingButton();
+        }
+    }
+    private GameObject table;
+    CraftingUIPotionCraftingInputGroupController inputGroupController;
+    private void ShowCraftableItemAction(int amountToCraft = 1) {
+
+        table = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
+        
+        var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform);
+        inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
+        UpdateRecipeTable(amountToCraft);        
+    }
+    public void CraftPotion() {
+
+    }
 
     private void Awake() {
         if (instance != this && instance != null) {
