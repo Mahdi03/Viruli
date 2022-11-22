@@ -1,18 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 //Place any methods in here you want access to inside of InventoryManager
 public interface IItem {
 
 	//Getters and setters
 	public bool Stackable { get; } //Set through scriptable objects
-	public int ID {
+	public bool Craftable { get; } //Set through scriptable objects
+	
+	[Serializable]
+	public class recipeItem {
+		public Item item;
+		public int countRequired;
+	}
+	public recipeItem[] dirtyRecipe { get; } //Set through scriptable objects
+
+    public List<(int, int)> Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+
+    public int ID {
 		get; set; //Allow settable for DatabaseManager
 	}
 
 	public abstract string itemType { get; } //Make it abstract so that we can override it later
 	public abstract string itemName { get; }
+
+	public abstract int EffectRadius { get; }
+	public abstract float EffectTimeout { get; }
+
+	public abstract string ItemDescription { get; }
 
 	public GameObject TwoDimensionalPrefab { get; } //Set thru editor
 	public GameObject ThreeDimensionalPrefab { get; } //Set thru editor
@@ -47,11 +65,21 @@ public class Item : ScriptableObject, IItem {
 	 * support the automatic property thingy yet
 	 */
 	[SerializeField]
-	private bool stackable;
+	private bool stackable = true;
 	public bool Stackable { get { return stackable; } }
+	[SerializeField]
+	private bool craftable = false;
+	public bool Craftable { get { return craftable; } }
 
+	[SerializeField]
+	private IItem.recipeItem[] myrecipe;
+    public IItem.recipeItem[] dirtyRecipe { get { return myrecipe; } }
+    public List<(int, int)> Recipe { get; set; }
 
-	public int XPValue = 0;
+	public virtual int EffectRadius { get { return -1; } }
+	public virtual float EffectTimeout { get { return -1f; } }
+
+    public int XPValue = 0;
 
 	[SerializeField]
 	private GameObject twoDimensionalPrefab;
@@ -59,7 +87,11 @@ public class Item : ScriptableObject, IItem {
 	[SerializeField]
 	private GameObject threeDimensionalPrefab;
 	public GameObject ThreeDimensionalPrefab { get { return threeDimensionalPrefab; } }
-	
+
+	[SerializeField]
+	private string itemDescription;
+	virtual public string ItemDescription { get { return itemDescription; } }
+
 	virtual public string itemType { get; }
 	public string itemName { get { return this.name; } }
 

@@ -19,28 +19,46 @@ public class InventoryManager : MonoBehaviour {
 			currentInventory = new Inventory(100);
 			//TODO: Have an if resume game catch here
 			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
-			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0);
+			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(7);
 			
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+			myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(0-4, 0+49), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
 
-            myItem = InGameItemsDatabaseManager.Instance.getItemByID(1);
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(6);
 
-            myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
+			myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
+			myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
+			myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(10, 38), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(90, 15), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-5, -1), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(20, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(3, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-17, 10), Quaternion.identity);
 
 
 
-			
+
         }
 	}
 
+	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
+		currentInventory.removeByID(itemIDToRemove, amountToRemove);
+	}
 
-	public int getTotalItemsCount() {
+
+    public int getTotalItemsCount() {
 		return this.currentInventory.length();
 	}
+
+	public int getItemCountByID(int id) {
+		return currentInventory.getItemCountByID(id);
+	}
+
 	public void pickupItem(int itemID) {
 		currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
 		//Update inventory UI to reflect inventory array changes
@@ -89,25 +107,25 @@ public class InventoryManager : MonoBehaviour {
 						}
 						//Let's loop thru all the elements and make sure to add the prefab to all slots that match the slotID
 						foreach (var inventorySlotA in inventorySlots) {
-                            InventorySlot inventorySlotAssociatedInfoA = inventorySlotA.GetComponent<InventorySlot>();
+							InventorySlot inventorySlotAssociatedInfoA = inventorySlotA.GetComponent<InventorySlot>();
 							if (inventorySlotAssociatedInfoA.slotID == inventorySlotID) {
-                                GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform);
-                                Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
-                                Item.makeDraggable2D(item2DPrefab);
-                                Item.disableClickCollectible2D(item2DPrefab);
-                                Item.disableItemFloat2D(item2DPrefab);
+								GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform);
+								Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
+								Item.makeDraggable2D(item2DPrefab);
+								Item.disableClickCollectible2D(item2DPrefab);
+								Item.disableItemFloat2D(item2DPrefab);
 								Item.allowHoverTooltip(item2DPrefab);
 								item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
 								inventorySlotAssociatedInfoA.Count = count;
-                            }
-                        }
+							}
+						}
 						//currentItem.SetCurrent2DPrefab(item2DPrefab);
 						
 					}
 				}
-                inventorySlotAssociatedInfo.Count = count; //Make sure to update the count for all slots even empty placeholders
+				inventorySlotAssociatedInfo.Count = count; //Make sure to update the count for all slots even empty placeholders
 
-            }
+			}
 		}
 	}
 }

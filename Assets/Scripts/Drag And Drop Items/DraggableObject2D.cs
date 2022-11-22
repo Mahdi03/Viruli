@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /*Labelling methods as virtual so that deriving classes can override them and add more functionality on the same behaviors */
-public class DraggableObject2D : MonoBehaviour, IDraggableObject {
+public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
 	private Canvas canvas;
 	private GameObject twoDimensionsItemsContainerForDraggingInCanvas;
 	private CanvasGroup canvasGroup;

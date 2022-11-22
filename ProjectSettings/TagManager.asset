@@ -8,6 +8,7 @@ TagManager:
   - FullInventoryContent
   - 2DItemsContainerForDraggingInCanvas
   - 2DItemsContainerForDroppingItemsInCanvas
+  - xpSystemUI
   layers:
   - Default
   - TransparentFX
