@@ -121,6 +121,7 @@ public class CraftingUIController : MonoBehaviour {
     private void ShowCraftableItemAction(int amountToCraft = 1) {
 
         table = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
+        table.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
         
         var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform);
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
