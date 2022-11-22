@@ -6,11 +6,34 @@ using UnityEngine;
 /// 
 /// </summary>
 public class CraftingUIController : MonoBehaviour {
-    public GameObject scrollView;
-    public GameObject scrollViewElementPrefab;
+
+    private static CraftingUIController instance;
+    public static CraftingUIController Instance { get { return instance; } }
+
+
+    [SerializeField]
+    private GameObject scrollView;
+    [SerializeField]
+    private GameObject scrollViewElementPrefab;
+
+    /* Global prefabs the rest of the UI might need access to */
+    public GameObject craftableUIInfoGroupContainer; //Bottom left corner of crafting UI
+    public GameObject craftingUIPotionCraftingInputGroup; //Input buttons for bottom right corner of crafting UI
+
+
+
+
 
     private void Awake() {
-        populateScrollViewWithSpells(); //TODO: fix initialiation code later
+        if (instance != this && instance != null) {
+            Destroy(gameObject);
+        }
+        else {
+            instance = this;
+
+            populateScrollViewWithSpells(); //TODO: fix initialiation code later
+        }
+        
     }
 
     /// <summary>

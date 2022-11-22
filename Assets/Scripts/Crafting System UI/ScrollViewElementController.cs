@@ -80,7 +80,6 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
     }
 
 
-    //TODO: we need to add a click controller to load the rest of the information in the UI on click
     public void OnPointerClick(PointerEventData eventData) {
         //When we click on our element, the rest of the other elements will be unselected, this one will be selected, and then we will load it
         //Loop through all the elements in our parent and for each one, unselect it
@@ -163,6 +162,9 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
             rectTransform.offsetMin = new Vector2(5, 0); //(Left, Bottom)
             rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
         }
+
+        //TODO: Instantiate the input group prefab
+
     }
 
 }
