@@ -127,8 +127,11 @@ public class CraftingUIController : MonoBehaviour {
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
         UpdateRecipeTable(amountToCraft);        
     }
-    public void CraftPotion() {
-
+    public void CraftPotion(int amountToCraft) {
+        if (this.craftable) {
+            GetComponent<CraftingManager>().Craft(this.itemID, amountToCraft); //Pass it on to the attached Crafting Manager script
+            UpdateRecipeTable(amountToCraft);
+        }
     }
 
     private void Awake() {

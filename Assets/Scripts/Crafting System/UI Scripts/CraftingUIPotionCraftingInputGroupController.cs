@@ -29,9 +29,11 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
         craftingButtonButton = craftingButton.GetComponent<Button>();
         integerInputField = integerInput.GetComponent<TMP_InputField>();
     }
+    private int amountToCraft = -1;
     public void SetAmountToCraft(int amountToCraft) {
         
         integerInputField.text = amountToCraft.ToString();
+        this.amountToCraft = amountToCraft;
     }
     public void EnableCraftingButton() {
         
@@ -47,7 +49,7 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
     /// This function is called on click of the button
     /// </summary>
     public void CraftPotion() {
-        CraftingUIController.Instance.CraftPotion();
+        CraftingUIController.Instance.CraftPotion(this.amountToCraft);
     }
     public void UpdateRecipeTable(string inputText) {
         int result;
@@ -61,6 +63,7 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
         }
         else {
             //result is now defined
+            this.amountToCraft = result;
             CraftingUIController.Instance.UpdateRecipeTable(result);
         }
     }
