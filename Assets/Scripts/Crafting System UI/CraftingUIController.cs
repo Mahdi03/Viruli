@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -16,12 +17,103 @@ public class CraftingUIController : MonoBehaviour {
     [SerializeField]
     private GameObject scrollViewElementPrefab;
 
+    [SerializeField]
+    private GameObject CraftingUIInfoContainer_BottomLeftCorner;
+    [SerializeField]
+    private GameObject CraftingUIActionContainer_BottomRightCorner;
+
+    public int itemID { get; set; }
+    private bool craftable { get; set; } = false;
+
     /* Global prefabs the rest of the UI might need access to */
     public GameObject craftableUIInfoGroupContainer; //Bottom left corner of crafting UI
     public GameObject craftingUIPotionCraftingInputGroup; //Input buttons for bottom right corner of crafting UI
 
+    public void LoadCraftableUI() {
+        clearAllInfo();
+        ShowCraftableItemInfo();
+        ShowCraftableItemAction();
 
+    }
+    protected void clearAllInfo() {
+        //GameManager.clearAllChildrenOfObj(CraftingUIInfoContainer_BottomLeftCorner);
+        GameManager.clearAllChildrenOfObj(CraftingUIActionContainer_BottomRightCorner);
+    }
+    private void ShowCraftableItemInfo() {
+        //var CraftingUIInfoContainer = GameObject.FindGameObjectWithTag("CraftingUIInfoContainer");
+        Transform CraftableItemInfoGroup;
+        if (CraftingUIInfoContainer_BottomLeftCorner.transform.childCount == 0) {
+            //Then we need to instantiate the prefab
+            CraftableItemInfoGroup = Instantiate(this.craftableUIInfoGroupContainer, CraftingUIInfoContainer_BottomLeftCorner.transform).transform;
+        }
+        else {
+            CraftableItemInfoGroup = CraftingUIInfoContainer_BottomLeftCorner.transform.GetChild(0);
+        }
+        //TODO: Next time we might need to instantiate the prefab and not just find it in the hierarchy depending on how the walls system works
+        var craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
+        CraftableItemInfoGroup.gameObject.SetActive(true);
 
+        var item = InGameItemsDatabaseManager.Instance.getItemByID(this.itemID);
+
+        craftableUIInfoGroupContainerController.SetIcon(item.TwoDimensionalPrefab);
+        craftableUIInfoGroupContainerController.SetItemName(item.itemName);
+        craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
+        craftableUIInfoGroupContainerController.SetItemStatsText("- Effect Radius: " + item.EffectRadius + "ft\n- Effect Timeout: " + item.EffectTimeout + "sec");
+    }
+    [SerializeField]
+    private Color tableBorderColor = Color.white;
+    [SerializeField]
+    private Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
+
+    private void ShowCraftableItemAction(int amountToCraft = 1) {
+
+        var table = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
+        var arrOfRecipeItems = InGameItemsDatabaseManager.Instance.getItemByID(itemID).Recipe;
+        this.craftable = true;
+        foreach (var item in arrOfRecipeItems) {
+            var id = item.Item1;
+            var requiredItem = InGameItemsDatabaseManager.Instance.getItemByID(id);
+            var countRequired = item.Item2 * amountToCraft;
+            var countAvailable = InventoryManager.Instance.getItemCountByID(id);
+            //Make a row
+            var row = Table.createTableRow(table.transform, 30f);
+            //In the first cell instantiate the prefab
+            var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
+            var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
+            //Add hover tooltip
+            Item.attachItemInstance(requiredItemIcon, id); //Give the 2D Icon an ID so that the HoverTooltip can read it
+            Item.allowHoverTooltip(requiredItemIcon);
+
+            //In the second cell put in the amount required
+            var requiredAmountCell = Table.createTableCell(row.transform, cellWidth: 190f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
+            var textbox = new GameObject("Required Amount");
+
+            var text = textbox.AddComponent<TextMeshProUGUI>();
+            text.text = "<color=\"" + ((countAvailable < countRequired) ? "red" : "green") + "\">" + countAvailable + "</color>/" + countRequired;
+            //Set font size to 16
+            text.fontSize = 16f;
+            text.verticalAlignment = VerticalAlignmentOptions.Middle;
+            if (countAvailable < countRequired) {
+                this.craftable = false;
+            }
+
+            var rectTransform = textbox.GetComponent<RectTransform>();
+            rectTransform.SetParent(requiredAmountCell.transform, false);
+            rectTransform.localScale = Vector3.one;
+            rectTransform.anchoredPosition = new Vector2(0, 0);
+            rectTransform.anchorMin = new Vector2(0, 0);
+            rectTransform.anchorMax = new Vector2(1, 1);
+
+            //Give 5px padding on the left
+            rectTransform.offsetMin = new Vector2(5, 0); //(Left, Bottom)
+            rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
+        }
+
+        //TODO: Instantiate the input group prefab
+        var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform);
+        //
+        var inputGroupController = 7;
+    }
 
 
     private void Awake() {
