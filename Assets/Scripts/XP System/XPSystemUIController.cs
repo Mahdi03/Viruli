@@ -20,7 +20,7 @@ public class XPSystemUIController : MonoBehaviour {
     
     private int level = -1, currentXp = -1, maxXp = -1;
 
-    private void Awake() {
+    private void Start() {
         levelTextboxText = levelTextbox.GetComponent<TextMeshProUGUI>();
 
         xpBarSlider = xpBar.GetComponent<Slider>();
@@ -28,7 +28,7 @@ public class XPSystemUIController : MonoBehaviour {
 
         currentXPTextboxText = currentXPTextbox.GetComponent<TextMeshProUGUI>();
 
-        this.updateUI();
+        fetchXPSystemValuesForUI();
     }
 
 
@@ -36,6 +36,13 @@ public class XPSystemUIController : MonoBehaviour {
         this.level = Level;
         this.currentXp = XP;
         this.maxXp = maxXP;
+        this.updateUI();
+    }
+
+    private void fetchXPSystemValuesForUI() {
+        this.level = XPSystem.Instance.Level;
+        this.currentXp = XPSystem.Instance.XP;
+        this.maxXp = XPSystem.Instance.MaxXP;
         this.updateUI();
     }
 

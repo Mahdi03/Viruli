@@ -10,7 +10,7 @@ public class XPSystem : MonoBehaviour {
 	//Public global variables accessible everywhere
 	public int Level { get; private set; }
 	public int XP { get; private set; }
-	private int maxXP;
+	public int MaxXP { get; private set; }
 
 	//Stored as index
 	private List<int> xpThresholds = new List<int>()
@@ -27,8 +27,8 @@ public class XPSystem : MonoBehaviour {
 			instance = this;
 			//Now we can initialize stuff
 			this.Level = 0; //TODO: Load from PlayerPrefs
-			this.XP = 0; //TODO: Load from PlayerPrefs
-			this.maxXP = this.xpThresholds[this.Level];
+			this.XP = 30; //TODO: Load from PlayerPrefs
+			this.MaxXP = this.xpThresholds[this.Level];
 
 			//Initialize the level xp thresholds using a recursively-defined function
 
@@ -42,7 +42,7 @@ public class XPSystem : MonoBehaviour {
 		//Check if update matches level threshold
 		if (this.XP > this.xpThresholds[this.Level]) {
 			this.Level++; //Increase the level
-            this.maxXP = this.xpThresholds[this.Level]; //Update the new XP max
+            this.MaxXP = this.xpThresholds[this.Level]; //Update the new XP max
         }
 		//Indicate changes in XP and Level into the UI
 		this.updateXPUI();
@@ -56,7 +56,7 @@ public class XPSystem : MonoBehaviour {
 		foreach (GameObject currentXPSystemPrefab in xpSystemPrefabs) {
 			XPSystemUIController xpUIController = currentXPSystemPrefab.GetComponent<XPSystemUIController>();
 			if (xpUIController != null) {
-				xpUIController.updateXPSystemValuesInUI(this.Level, /*this.XP*/30, this.maxXP);
+				xpUIController.updateXPSystemValuesInUI(this.Level, this.XP, this.MaxXP);
 			} else {
 				throw new System.Exception("XPSystemUIController not attached to item");
 			}
