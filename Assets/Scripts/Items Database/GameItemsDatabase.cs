@@ -12,4 +12,5 @@ using UnityEngine;
 public class GameItemsDatabase : ScriptableObject {
     public List<Potion> potions;
     public List<RawMaterial> rawMaterials;
+    public List<Enemy> enemies;
 }

@@ -11,7 +11,13 @@ public class FullInventoryButton : MonoBehaviour, IPointerDownHandler {
         fullInventoryManager = obj.GetComponent<FullInventoryManager>();
     }
     public void OnPointerDown(PointerEventData eventData) {
-        //We were clicked on, now display full inventory
-        fullInventoryManager.ShowFullInventory();
+        //If full inventory is already displayed then hide it
+        if (fullInventoryManager.active) {
+            fullInventory.SetActive(false);
+        }
+        else {
+            //We were clicked on, now display full inventory
+            fullInventoryManager.ShowFullInventory();
+        }
     }
 }

@@ -11,6 +11,8 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 	private Dictionary<int, IItem> itemsDatabase; //Actual database that will store all the types of items in the game
 	public Dictionary<int, IItem> craftableItems { get; private set; }
 
+	public List<Enemy> enemies { get; private set; }
+
 	//Provide a getter method to get items from the dictionary so we can use the data
 	/*
 	 Make sure you are checking the value of itemID before trying to access it
@@ -80,6 +82,16 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 					craftableItems.TryAdd(itemEntry.Key, item);
 				}
 			}
+
+			enemies = db.enemies;
         }
 	}
+
+	public void DropRandomItem(Vector3 position, Quaternion rotation) {
+
+		float itemToDrop = Random.Range(0, itemsDatabase.Count); //The ID's are numbered off based on count of items total
+		getItemByID((int)itemToDrop).drop2DSprite(position, rotation);
+	}
+
+
 }

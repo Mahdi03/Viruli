@@ -79,8 +79,8 @@ public class CraftingUIController : MonoBehaviour {
             var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
             var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
             //Add hover tooltip
-            Item.attachItemInstance(requiredItemIcon, id); //Give the 2D Icon an ID so that the HoverTooltip can read it
-            Item.allowHoverTooltip(requiredItemIcon);
+            IItem.attachItemInstance(requiredItemIcon, id); //Give the 2D Icon an ID so that the HoverTooltip can read it
+            IItem.allowHoverTooltip(requiredItemIcon);
 
             //In the second cell put in the amount required
             var requiredAmountCell = Table.createTableCell(row.transform, cellWidth: 190f, tableBorderColor, borderWidth: 1f, tablePaddingColor);

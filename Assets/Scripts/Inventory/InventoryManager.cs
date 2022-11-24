@@ -110,11 +110,14 @@ public class InventoryManager : MonoBehaviour {
 							InventorySlot inventorySlotAssociatedInfoA = inventorySlotA.GetComponent<InventorySlot>();
 							if (inventorySlotAssociatedInfoA.slotID == inventorySlotID) {
 								GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform);
-								Item.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
-								Item.makeDraggable2D(item2DPrefab);
-								Item.disableClickCollectible2D(item2DPrefab);
-								Item.disableItemFloat2D(item2DPrefab);
-								Item.allowHoverTooltip(item2DPrefab);
+								IItem.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
+								IItem.makeDraggable2D(item2DPrefab);
+								
+								IItem.makeDroppable3D(item2DPrefab); //TODO: Ensure that only the items in the quick inventory can be dropped onto the scene
+								
+								IItem.disableClickCollectible2D(item2DPrefab);
+								IItem.disableItemFloat2D(item2DPrefab);
+								IItem.allowHoverTooltip(item2DPrefab);
 								item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
 								inventorySlotAssociatedInfoA.Count = count;
 							}

@@ -13,4 +13,18 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
         //Now remove this object from the game altogether
         Destroy(gameObject);
     }
+
+    /*For 3D Objects*/
+    private void OnMouseDown() {
+        //We were clicked on, now add this item to inventory
+        int itemID = GetComponent<ItemInstance>().itemID;
+        InventoryManager.Instance.pickupItem(itemID);
+        //Now remove this object from the game altogether
+        Destroy(gameObject);
+    }
+
+}
+
+public class ClickAddInventory3D : MonoBehaviour {
+
 }

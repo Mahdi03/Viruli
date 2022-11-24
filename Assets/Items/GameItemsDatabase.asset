@@ -22,3 +22,5 @@ MonoBehaviour:
   rawMaterials:
   - {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
   - {fileID: 11400000, guid: 089fe6d9e27203048a2cdbca7602b26f, type: 2}
+  enemies:
+  - {fileID: 11400000, guid: 524821dc5eb2fae4e9a453cd6eed63e9, type: 2}

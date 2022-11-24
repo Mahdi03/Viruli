@@ -9,15 +9,18 @@ TagManager:
   - 2DItemsContainerForDraggingInCanvas
   - 2DItemsContainerForDroppingItemsInCanvas
   - xpSystemUI
+  - effectRing
+  - threeDimensionalItemsContainerForDraggingInWorldSpace
+  - MainDoor
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - DroppableGround
   - Water
   - UI
-  - 
-  - 
+  - Enemy
+  - MainDoor
   - 
   - 
   - 

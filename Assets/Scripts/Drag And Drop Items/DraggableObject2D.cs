@@ -9,7 +9,6 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
 	private GameObject twoDimensionsItemsContainerForDraggingInCanvas;
 	private CanvasGroup canvasGroup;
 	private RectTransform m_RectTransform;
-	private GameObject ring;
 
 	private void Awake() {
 		canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its scale factor
