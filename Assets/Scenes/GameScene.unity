@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.3
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 1.79
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.1
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: bb673128af9fddc4b87a17576ce88bc7, type: 2}
 --- !u!1 &5480360
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 11793914}
   - component: {fileID: 11793913}
   - component: {fileID: 11793912}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1940,7 +1940,7 @@ GameObject:
   - component: {fileID: 85684604}
   - component: {fileID: 85684603}
   - component: {fileID: 85684602}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8245,7 +8245,7 @@ RectTransform:
   - {fileID: 1435354285}
   - {fileID: 1092699844}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8698,7 +8698,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
@@ -10346,6 +10346,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 473168918}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &486560451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 486560452}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &486560452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486560451}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.04, y: 0.00000035762787, z: -13.49}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &488875705
 GameObject:
   m_ObjectHideFlags: 0
@@ -10412,7 +10443,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &489217904
 PrefabInstance:
@@ -21650,7 +21681,7 @@ GameObject:
   - component: {fileID: 1010596460}
   - component: {fileID: 1010596459}
   - component: {fileID: 1010596458}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door Big Frame 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23380,7 +23411,7 @@ GameObject:
   - component: {fileID: 1089943661}
   - component: {fileID: 1089943660}
   - component: {fileID: 1089943659}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28730,6 +28761,7 @@ GameObject:
   - component: {fileID: 1283569835}
   - component: {fileID: 1283569833}
   - component: {fileID: 1283569837}
+  - component: {fileID: 1283569838}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -28762,7 +28794,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1283569835
 MonoBehaviour:
@@ -28802,6 +28834,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032eebc08ba8b6241970c8d27ce02c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1283569838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283569832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09dbc15b412af614d88a38ced9e5feff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesContainer: {fileID: 486560452}
 --- !u!1001 &1283648228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28948,9 +28993,9 @@ GameObject:
   - component: {fileID: 1287154917}
   - component: {fileID: 1287154916}
   - component: {fileID: 1287154915}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door Big 01
-  m_TagString: Untagged
+  m_TagString: MainDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -32588,7 +32633,7 @@ GameObject:
   - component: {fileID: 1421424713}
   - component: {fileID: 1421424712}
   - component: {fileID: 1421424711}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door Big Frame 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32879,7 +32924,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1427413730
 PrefabInstance:
@@ -34181,9 +34226,9 @@ GameObject:
   - component: {fileID: 1477924492}
   - component: {fileID: 1477924491}
   - component: {fileID: 1477924490}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door Big 01
-  m_TagString: Untagged
+  m_TagString: MainDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -37328,6 +37373,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 2066013862}
     m_Modifications:
     - target: {fileID: 1063979498334158, guid: 12fadfe1d9a279446815e00c5e3d4420, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063979498334158, guid: 12fadfe1d9a279446815e00c5e3d4420, type: 3}
+      propertyPath: m_TagString
+      value: MainDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063979498334158, guid: 12fadfe1d9a279446815e00c5e3d4420, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -38144,7 +38197,7 @@ GameObject:
   - component: {fileID: 1651657770}
   - component: {fileID: 1651657769}
   - component: {fileID: 1651657768}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46616,6 +46669,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 321568888}
     m_Modifications:
+    - target: {fileID: 1063979498334158, guid: 12fadfe1d9a279446815e00c5e3d4420, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063979498334158, guid: 12fadfe1d9a279446815e00c5e3d4420, type: 3}
+      propertyPath: m_TagString
+      value: MainDoor
+      objectReference: {fileID: 0}
     - target: {fileID: 1063979498334158, guid: 12fadfe1d9a279446815e00c5e3d4420, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
