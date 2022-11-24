@@ -22,8 +22,10 @@ public class SpellAction : MonoBehaviour, ISpellAction {
     public virtual void EnableSpell() {
         StartCoroutine(destroySpell());
     }
+    protected virtual void EndSpellEffects() { }
     protected IEnumerator destroySpell() {
         yield return new WaitForSeconds(timeout);
+        EndSpellEffects();
         Destroy(gameObject);
     }
 }
