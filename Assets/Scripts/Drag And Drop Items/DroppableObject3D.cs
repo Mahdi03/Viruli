@@ -124,6 +124,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 				threeDimensionalPrefab.transform.position = worldPointAtGround + new Vector3(0, 4, 0);
 				//Let's make it pick-up able again
 				IItem.makeClickCollectible2D(threeDimensionalPrefab);
+				//Now enable the gravity
+				threeDimensionalPrefab.GetComponent<Rigidbody>().useGravity = true;
 
 			}
 			else if (item.itemType == "Potion") {
