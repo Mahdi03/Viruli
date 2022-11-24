@@ -31,4 +31,10 @@ public class GameManager : MonoBehaviour {
         }
     }
     public GameObject GetTooltip() { return tooltipObjInScene; }
+
+
+    public void GameOver() {
+        Debug.Log("Game lost");    
+
+    }  
 }
