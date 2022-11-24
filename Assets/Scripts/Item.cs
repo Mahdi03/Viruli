@@ -25,6 +25,8 @@ public interface IItem {
 	public abstract string itemType { get; } //Make it abstract so that we can override it later
 	public abstract string itemName { get; }
 
+	public abstract int spellLevel { get; }
+
 	public abstract float EffectRadius { get; }
 	public abstract float EffectTimeout { get; }
 
@@ -35,10 +37,6 @@ public interface IItem {
 
 	int inventorySlotIDOccupied { get; set; }
 	public virtual void drop2DSprite(Vector2 pos, Quaternion rotation) { }
-	/*
-	void SetCurrent2DPrefab(GameObject item2DPrefab);
-	*/
-	public virtual void drop3DSprite(Vector3 worldPos, Quaternion rotation) { }
 
 	/*Enabling and disabling scripts - static methods require definitions so they must be defined right away*/
 
@@ -176,6 +174,8 @@ public class Item : ScriptableObject, IItem {
 	virtual public string itemType { get; }
 	public string itemName { get { return this.name; } }
 
+	virtual public int spellLevel { get; }
+
 	//[SerializeField] - We don't set this ourselves because it is set by the DatabaseManager
 	private int itemID;
 	public int ID {
@@ -187,7 +187,6 @@ public class Item : ScriptableObject, IItem {
 	
 	protected bool currently2D;
 
-	public virtual void showOnSceneRing() { }
 
 	/*
 	public void enableScript<T>() {
@@ -226,9 +225,5 @@ public class Item : ScriptableObject, IItem {
 		newSpriteRectTransform.anchoredPosition = pos;
 	}
 
-
-	public virtual void drop3DSprite(Vector3 worldPos, Quaternion rotation) {
-		throw new System.NotImplementedException();
-	}
 
 }

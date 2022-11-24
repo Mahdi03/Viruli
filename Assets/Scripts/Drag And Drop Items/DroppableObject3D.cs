@@ -67,7 +67,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 		Ray ray = Camera.main.ViewportPointToRay(viewportCoordinates);
 		
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, 1000f, 1<<3)) { //Use bit shift by 3 to get 3rd layer
+		if (Physics.Raycast(ray, out hit, 1000f, GameManager.LAYER_DroppableGround)) { //Use bit shift by 3 to get 3rd layer
 			//Then we hit something in the droppable ground
 			//Debug.Log("Hovering over ground");
 			canvasGroup.alpha = 0f; //Make it completely transparent so that it APPEARS we are dragging the 3D object
@@ -111,7 +111,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 		Ray ray = Camera.main.ViewportPointToRay(viewportCoordinates);
 
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, 1000f, 1 << 3)) { //Use bit shift by 3 to get 3rd layer
+		if (Physics.Raycast(ray, out hit, 1000f, GameManager.LAYER_DroppableGround)) { //Use bit shift by 3 to get 3rd layer
 			//Then we hit something in the droppable ground
 			//Get distance to hit and make that our distance from camera
 			var worldPointAtGround = hit.point;
@@ -130,6 +130,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			}
 			else if (item.itemType == "Potion") {
 				threeDimensionalPrefab.transform.position = worldPointAtGround;
+				SpellAction spellActionScript = threeDimensionalPrefab.GetComponent<SpellAction>();
+				spellActionScript.EnableSpell();
 			}
 			else {
 				//Whoops how did we get here

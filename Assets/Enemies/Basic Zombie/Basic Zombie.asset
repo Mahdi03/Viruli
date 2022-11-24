@@ -16,4 +16,4 @@ MonoBehaviour:
     type: 3}
   speed: 0.2
   maxHealth: 10
-  dealsDamage: 2
+  dealsDamage: 1

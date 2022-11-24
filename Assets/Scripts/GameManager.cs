@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+
+    public static readonly int LAYER_DroppableGround = 1 << 3; //Bit shift by 3 to get the 3rd layer
+    public static readonly int LAYER_MainDoor = 1 << 7; //MainDoor Layer is Layer 7
+    public static readonly int LAYER_Enemy = 1 << 6; //Enemy layer is Layer 6
+
+
+
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
