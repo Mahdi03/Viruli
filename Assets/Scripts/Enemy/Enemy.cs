@@ -9,4 +9,5 @@ public class Enemy : ScriptableObject {
     public int maxHealth;
     public int dealsDamage;
     public int xpValue;
+    public int minItemDropCount, maxItemDropCount;
 }

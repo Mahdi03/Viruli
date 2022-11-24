@@ -26,7 +26,7 @@ public interface IItem {
 	public abstract string itemName { get; }
 
 	public abstract int spellLevel { get; }
-
+	public int WeightedDropProbability { get; }
 	public int XPValue { get; } //Both will have XP Values
 	public abstract int XPCost { get; } //Only potions will have XP Cost
 
@@ -40,6 +40,7 @@ public interface IItem {
 
 	int inventorySlotIDOccupied { get; set; }
 	public virtual void drop2DSprite(Vector2 pos, Quaternion rotation) { }
+	public virtual void drop2DSprite(Vector3 pos, Quaternion rotation) { }
 
 	/*Enabling and disabling scripts - static methods require definitions so they must be defined right away*/
 
@@ -167,6 +168,10 @@ public class Item : ScriptableObject, IItem {
 	public virtual int XPCost { get; }
 
 	[SerializeField]
+	private int weightedDropProbability = 0;
+    public int WeightedDropProbability { get; }
+
+    [SerializeField]
 	private GameObject twoDimensionalPrefab;
 	public GameObject TwoDimensionalPrefab { get { return twoDimensionalPrefab; } }
 	[SerializeField]
@@ -193,6 +198,10 @@ public class Item : ScriptableObject, IItem {
 	
 	protected bool currently2D;
 
+	public virtual void drop2DSprite(Vector3 pos, Quaternion rotation) {
+		//TODO: Convert pos to 2-D screen coordinates and then call our drop function
+		drop2DSprite(pos, rotation);
+	}
 
 	/*
 	public void enableScript<T>() {

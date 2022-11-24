@@ -17,17 +17,20 @@ public class EnemyController : MonoBehaviour {
     private int dealsDamage;
 
     private int xpValue;
+    private int minItemDropCount, maxItemDropCount;
 
 
     private NavMeshAgent meshAgent;
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
-    public void initStats(float speed, int maxHealth, int dealsDamage, int xpValue) {
+    public void initStats(float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
         this.dealsDamage = dealsDamage;
         this.xpValue = xpValue;
+        this.minItemDropCount = minItemDropCount;
+        this.maxItemDropCount = maxItemDropCount;
     }
 
     // Start is called before the first frame update
@@ -62,10 +65,10 @@ public class EnemyController : MonoBehaviour {
     }
     public void killEnemy() { //Make public for instant death potion
         //Tell DatabaseManager to drop some items for killing the enemy
-        for (int i = 0; i < Random.Range(1, 4); i++) { //TODO: change this to a range of values put in through the editor (bigger enemies = bigger rewards)
+        for (int i = 0; i < Random.Range(minItemDropCount, maxItemDropCount); i++) {
             InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity);
         }
-        XPSystem.Instance.increaseXP(xpValue);
+        XPSystem.Instance.increaseXP(xpValue); //Add XP on enemy death
         Destroy(gameObject);
 
     }
