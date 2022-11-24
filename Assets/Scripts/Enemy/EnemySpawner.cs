@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour {
         var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
         //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
         var enemyController = newEnemy.GetComponent<EnemyController>();
-        enemyController.initStats(chosenEnemy.speed, chosenEnemy.maxHealth, chosenEnemy.dealsDamage);
+        enemyController.initStats(chosenEnemy.speed, chosenEnemy.maxHealth, chosenEnemy.dealsDamage, chosenEnemy.xpValue);
         i++;
     }
     //TODO: Set up a coroutine for rounds every 4 mins, and have each round fire a coroutine that spawns randomly

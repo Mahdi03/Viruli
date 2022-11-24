@@ -16,15 +16,18 @@ public class EnemyController : MonoBehaviour {
     private float attackRadius = 1f;
     private int dealsDamage;
 
+    private int xpValue;
+
 
     private NavMeshAgent meshAgent;
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
-    public void initStats(float speed, int maxHealth, int dealsDamage) {
+    public void initStats(float speed, int maxHealth, int dealsDamage, int xpValue) {
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
         this.dealsDamage = dealsDamage;
+        this.xpValue = xpValue;
     }
 
     // Start is called before the first frame update
@@ -62,6 +65,7 @@ public class EnemyController : MonoBehaviour {
         for (int i = 0; i < Random.Range(1, 4); i++) { //TODO: change this to a range of values put in through the editor (bigger enemies = bigger rewards)
             InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity);
         }
+        XPSystem.Instance.increaseXP(xpValue);
         Destroy(gameObject);
 
     }
