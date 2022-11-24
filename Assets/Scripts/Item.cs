@@ -27,6 +27,9 @@ public interface IItem {
 
 	public abstract int spellLevel { get; }
 
+	public int XPValue { get; } //Both will have XP Values
+	public abstract int XPCost { get; } //Only potions will have XP Cost
+
 	public abstract float EffectRadius { get; }
 	public abstract float EffectTimeout { get; }
 
@@ -158,7 +161,10 @@ public class Item : ScriptableObject, IItem {
 	public virtual float EffectRadius { get { return -1f; } }
 	public virtual float EffectTimeout { get { return -1f; } }
 
-	public int XPValue = 0;
+	[SerializeField]
+	private int xpValue = 0;
+	public int XPValue { get => xpValue; }
+	public virtual int XPCost { get; }
 
 	[SerializeField]
 	private GameObject twoDimensionalPrefab;
