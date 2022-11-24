@@ -11,6 +11,8 @@ public class FullInventoryManager : MonoBehaviour {
     private GameObject fullInventoryContentContainer;
     private ScrollRect scrollRect;
 
+    public bool active { get { return gameObject.activeSelf; } }
+
     public void ShowFullInventory() {
         gameObject.SetActive(true);
         //Now refresh the UI with all the elements
