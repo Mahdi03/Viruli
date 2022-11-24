@@ -112,7 +112,9 @@ public class InventoryManager : MonoBehaviour {
 								GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform);
 								IItem.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
 								IItem.makeDraggable2D(item2DPrefab);
-								IItem.makeDroppable3D(item2DPrefab);
+								
+								IItem.makeDroppable3D(item2DPrefab); //TODO: Ensure that only the items in the quick inventory can be dropped onto the scene
+								
 								IItem.disableClickCollectible2D(item2DPrefab);
 								IItem.disableItemFloat2D(item2DPrefab);
 								IItem.allowHoverTooltip(item2DPrefab);
