@@ -9,11 +9,13 @@ TagManager:
   - 2DItemsContainerForDraggingInCanvas
   - 2DItemsContainerForDroppingItemsInCanvas
   - xpSystemUI
+  - effectRing
+  - threeDimensionalItemsContainerForDraggingInWorldSpace
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - DroppableGround
   - Water
   - UI
   - 

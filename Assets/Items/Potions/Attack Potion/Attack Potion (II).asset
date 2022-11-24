@@ -20,10 +20,10 @@ MonoBehaviour:
   XPValue: 0
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: aeda76d8f0cd83f409cfe37b6966a1b7,
     type: 3}
-  threeDimensionalPrefab: {fileID: 5562583840306413252, guid: 693b43a6b2544864e82e46a9ea4589ff,
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 626f5b6aff59af3408c3779c7ecfe3b3,
     type: 3}
   itemDescription: This potion will create a hazardous ring of chemicals that will
     continuously harm any enemy that walks through it. Has no linger effect.
   effectRingPrefab: {fileID: 0}
-  effectRadius: 5
+  effectRadius: 2.5
   timeout: 12
