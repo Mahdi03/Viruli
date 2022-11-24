@@ -16,18 +16,12 @@ public class AttackSpell : SpellAction {
 		int level = InGameItemsDatabaseManager.Instance.getItemByID(itemID).spellLevel;
 		if (level == 1) {
 			dealsDamage = 5;
-			attackRadius = 2;
-			timeout = 7;
 		}
 		else if (level == 2) {
 			dealsDamage = 10;
-			attackRadius = 2.5f;
-			timeout = 12;
 		}
 		else if (level == 3) {
 			dealsDamage = 20;
-			attackRadius = 3f;
-			timeout = 15;
 		}
 		else {
 			Debug.Log("OOPS how did we make it here?!?!?");
