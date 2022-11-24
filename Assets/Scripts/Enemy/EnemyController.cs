@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour {
-
+    public float BaseMovementSpeed { get; private set; }
     private float movementSpeed;
 
     private int maxHealth;
@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour {
     private EnemyMotor enemyMotor;
 
     public void initStats(float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
+        this.BaseMovementSpeed = speed;
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
         this.dealsDamage = dealsDamage;
