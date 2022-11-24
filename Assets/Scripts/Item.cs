@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 //Place any methods in here you want access to inside of InventoryManager
 public interface IItem {
@@ -18,9 +16,9 @@ public interface IItem {
 	}
 	public recipeItem[] dirtyRecipe { get; } //Set through scriptable objects
 
-    public List<(int, int)> Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+	public List<(int, int)> Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
 
-    public int ID {
+	public int ID {
 		get; set; //Allow settable for DatabaseManager
 	}
 
@@ -43,9 +41,19 @@ public interface IItem {
 	public virtual void drop3DSprite(Vector3 worldPos, Quaternion rotation) { }
 
 	/* Enabling and disabling scripts */
-	public static void attachItemInstance(GameObject twoDimensionalPrefab, int itemID) {}
+	public static void attachItemInstance(GameObject prefab, int itemID, int attachedInventorySlotID = -1) { }
+	public static void allowHoverTooltip(GameObject prefab) { }
+	public static void disallowHoverTooltip(GameObject prefab) { }
+
+
+
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {}
 	public static void disableDraggable2D(GameObject twoDimensionalPrefab) {}
+
+	//Pass in 2D prefabs because we are attaching the script to the 2D prefab, and pass in the itemID so that the script can access the data
+	public static void makeDroppable3D(GameObject twoDimensionalPrefab) { }
+	public static void disableDroppable3D(GameObject twoDimensionalPrefab) { }
+
 	public static void makeItemFloat2D(GameObject twoDimensionalPrefab) {}
 	public static void disableItemFloat2D(GameObject twoDimensionalPrefab) {}
 	public static void makeClickCollectible2D(GameObject twoDimensionalPrefab) {}
@@ -73,13 +81,13 @@ public class Item : ScriptableObject, IItem {
 
 	[SerializeField]
 	private IItem.recipeItem[] myrecipe;
-    public IItem.recipeItem[] dirtyRecipe { get { return myrecipe; } }
-    public List<(int, int)> Recipe { get; set; }
+	public IItem.recipeItem[] dirtyRecipe { get { return myrecipe; } }
+	public List<(int, int)> Recipe { get; set; }
 
 	public virtual int EffectRadius { get { return -1; } }
 	public virtual float EffectTimeout { get { return -1f; } }
 
-    public int XPValue = 0;
+	public int XPValue = 0;
 
 	[SerializeField]
 	private GameObject twoDimensionalPrefab;
@@ -137,19 +145,19 @@ public class Item : ScriptableObject, IItem {
 	//Make sure this function is called after attachItemInstance()
 	public static void allowHoverTooltip(GameObject prefab) {
 		OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
-        if (onHoverTooltip == null) {
-            prefab.AddComponent<OnHoverTooltip>();
-        }
-        else {
-            onHoverTooltip.enabled = true;
-        }
-    }
+		if (onHoverTooltip == null) {
+			prefab.AddComponent<OnHoverTooltip>();
+		}
+		else {
+			onHoverTooltip.enabled = true;
+		}
+	}
 	public static void disallowHoverTooltip(GameObject prefab) {
-        OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
-        if (onHoverTooltip != null) {
-            onHoverTooltip.enabled = false;
-        }
-    }
+		OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
+		if (onHoverTooltip != null) {
+			onHoverTooltip.enabled = false;
+		}
+	}
 	public static void makeDraggable2D(GameObject twoDimensionalPrefab) {
 		DraggableObject2D draggableObject2DScript = twoDimensionalPrefab.GetComponent<DraggableObject2D>();
 		if (draggableObject2DScript == null) {
@@ -165,6 +173,23 @@ public class Item : ScriptableObject, IItem {
 			draggableObject2DScript.enabled = false;
 		}
 	}
+
+	public static void makeDroppable3D(GameObject twoDimensionalPrefab) {
+	DroppableObject3D droppableObject3DScript = twoDimensionalPrefab.GetComponent<DroppableObject3D>();
+		if (droppableObject3DScript == null) {
+			twoDimensionalPrefab.AddComponent<DroppableObject3D>();
+		}
+		else {
+			droppableObject3DScript.enabled = true;
+		}
+	}
+	public static void disableDroppable3D(GameObject twoDimensionalPrefab) {
+		DroppableObject3D droppableObject3DScript = twoDimensionalPrefab.GetComponent<DroppableObject3D>();
+		if (droppableObject3DScript != null) {
+			droppableObject3DScript.enabled = false;
+		}
+	}
+
 
 	public static void makeItemFloat2D(GameObject twoDimensionalPrefab) {
 		ItemFloat itemFloatScript = twoDimensionalPrefab.GetComponent<ItemFloat>();
