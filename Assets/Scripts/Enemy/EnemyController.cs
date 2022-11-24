@@ -69,7 +69,7 @@ public class EnemyController : MonoBehaviour {
     bool closeEnoughToAttack() {
         return Vector3.Magnitude(transform.position - target.position) <= meshAgent.stoppingDistance;
     }
-    private int doorMask = 1<<7; //MainDoor Layer is Layer 7
+    private int doorMask = GameManager.LAYER_MainDoor;
     public void Attack() { //Called from the animator in the middle of an attack animation
         isAttacking = false;
         foreach (var collider in Physics.OverlapSphere(transform.position + transform.forward * attackRadius, attackRadius, doorMask)) {
