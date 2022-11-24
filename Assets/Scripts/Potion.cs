@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/Create New Potion")]
 public class Potion : Item {
     public GameObject effectRingPrefab;
-    public int effectRadius;
-    public override int EffectRadius { get => effectRadius; }
+    public float effectRadius;
+    public override float EffectRadius { get => effectRadius; }
     public float timeout = 5f;
     public override float EffectTimeout { get => timeout; }
 

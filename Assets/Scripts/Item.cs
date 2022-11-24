@@ -25,7 +25,7 @@ public interface IItem {
 	public abstract string itemType { get; } //Make it abstract so that we can override it later
 	public abstract string itemName { get; }
 
-	public abstract int EffectRadius { get; }
+	public abstract float EffectRadius { get; }
 	public abstract float EffectTimeout { get; }
 
 	public abstract string ItemDescription { get; }
