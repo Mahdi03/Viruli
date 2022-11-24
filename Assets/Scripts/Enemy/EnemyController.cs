@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour {
 
     private float movementSpeed;
-    private float currentMovementSpeed;
 
     private int maxHealth;
     private int currentHealth;
@@ -14,7 +13,7 @@ public class EnemyController : MonoBehaviour {
 
     private Transform target;
     private bool isAttacking = false;
-    private float attackRadius;
+    private float attackRadius = 1f;
     private int dealsDamage;
 
 
@@ -22,6 +21,11 @@ public class EnemyController : MonoBehaviour {
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
+    public void initStats(float speed, int maxHealth, int dealsDamage) {
+        this.movementSpeed = speed;
+        this.maxHealth = maxHealth;
+        this.dealsDamage = dealsDamage;
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -31,13 +35,17 @@ public class EnemyController : MonoBehaviour {
 
         //Set current health to maxHealth possible
         currentHealth = maxHealth;
-        
+
         //Get the health bar above the player and set its value
         healthBarBehaviorScript = transform.GetChild(0).gameObject.GetComponent<HealthBarBehavior>();
         updateHealthBar();
         updateHealthBar();
+
+        changeMovementSpeed(movementSpeed);
+        SetTarget(findNearestDoor());
+        enemyMotor.moveToTarget();
     }
-    
+
     private void updateHealthBar() {
         healthBarBehaviorScript.UpdateHealthBar(currentHealth, maxHealth);
     }
@@ -61,11 +69,17 @@ public class EnemyController : MonoBehaviour {
     bool closeEnoughToAttack() {
         return Vector3.Magnitude(transform.position - target.position) <= meshAgent.stoppingDistance;
     }
-
+    private int doorMask = 1<<7; //MainDoor Layer is Layer 7
+    public void Attack() { //Called from the animator in the middle of an attack animation
+        isAttacking = false;
+        foreach (var collider in Physics.OverlapSphere(transform.position + transform.forward * attackRadius, attackRadius, doorMask)) {
+            MainDoorController doorController = collider.transform.GetComponent<MainDoorController>();
+            doorController.DamageHealth(dealsDamage);
+        }
+    }
     // Update is called once per frame
     void Update() {
         if (target) {
-            enemyMotor.moveToTarget();
             if (closeEnoughToAttack() && !isAttacking) {
                 isAttacking = true;
                 enemyAnimator.SetTrigger("Attack");
@@ -74,6 +88,12 @@ public class EnemyController : MonoBehaviour {
         else {
             Debug.Log("Target nonexistent");
         }
+    }
+    public void changeMovementSpeed(float speed) {
+        if (!enemyMotor) {
+            enemyMotor = GetComponent<EnemyMotor>();
+        }
+        enemyMotor.changeMovementSpeed(speed);
     }
     public void SetTarget(Transform target) { //Make public for 
         if (!enemyMotor) {
@@ -88,7 +108,7 @@ public class EnemyController : MonoBehaviour {
         for (int doorIndex = 0; doorIndex < doors.Length; doorIndex++) {
             var door = doors[doorIndex];
             if (Vector3.Distance(transform.position, doors[doorIndex].transform.position) < Vector3.Distance(transform.position, doors[minDistanceDoorIndex].transform.position)) {
-            //We found a new minimum, let's update it
+                //We found a new minimum, let's update it
                 minDistanceDoorIndex = doorIndex;
             }
         }

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 409818638705913167, guid: 7151e6faddb7d724da6eef44e8889f3b,
     type: 3}
-  speed: 2
+  speed: 0.2
   maxHealth: 10
   dealsDamage: 2

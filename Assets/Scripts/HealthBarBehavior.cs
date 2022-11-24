@@ -20,8 +20,8 @@ public class HealthBarBehavior : MonoBehaviour {
     void Start() {
         slider = transform.GetChild(0).GetComponent<Slider>(); //Actually get the slider component from the canvas' only child
 
-        //Decide whether this is the health bar for the player or any of the asteroids
-        if (transform.parent.name.Contains("Wizard")) {
+        //Decide whether this is the health bar for the door or for any of the enemies
+        if (transform.parent.name.ToLower().Contains("door")) {
             player = true;
             healthBarPosOffset = new Vector3(0, 2, 0);
         }
