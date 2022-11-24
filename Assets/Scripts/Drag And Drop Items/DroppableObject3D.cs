@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+
 /// <summary>
 /// This component will use the ItemInstance to get the itemID and necessary prefabs to instantiate
 /// </summary>
@@ -11,6 +10,7 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(CanvasGroup))]
 public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	private Canvas canvas;
+	private GameObject threeDimensionalItemsContainerForDraggingInWorldSpace;
 	private CanvasGroup canvasGroup;
 	private int itemID;
 	private IItem item;
@@ -18,7 +18,9 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	
 	private void Awake() {
 		canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its dimensions
-		canvasGroup = GetComponent<CanvasGroup>();
+		threeDimensionalItemsContainerForDraggingInWorldSpace = GameObject.FindGameObjectWithTag("threeDimensionalItemsContainerForDraggingInWorldSpace");
+
+        canvasGroup = GetComponent<CanvasGroup>();
 		if (canvasGroup == null) {
 			canvasGroup = (CanvasGroup)gameObject.AddComponent<CanvasGroup>();
 		}
@@ -30,9 +32,12 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 
 	public void OnBeginDrag(PointerEventData eventData) {
 		//Let's instantiate a new 3D spell that we can show and hide depending on where we are dragging
-		threeDimensionalPrefab = Instantiate(item.ThreeDimensionalPrefab);
-		IItem.attachItemInstance(threeDimensionalPrefab, itemID);
-		IItem.allowHoverTooltip(threeDimensionalPrefab);
+		if (threeDimensionalPrefab == null) {
+			threeDimensionalPrefab = Instantiate(item.ThreeDimensionalPrefab);
+			IItem.attachItemInstance(threeDimensionalPrefab, itemID);
+			IItem.allowHoverTooltip(threeDimensionalPrefab);
+			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
+		}
 		threeDimensionalPrefab.SetActive(false);
 		//Right now it is just there for looks, but we will activate it when we drop it
 	}
