@@ -130,6 +130,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			}
 			else if (item.itemType == "Potion") {
 				threeDimensionalPrefab.transform.position = worldPointAtGround;
+				SpellAction spellActionScript = threeDimensionalPrefab.GetComponent<SpellAction>();
+				spellActionScript.EnableSpell();
 			}
 			else {
 				//Whoops how did we get here
