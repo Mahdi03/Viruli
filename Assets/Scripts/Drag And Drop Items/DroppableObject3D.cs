@@ -7,18 +7,35 @@ using UnityEngine.UI;
 /// This component will use the ItemInstance to get the itemID and necessary prefabs to instantiate
 /// </summary>
 [RequireComponent(typeof(ItemInstance))]
-public class DroppableObject3D : MonoBehaviour, IDragHandler, IEndDragHandler {
+[RequireComponent(typeof(CanvasGroup))]
+public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
     private Canvas canvas;
+    private CanvasGroup canvasGroup;
     private int itemID;
-    GameObject sphere;
+    private IItem item;
+    private GameObject threeDimensionalPrefab;
     
     private void Awake() {
         canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its dimensions
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null) {
+            canvasGroup = (CanvasGroup)gameObject.AddComponent<CanvasGroup>();
+        }
         this.itemID = GetComponent<ItemInstance>().itemID;
-
-        sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.GetComponent<Renderer>().material.color = Color.green;
+        this.item = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
     }
+
+
+
+    public void OnBeginDrag(PointerEventData eventData) {
+        //Let's instantiate a new 3D spell that we can show and hide depending on where we are dragging
+        threeDimensionalPrefab = Instantiate(item.ThreeDimensionalPrefab);
+        IItem.attachItemInstance(threeDimensionalPrefab, itemID);
+        IItem.allowHoverTooltip(threeDimensionalPrefab);
+        threeDimensionalPrefab.SetActive(false);
+        //Right now it is just there for looks, but we will activate it when we drop it
+    }
+
 
     private Vector2 getViewportCoordinatesOf2DRectTransform(RectTransform rectTransform) {
         //rectTransform.position gives us screen coordinates
@@ -33,6 +50,7 @@ public class DroppableObject3D : MonoBehaviour, IDragHandler, IEndDragHandler {
             );
         return viewportCoordinates;
     }
+
     public void OnDrag(PointerEventData eventData) {
         RectTransform rectTransformOfDraggableObj = eventData.pointerDrag.GetComponent<RectTransform>();
         //We don't need to check if we are over the inventory or anything like that because we are only in the middle of a drag event right now
@@ -46,18 +64,18 @@ public class DroppableObject3D : MonoBehaviour, IDragHandler, IEndDragHandler {
         if (Physics.Raycast(ray, out hit, 1000f, 1<<3)) { //Use bit shift by 3 to get 3rd layer
             //Then we hit something in the droppable ground
             Debug.Log("Hovering over ground");
+            canvasGroup.alpha = 0f; //Make it completely transparent so that it APPEARS we are dragging the 3D object
             //Get distance to hit and make that our distance from camera
             var worldPointAtGround = hit.point;
-            sphere.transform.position = worldPointAtGround; //Place ring here
-
-
-            //Debug.DrawRay(Camera.main.transform.position, ray.direction * hit.distance, Color.blue, 10, false);
-            //Gizmos.DrawRay(ray.origin, ray.direction * hit.distance);
+            threeDimensionalPrefab.SetActive(true);
+            threeDimensionalPrefab.transform.position = worldPointAtGround;
+            
         }
         else {
             //We are hovering over something that is not a droppable ground
             Debug.Log("Oops we missed the ground");
-
+            threeDimensionalPrefab.SetActive(false);
+            canvasGroup.alpha = 0.75f; //Make it reappear
         }
         
     }
@@ -72,10 +90,50 @@ public class DroppableObject3D : MonoBehaviour, IDragHandler, IEndDragHandler {
         foreach (RaycastResult result in results) {
             Debug.Log(result.ToString());
         }
-        Debug.Log("woah");
+
+        Vector2 viewportCoordinates = getViewportCoordinatesOf2DRectTransform(rectTransformOfDraggableObj);
+
+        //Send a ray through that viewport point, if we hit the ground layermask then we can continue, else we need to disable
+        Ray ray = Camera.main.ViewportPointToRay(viewportCoordinates);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 1000f, 1 << 3)) { //Use bit shift by 3 to get 3rd layer
+            //Then we hit something in the droppable ground
+            Debug.Log("Hovering over ground");
+            //Get distance to hit and make that our distance from camera
+            var worldPointAtGround = hit.point;
+
+            //Now activate the prefab, remove one of these from inventory, and then destroy this
+            threeDimensionalPrefab.SetActive(true);
+            threeDimensionalPrefab.transform.position = worldPointAtGround;
+            if (item.itemType == "raw material") {
+
+            }
+            else if (item.itemType == "potion") {
+
+            }
+            else {
+                //Whoops how did we get here
+            }
+
+            InventoryManager.Instance.removeByID(itemID);
+
+            Destroy(gameObject);
+
+
+        }
+        else {
+            //We are hovering over something that is not a droppable ground
+            Debug.Log("Oops we missed the ground");
+            //threeDimensionalPrefab.SetActive(false);
+            //Destroy the 3D prefab
+            Destroy(threeDimensionalPrefab);
+            //Update the inventory UI to restore changes and then delete this
+            InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+            Destroy(gameObject);
+        }
+
 
     }
-
-    
 
 }
