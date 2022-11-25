@@ -15,7 +15,19 @@ public class InstantKillSpell : SpellAction {
         //Now set the destroy timer
         base.EnableSpell();
     }
+    /*
+    GameObject sphere;
+    SphereCollider sphereCollider;
+    protected override void Start() {
+        base.Start();
+        sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphereCollider = sphere.GetComponent<SphereCollider>();
+    }
+    */
     private void Update() {
+        //sphere.transform.position = transform.position;
+        //sphere.transform.localScale = new Vector3(attackRadius, attackRadius, attackRadius);
+        //Debug.Log(sphereCollider.radius);
         if (kill) {
             foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
                 EnemyController enemyController = collider.transform.GetComponent<EnemyController>();

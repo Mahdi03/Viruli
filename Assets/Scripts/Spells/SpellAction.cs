@@ -7,7 +7,7 @@ public interface ISpellAction {
     public virtual void EnableSpell() { }
 }
 
-
+[RequireComponent(typeof(ItemInstance))]
 public class SpellAction : MonoBehaviour, ISpellAction {
 
 
@@ -15,9 +15,17 @@ public class SpellAction : MonoBehaviour, ISpellAction {
 
     protected float attackRadius;
     protected float timeout;
-    private void Start() {
+
+
+    protected virtual void OnDrawGizmos() {
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+
+    protected virtual void Start() {
         itemID = GetComponent<ItemInstance>().itemID;
-        Potion potion = (Potion)InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+        IItem potion = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+        attackRadius = potion.EffectRadius * 1.5f;
+        timeout = potion.EffectTimeout;
     }
     public virtual void EnableSpell() {
         StartCoroutine(destroySpell());
