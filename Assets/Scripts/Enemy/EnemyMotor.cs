@@ -31,6 +31,7 @@ public class EnemyMotor : MonoBehaviour {
     }
     public void SetTarget(Transform t) {
         target = t;
+        moveToTarget();
     }
 
     public void Move(Vector3 pos) {

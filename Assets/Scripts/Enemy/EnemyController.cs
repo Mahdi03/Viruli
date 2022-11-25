@@ -50,7 +50,6 @@ public class EnemyController : MonoBehaviour {
 
         changeMovementSpeed(movementSpeed);
         SetTarget(findNearestDoor());
-        enemyMotor.moveToTarget();
     }
 
     private void updateHealthBar() {
@@ -66,7 +65,7 @@ public class EnemyController : MonoBehaviour {
     }
     public void killEnemy() { //Make public for instant death potion
         //Tell DatabaseManager to drop some items for killing the enemy
-        for (int i = 0; i < Random.Range(minItemDropCount, maxItemDropCount); i++) {
+        for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
             InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity);
         }
         XPSystem.Instance.increaseXP(xpValue); //Add XP on enemy death
