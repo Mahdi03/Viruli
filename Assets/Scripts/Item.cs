@@ -142,7 +142,12 @@ public class Item : ScriptableObject, IItem {
 
 	public virtual void drop2DSprite(Vector3 pos, Quaternion rotation) {
 		//TODO: Convert pos to 2-D screen coordinates and then call our drop function
-		drop2DSprite(pos, rotation);
+		var screenSpaceCoordinates = Camera.main.WorldToScreenPoint(pos);
+		/* drop2DSprite takes a 2D vector from the anchored position which is the center
+		 * we need to first convert the screen coordinates to centered and unscaled values
+		 */
+
+		drop2DSprite(new Vector2(pos.x, pos.z), rotation);
 	}
 
 	/**
