@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Stun Potion (I)
+  m_Name: Poison Potion (I)
   m_EditorClassIdentifier: 
   stackable: 0
   craftable: 1
@@ -19,12 +19,13 @@ MonoBehaviour:
     countRequired: 2
   xpValue: 0
   weightedDropProbability: 3
-  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 3e56bcb602f3dcb4a92d5e489060c804,
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 5afff8dedc95f7844a930eae4704fbfe,
     type: 3}
-  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 5fb500ec66a7bcd4b9e9a24c511c79b7,
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 14591d96c1f7785438572417bc4b6586,
     type: 3}
-  itemDescription: This potion will stun your enemies for 3 seconds. Use carefully
-    as it only lasts for a couple seconds!
+  itemDescription: While this potion will seem to have no effect at first, don't
+    worry the poison is just settling in. Your enemies won't feel it at first but
+    it only gets worse.
   xpCost: 0
   effectRadius: 5
-  timeout: 3
+  timeout: 4

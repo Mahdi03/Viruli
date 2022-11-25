@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Green
+  m_Name: Orange
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
   - _EMISSION
@@ -107,9 +107,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 1, b: 0.055415154, a: 1}
-    - _Color: {r: 0, g: 1, b: 0.05541513, a: 1}
-    - _EmissionColor: {r: 0.1533286, g: 0.6886792, b: 0.1732708, a: 1}
+    - _BaseColor: {r: 0.545, g: 0.28639218, b: 0, a: 1}
+    - _Color: {r: 0.54499996, g: 0.28639215, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 0.45139858, b: 0.0905661, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2828069170335935655

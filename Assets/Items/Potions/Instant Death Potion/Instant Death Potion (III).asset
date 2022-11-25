@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Instant Death Potion (I)
+  m_Name: Instant Death Potion (III)
   m_EditorClassIdentifier: 
   stackable: 0
   craftable: 1
   myrecipe: []
   xpValue: 0
-  weightedDropProbability: 3
+  weightedDropProbability: 1
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 163638d597144b0488235d0ffb032e9f,
     type: 3}
   threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 598d0fe301a090f43b24f2144ed44877,
@@ -24,5 +24,5 @@ MonoBehaviour:
   itemDescription: While expensive to brew, this potion is hazardous enough to simply
     wipe any enemies off the map entirely. Be careful as it runs out quickly.
   xpCost: 0
-  effectRadius: 1.5
-  timeout: 2
+  effectRadius: 2.25
+  timeout: 5

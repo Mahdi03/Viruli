@@ -17,13 +17,14 @@ MonoBehaviour:
   myrecipe:
   - item: {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
     countRequired: 6
-  XPValue: 0
-  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 4967415289cccb040aeea2a43b53eb74,
+  xpValue: 0
+  weightedDropProbability: 1
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 3e56bcb602f3dcb4a92d5e489060c804,
     type: 3}
-  threeDimensionalPrefab: {fileID: 5562583840306413252, guid: b82e58cc704587241b740f24b3600adf,
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 5fb500ec66a7bcd4b9e9a24c511c79b7,
     type: 3}
   itemDescription: This potion will stun your enemies for 7 seconds. Use carefully
     as it only lasts for a couple seconds!
-  effectRingPrefab: {fileID: 0}
+  xpCost: 0
   effectRadius: 7
   timeout: 7

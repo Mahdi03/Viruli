@@ -63,6 +63,22 @@ public class EnemyController : MonoBehaviour {
             killEnemy();
         }
     }
+
+    //Poison code for Poison Spell
+    private bool alreadyPoisoned = false;
+    public void Poison(float delay) {
+        if (alreadyPoisoned) {
+            return; //This enemy is already running in the poison coroutine
+        }
+        StartCoroutine(recurringPoison(delay, 1));
+    }
+    IEnumerator recurringPoison(float delay, int amountToDamage) {
+        this.DamageHealth(amountToDamage);
+        yield return new WaitForSeconds(delay);
+        StartCoroutine(recurringPoison(delay, 2 * amountToDamage + 1));
+    }
+
+
     public void killEnemy() { //Make public for instant death potion
         //Tell DatabaseManager to drop some items for killing the enemy
         for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
