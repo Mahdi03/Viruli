@@ -111,7 +111,7 @@ public class Item : ScriptableObject, IItem {
 
 	[SerializeField]
 	private int weightedDropProbability = 0;
-    public int WeightedDropProbability { get; }
+    public int WeightedDropProbability { get => weightedDropProbability; }
 
     [SerializeField]
 	private GameObject twoDimensionalPrefab;
