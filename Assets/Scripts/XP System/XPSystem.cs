@@ -27,7 +27,7 @@ public class XPSystem : MonoBehaviour {
 			instance = this;
 			//Now we can initialize stuff
 			this.Level = 0; //TODO: Load from PlayerPrefs
-			this.XP = 30; //TODO: Load from PlayerPrefs
+			this.XP = 0; //TODO: Load from PlayerPrefs
 			this.MaxXP = this.xpThresholds[this.Level];
 
 			//Initialize the level xp thresholds using a recursively-defined function
