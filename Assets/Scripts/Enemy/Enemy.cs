@@ -8,4 +8,6 @@ public class Enemy : ScriptableObject {
     public float speed;
     public int maxHealth;
     public int dealsDamage;
+    public int xpValue;
+    public int minItemDropCount, maxItemDropCount;
 }

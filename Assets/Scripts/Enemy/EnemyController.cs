@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour {
-
+    public float BaseMovementSpeed { get; private set; }
     private float movementSpeed;
 
     private int maxHealth;
@@ -16,15 +16,22 @@ public class EnemyController : MonoBehaviour {
     private float attackRadius = 1f;
     private int dealsDamage;
 
+    private int xpValue;
+    private int minItemDropCount, maxItemDropCount;
+
 
     private NavMeshAgent meshAgent;
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
-    public void initStats(float speed, int maxHealth, int dealsDamage) {
+    public void initStats(float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
+        this.BaseMovementSpeed = speed;
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
         this.dealsDamage = dealsDamage;
+        this.xpValue = xpValue;
+        this.minItemDropCount = minItemDropCount;
+        this.maxItemDropCount = maxItemDropCount;
     }
 
     // Start is called before the first frame update
@@ -43,7 +50,6 @@ public class EnemyController : MonoBehaviour {
 
         changeMovementSpeed(movementSpeed);
         SetTarget(findNearestDoor());
-        enemyMotor.moveToTarget();
     }
 
     private void updateHealthBar() {
@@ -57,11 +63,28 @@ public class EnemyController : MonoBehaviour {
             killEnemy();
         }
     }
+
+    //Poison code for Poison Spell
+    private bool alreadyPoisoned = false;
+    public void Poison(float delay) {
+        if (alreadyPoisoned) {
+            return; //This enemy is already running in the poison coroutine
+        }
+        StartCoroutine(recurringPoison(delay, 1));
+    }
+    IEnumerator recurringPoison(float delay, int amountToDamage) {
+        this.DamageHealth(amountToDamage);
+        yield return new WaitForSeconds(delay);
+        StartCoroutine(recurringPoison(delay, 2 * amountToDamage + 1));
+    }
+
+
     public void killEnemy() { //Make public for instant death potion
         //Tell DatabaseManager to drop some items for killing the enemy
-        for (int i = 0; i < Random.Range(1, 4); i++) { //TODO: change this to a range of values put in through the editor (bigger enemies = bigger rewards)
+        for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
             InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity);
         }
+        XPSystem.Instance.increaseXP(xpValue); //Add XP on enemy death
         Destroy(gameObject);
 
     }

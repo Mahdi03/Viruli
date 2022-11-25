@@ -29,7 +29,7 @@ public class FullInventoryManager : MonoBehaviour {
         //numOfInventorySlots = InventoryManager.Instance.getTotalItemsCount();
         //slotWidth = inventorySlotPrefab.GetComponent<Image>().rectTransform.sizeDelta.x; //Not that we need it tho
         fullInventoryContentContainer = GameObject.FindGameObjectWithTag("FullInventoryContent");
-        for (int i = 0; i < 100; i++) {
+        for (int i = 10; i < 100; i++) {
             GameObject newSlot = Instantiate(inventorySlotPrefab, fullInventoryContentContainer.transform);
             //newSlot.GetComponent<Image>().rectTransform.anchoredPosition = new Vector2(currentSlotPos, 0);
             newSlot.GetComponent<InventorySlot>().slotID = (int)i;

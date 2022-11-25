@@ -15,10 +15,14 @@ MonoBehaviour:
   stackable: 0
   craftable: 1
   myrecipe: []
-  XPValue: 0
-  twoDimensionalPrefab: {fileID: 0}
-  threeDimensionalPrefab: {fileID: 0}
-  itemDescription: 
-  effectRingPrefab: {fileID: 0}
-  effectRadius: 0
-  timeout: 5
+  xpValue: 0
+  weightedDropProbability: 3
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 163638d597144b0488235d0ffb032e9f,
+    type: 3}
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 598d0fe301a090f43b24f2144ed44877,
+    type: 3}
+  itemDescription: While expensive to brew, this potion is hazardous enough to simply
+    wipe any enemies off the map entirely. Be careful as it runs out quickly.
+  xpCost: 0
+  effectRadius: 1.5
+  timeout: 2

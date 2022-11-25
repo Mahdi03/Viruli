@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ItemInstance))]
 public class AttackSpell : SpellAction {
 	/**
 	 * Level 1: -5 Health, Radius: 2, Timeout: 7
@@ -16,24 +15,16 @@ public class AttackSpell : SpellAction {
 		int level = InGameItemsDatabaseManager.Instance.getItemByID(itemID).spellLevel;
 		if (level == 1) {
 			dealsDamage = 5;
-			attackRadius = 2;
-			timeout = 7;
 		}
 		else if (level == 2) {
 			dealsDamage = 10;
-			attackRadius = 2.5f;
-			timeout = 12;
 		}
 		else if (level == 3) {
 			dealsDamage = 20;
-			attackRadius = 3f;
-			timeout = 15;
 		}
 		else {
 			Debug.Log("OOPS how did we make it here?!?!?");
 		}
-
-        attackRadius *= 1.5f; //The starting ring for this one has radius 1.5 in Unity particle editor
 
         //Now actually define what happens with the spell
         StartCoroutine(DealDamage());

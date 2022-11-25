@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// This component will use the ItemInstance to get the itemID and necessary prefabs to instantiate
@@ -17,7 +18,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	private GameObject threeDimensionalPrefab;
 	
 	private void Awake() {
-		canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its dimensions
+		canvas = GameManager.Instance.mainCanvas; //Store the canvas in the scene so we can get its dimensions
 		threeDimensionalItemsContainerForDraggingInWorldSpace = GameObject.FindGameObjectWithTag("threeDimensionalItemsContainerForDraggingInWorldSpace");
 
         canvasGroup = GetComponent<CanvasGroup>();
@@ -35,9 +36,15 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 		if (threeDimensionalPrefab == null) {
 			threeDimensionalPrefab = Instantiate(item.ThreeDimensionalPrefab);
 			IItem.attachItemInstance(threeDimensionalPrefab, itemID);
-			IItem.allowHoverTooltip(threeDimensionalPrefab);
+			IItem.enableScript<OnHoverTooltip>(threeDimensionalPrefab);
 			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
-		}
+
+
+            IItem potion = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+            float ringRadius = potion.EffectRadius;
+            threeDimensionalPrefab.transform.GetChild(1).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
+			//Debug.Log("resizing successful");
+        }
 		threeDimensionalPrefab.SetActive(false);
 		//Right now it is just there for looks, but we will activate it when we drop it
 	}
@@ -56,12 +63,31 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			);
 		return viewportCoordinates;
 	}
-
+	private bool overInventoryUI;
 	public void OnDrag(PointerEventData eventData) {
 		RectTransform rectTransformOfDraggableObj = eventData.pointerDrag.GetComponent<RectTransform>();
-		//We don't need to check if we are over the inventory or anything like that because we are only in the middle of a drag event right now
+
+
+		overInventoryUI = false;
+        //Here we need to check whether we are on top of the inventory UI before we decide anything else
+        GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
 		
-		Vector2 viewportCoordinates = getViewportCoordinatesOf2DRectTransform(rectTransformOfDraggableObj);
+        List<RaycastResult> results = new List<RaycastResult>();
+        gr.Raycast(eventData, results);
+        foreach (RaycastResult result in results) {
+            overInventoryUI= true;
+        }
+		if (overInventoryUI) {
+            //Then we need to disable the 3D one
+            threeDimensionalPrefab.SetActive(false);
+            canvasGroup.alpha = 0.75f; //Make it reappear
+			
+			//And then not do any of the rest of the 3D physics checking
+			return;
+        }
+
+
+        Vector2 viewportCoordinates = getViewportCoordinatesOf2DRectTransform(rectTransformOfDraggableObj);
 
 		//Send a ray through that viewport point, if we hit the ground layermask then we can continue, else we need to disable
 		Ray ray = Camera.main.ViewportPointToRay(viewportCoordinates);
@@ -94,7 +120,15 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	public void OnEndDrag(PointerEventData eventData) {
 		RectTransform rectTransformOfDraggableObj = eventData.pointerDrag.GetComponent<RectTransform>();
 		//It looks like the OnDrop event handler doesn't even allow this to run
-		
+		if (overInventoryUI) { //This value will linger on from the last OnDrag call
+            //We are hovering over something that is not a droppable ground
+            //Destroy the 3D prefab
+            Destroy(threeDimensionalPrefab);
+            //Update the inventory UI to restore changes and then delete this
+            InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+            Destroy(gameObject);
+            return;
+		}
 		/*
 		//Here we need to check whether we are on top of the inventory UI before we decide anything else
 		GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
@@ -104,6 +138,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			Debug.Log(result.ToString());
 		}
 		*/
+		
 
 		Vector2 viewportCoordinates = getViewportCoordinatesOf2DRectTransform(rectTransformOfDraggableObj);
 
@@ -123,7 +158,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			if (item.itemType == "RawMaterial") {
 				threeDimensionalPrefab.transform.position = worldPointAtGround + new Vector3(0, 4, 0);
 				//Let's make it pick-up able again
-				IItem.makeClickCollectible2D(threeDimensionalPrefab);
+				IItem.enableScript<ClickAddInventory>(threeDimensionalPrefab);
 				//Now enable the gravity
 				threeDimensionalPrefab.GetComponent<Rigidbody>().useGravity = true;
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Create New Potion")]
 public class Potion : Item {
+	[SerializeField]
+	private int xpCost = 0;
+	public override int XPCost => xpCost;
 
 	public override int spellLevel {
 		get {

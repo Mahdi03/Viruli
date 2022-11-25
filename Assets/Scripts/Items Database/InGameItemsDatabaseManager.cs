@@ -11,6 +11,8 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 	private Dictionary<int, IItem> itemsDatabase; //Actual database that will store all the types of items in the game
 	public Dictionary<int, IItem> craftableItems { get; private set; }
 
+	public List<int> droppableItems { get; private set; } //Store itemID's a weighted amount for randomized drops
+
 	public List<Enemy> enemies { get; private set; }
 
 	//Provide a getter method to get items from the dictionary so we can use the data
@@ -65,6 +67,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
 			 */
 			craftableItems = new Dictionary<int, IItem>();
+			droppableItems = new List<int>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
 				Debug.Log(itemEntry);
 				if (itemEntry.Value.Craftable) {
@@ -81,16 +84,21 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 					item.Recipe = finalRecipe;
 					craftableItems.TryAdd(itemEntry.Key, item);
 				}
-			}
 
+				//Add to probability list (keep in same foreach loop to avoid extra O(n) runtime
+				for (int i = 0; i < itemEntry.Value.WeightedDropProbability; i++) {
+					droppableItems.Add(itemEntry.Key); //Add itemID as many times as needed by the WeightedDropProbability
+				}
+
+			}
+			//Set public enemies list from database file
 			enemies = db.enemies;
         }
 	}
 
 	public void DropRandomItem(Vector3 position, Quaternion rotation) {
-
-		float itemToDrop = Random.Range(0, itemsDatabase.Count); //The ID's are numbered off based on count of items total
-		getItemByID((int)itemToDrop).drop2DSprite(position, rotation);
+		int itemIDToDrop = droppableItems[(int)Random.Range(0, droppableItems.Count)]; //The ID's are numbered off based on count of items total
+		getItemByID(itemIDToDrop).drop2DSprite(position, rotation);
 	}
 
 

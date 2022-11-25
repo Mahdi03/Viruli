@@ -22,7 +22,7 @@ public class ItemFloat : MonoBehaviour {
         */
         //Bobbing effect
         var pos = rectTransform.position;
-        pos.y = mainY + 20f * Mathf.Sin(2 * timeElasped);
+        pos.y = mainY + 15f * Mathf.Sin(2 * timeElasped);
         rectTransform.position = pos;
     }
 }
