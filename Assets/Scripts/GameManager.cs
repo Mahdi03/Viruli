@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public static readonly int LAYER_MainDoor = 1 << 7; //MainDoor Layer is Layer 7
     public static readonly int LAYER_Enemy = 1 << 6; //Enemy layer is Layer 6
 
+    public Canvas mainCanvas;
 
 
     private static GameManager instance;

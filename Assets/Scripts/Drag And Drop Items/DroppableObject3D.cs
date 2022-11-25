@@ -17,7 +17,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	private GameObject threeDimensionalPrefab;
 	
 	private void Awake() {
-		canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its dimensions
+		canvas = GameManager.Instance.mainCanvas; //Store the canvas in the scene so we can get its dimensions
 		threeDimensionalItemsContainerForDraggingInWorldSpace = GameObject.FindGameObjectWithTag("threeDimensionalItemsContainerForDraggingInWorldSpace");
 
         canvasGroup = GetComponent<CanvasGroup>();
@@ -43,7 +43,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
             float ringRadius = potion.EffectRadius;
             threeDimensionalPrefab.transform.GetChild(1).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
 			//Debug.Log("resizing successful");
-		}
+        }
 		threeDimensionalPrefab.SetActive(false);
 		//Right now it is just there for looks, but we will activate it when we drop it
 	}

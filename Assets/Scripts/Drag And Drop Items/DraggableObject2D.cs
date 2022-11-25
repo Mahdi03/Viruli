@@ -11,7 +11,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
 	private RectTransform m_RectTransform;
 
 	private void Awake() {
-		canvas = GameObject.FindObjectOfType<Canvas>(); //Store the canvas in the scene so we can get its scale factor
+		canvas = GameManager.Instance.mainCanvas; //Store the canvas in the scene so we can get its scale factor
 		twoDimensionsItemsContainerForDraggingInCanvas = GameObject.FindGameObjectWithTag("2DItemsContainerForDraggingInCanvas");
 
 		m_RectTransform = GetComponent<RectTransform>();

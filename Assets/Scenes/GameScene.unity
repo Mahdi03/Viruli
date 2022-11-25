@@ -8318,7 +8318,7 @@ GameObject:
   - component: {fileID: 393337916}
   - component: {fileID: 393337915}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29291,6 +29291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f371b067cf5f3e34aba2341645388d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCanvas: {fileID: 393337917}
   tooltipObjInScene: {fileID: 1435354284}
 --- !u!114 &1283569837
 MonoBehaviour:
