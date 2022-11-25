@@ -37,6 +37,12 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			IItem.attachItemInstance(threeDimensionalPrefab, itemID);
 			IItem.enableScript<OnHoverTooltip>(threeDimensionalPrefab);
 			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
+
+
+            IItem potion = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+            float ringRadius = potion.EffectRadius;
+            threeDimensionalPrefab.transform.GetChild(1).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
+			//Debug.Log("resizing successful");
 		}
 		threeDimensionalPrefab.SetActive(false);
 		//Right now it is just there for looks, but we will activate it when we drop it
