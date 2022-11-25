@@ -54,87 +54,29 @@ public interface IItem {
         itemInstance.itemID = itemID; //Give prefab the item ID that it corresponds to
         itemInstance.attachedInventorySlotID = attachedInventorySlotID;
     }
-    //Make sure this function is called after attachItemInstance()
-    public static void allowHoverTooltip(GameObject prefab) {
-        OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
-        if (onHoverTooltip == null) {
-            prefab.AddComponent<OnHoverTooltip>();
+    public static void enableScript<T>(GameObject prefab) {
+        T script = prefab.GetComponent<T>();
+        if (script == null) {
+            prefab.AddComponent(typeof(T)); //This line is problematic...why?
         }
         else {
-            onHoverTooltip.enabled = true;
+            //We have to do this long workaround because since the type is unknown and generic, it could also not have the "enabled" property we are trying to access
+            if (script.GetType().GetProperty("enabled") != null) {
+                script.GetType().GetProperty("enabled").SetValue(script, true);
         }
     }
-    public static void disallowHoverTooltip(GameObject prefab) {
-        OnHoverTooltip onHoverTooltip = prefab.GetComponent<OnHoverTooltip>();
-        if (onHoverTooltip != null) {
-            onHoverTooltip.enabled = false;
         }
+    public static void disableScript<T>(GameObject prefab) {
+        T script = prefab.GetComponent<T>();
+        if (script != null) {
+            //We have to do this long workaround because since the type is unknown and generic, it could also not have the "enabled" property we are trying to access
+            if (script.GetType().GetProperty("enabled") != null) {
+                script.GetType().GetProperty("enabled").SetValue(script, false);
     }
-    public static void makeDraggable2D(GameObject twoDimensionalPrefab) {
-        DraggableObject2D draggableObject2DScript = twoDimensionalPrefab.GetComponent<DraggableObject2D>();
-        if (draggableObject2DScript == null) {
-            twoDimensionalPrefab.AddComponent<DraggableObject2D>();
-        }
-        else {
-            draggableObject2DScript.enabled = true;
-        }
-    }
-    public static void disableDraggable2D(GameObject twoDimensionalPrefab) {
-        DraggableObject2D draggableObject2DScript = twoDimensionalPrefab.GetComponent<DraggableObject2D>();
-        if (draggableObject2DScript != null) {
-            draggableObject2DScript.enabled = false;
         }
     }
 
-    public static void makeDroppable3D(GameObject twoDimensionalPrefab) {
-        DroppableObject3D droppableObject3DScript = twoDimensionalPrefab.GetComponent<DroppableObject3D>();
-        if (droppableObject3DScript == null) {
-            twoDimensionalPrefab.AddComponent<DroppableObject3D>();
         }
-        else {
-            droppableObject3DScript.enabled = true;
-        }
-    }
-    public static void disableDroppable3D(GameObject twoDimensionalPrefab) {
-        DroppableObject3D droppableObject3DScript = twoDimensionalPrefab.GetComponent<DroppableObject3D>();
-        if (droppableObject3DScript != null) {
-            droppableObject3DScript.enabled = false;
-        }
-    }
-
-
-    public static void makeItemFloat2D(GameObject twoDimensionalPrefab) {
-        ItemFloat itemFloatScript = twoDimensionalPrefab.GetComponent<ItemFloat>();
-        if (itemFloatScript == null) {
-            twoDimensionalPrefab.AddComponent<ItemFloat>();
-        }
-        else {
-            itemFloatScript.enabled = true;
-        }
-    }
-    public static void disableItemFloat2D(GameObject twoDimensionalPrefab) {
-        ItemFloat itemFloatScript = twoDimensionalPrefab.GetComponent<ItemFloat>();
-        if (itemFloatScript != null) {
-            itemFloatScript.enabled = false;
-        }
-    }
-    public static void makeClickCollectible2D(GameObject twoDimensionalPrefab) {
-        ClickAddInventory clickAddInventoryScript = twoDimensionalPrefab.GetComponent<ClickAddInventory>();
-        if (clickAddInventoryScript == null) {
-            twoDimensionalPrefab.AddComponent<ClickAddInventory>();
-        }
-        else {
-            clickAddInventoryScript.enabled = true;
-        }
-    }
-    public static void disableClickCollectible2D(GameObject twoDimensionalPrefab) {
-        ClickAddInventory clickAddInventoryScript = twoDimensionalPrefab.GetComponent<ClickAddInventory>();
-        if (clickAddInventoryScript != null) {
-            clickAddInventoryScript.enabled = false;
-        }
-
-    }
-}
 
 
 
@@ -203,23 +145,6 @@ public class Item : ScriptableObject, IItem {
 		drop2DSprite(pos, rotation);
 	}
 
-	/*
-	public void enableScript<T>() {
-		T script = twoDimensionalPrefab.GetComponent<T>();
-		if (script == null) {
-			twoDimensionalPrefab.AddComponent(T); //This line is problematic...why?
-		}
-		else {
-			script.enabled = true;
-		}
-	}
-	public void disableScript<T>() {
-		T script = myPrefab.GetComponent<T>();
-		if (script != null) {
-			script.enabled = false;
-		}
-	}
-	*/
 	/**
 	 * Call this function at the location of a zombie death to drop a 2-D collectible item
 	 */
@@ -232,10 +157,10 @@ public class Item : ScriptableObject, IItem {
 		Transform twoDimensionalSpritesDroppingContainer = GameObject.FindGameObjectWithTag("2DItemsContainerForDroppingItemsInCanvas").transform;
 		var newSprite = Instantiate(TwoDimensionalPrefab, new Vector2(0, 0), rotation, twoDimensionalSpritesDroppingContainer);
 		IItem.attachItemInstance(newSprite, ID); //Send it just the ID, we don't need to send it all the details
-		IItem.makeClickCollectible2D(newSprite);
-		IItem.makeItemFloat2D(newSprite);
-		IItem.disableDraggable2D(newSprite);
-		IItem.disallowHoverTooltip(newSprite);
+		IItem.enableScript<ClickAddInventory>(newSprite);
+		IItem.enableScript<ItemFloat>(newSprite);
+		IItem.disableScript<DraggableObject2D>(newSprite);
+        IItem.disableScript<OnHoverTooltip>(newSprite);
 		var newSpriteRectTransform = newSprite.GetComponent<RectTransform>();
 		newSpriteRectTransform.anchoredPosition = pos;
 	}

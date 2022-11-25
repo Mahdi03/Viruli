@@ -35,7 +35,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 		if (threeDimensionalPrefab == null) {
 			threeDimensionalPrefab = Instantiate(item.ThreeDimensionalPrefab);
 			IItem.attachItemInstance(threeDimensionalPrefab, itemID);
-			IItem.allowHoverTooltip(threeDimensionalPrefab);
+			IItem.enableScript<OnHoverTooltip>(threeDimensionalPrefab);
 			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
 		}
 		threeDimensionalPrefab.SetActive(false);
@@ -123,7 +123,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			if (item.itemType == "RawMaterial") {
 				threeDimensionalPrefab.transform.position = worldPointAtGround + new Vector3(0, 4, 0);
 				//Let's make it pick-up able again
-				IItem.makeClickCollectible2D(threeDimensionalPrefab);
+				IItem.enableScript<ClickAddInventory>(threeDimensionalPrefab);
 				//Now enable the gravity
 				threeDimensionalPrefab.GetComponent<Rigidbody>().useGravity = true;
 

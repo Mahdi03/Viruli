@@ -24,7 +24,3 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
     }
 
 }
-
-public class ClickAddInventory3D : MonoBehaviour {
-
-}
