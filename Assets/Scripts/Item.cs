@@ -163,13 +163,10 @@ public class Item : ScriptableObject, IItem {
 		var normalizedScreenSpaceCoordinates = new Vector2(screenSpaceCoordinates.x - canvasDimensions.x/2, screenSpaceCoordinates.y - canvasDimensions.y/2) / canvasScale;
 
 		//vary the points a little bit so that they aren't all direct stacked on one another
-		var randX = UnityEngine.Random.Range(-3f, 3f);
-        var randY = UnityEngine.Random.Range(-3f, 3f);
-        var x = normalizedScreenSpaceCoordinates.x + randX;
-		var y = normalizedScreenSpaceCoordinates.y + randY;
+		var newPos = new Vector2(normalizedScreenSpaceCoordinates.x, normalizedScreenSpaceCoordinates.y) + UnityEngine.Random.insideUnitCircle * 7.5f;
 		//Ignoring the Z for now hopefully it doesn't make too much of a difference
 
-        drop2DSprite(new Vector2(x, y), rotation);
+        drop2DSprite(newPos, rotation);
 		
 	}
 	
