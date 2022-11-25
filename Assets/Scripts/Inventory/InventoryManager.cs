@@ -63,8 +63,8 @@ public class InventoryManager : MonoBehaviour {
 
     public void pickupItem(int itemID) {
         currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
-        //Add +5 XP for picking up something
-        XPSystem.Instance.increaseXP(5);
+        //Add +2*level+3 XP for picking up something
+        XPSystem.Instance.increaseXP(2 * XPSystem.Instance.Level + 3); //The amount of XP earned from a pick up will change based on what level you are on
         //Update inventory UI to reflect inventory array changes
         UpdateInventoryUIToReflectInternalInventoryChanges();
     }

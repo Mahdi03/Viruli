@@ -15,7 +15,11 @@ public class XPSystem : MonoBehaviour {
 	//Stored as index
 	private List<int> xpThresholds = new List<int>()
 	{
-		100 //Level 0->1
+		100, //Level 0->1
+		100 + 150, //Level 1->2
+		100 + 150 + 300, //Level 2->3
+		100+150+300+500, //Level 3->4
+		100+150+300+500+750, //Level 4->3
 	};
 	
 	private void Awake() {
@@ -41,8 +45,12 @@ public class XPSystem : MonoBehaviour {
 
 		//Check if update matches level threshold
 		if (this.XP > this.xpThresholds[this.Level]) {
-			this.Level++; //Increase the level
-            this.MaxXP = this.xpThresholds[this.Level]; //Update the new XP max
+			if (this.Level + 1 < this.xpThresholds.Count) { //Only increase the level if we have another level to go
+				this.Level++; //Increase the level
+			}
+			
+			this.MaxXP = this.xpThresholds[this.Level]; //Update the new XP max
+			
         }
 		//Indicate changes in XP and Level into the UI
 		this.updateXPUI();
