@@ -63,20 +63,20 @@ public interface IItem {
             //We have to do this long workaround because since the type is unknown and generic, it could also not have the "enabled" property we are trying to access
             if (script.GetType().GetProperty("enabled") != null) {
                 script.GetType().GetProperty("enabled").SetValue(script, true);
+            }
         }
     }
-        }
     public static void disableScript<T>(GameObject prefab) {
         T script = prefab.GetComponent<T>();
         if (script != null) {
             //We have to do this long workaround because since the type is unknown and generic, it could also not have the "enabled" property we are trying to access
             if (script.GetType().GetProperty("enabled") != null) {
                 script.GetType().GetProperty("enabled").SetValue(script, false);
-    }
+            }
         }
     }
 
-        }
+}
 
 
 
@@ -139,17 +139,40 @@ public class Item : ScriptableObject, IItem {
 	public int inventorySlotIDOccupied { get; set; } = -1;
 	
 	protected bool currently2D;
-
+	
+	private static float canvasScale = -1f;
+	private static Vector2 canvasDimensions = Vector2.zero;
+	
 	public virtual void drop2DSprite(Vector3 pos, Quaternion rotation) {
-		//TODO: Convert pos to 2-D screen coordinates and then call our drop function
-		var screenSpaceCoordinates = Camera.main.WorldToScreenPoint(pos);
+
+        //TODO: Convert pos to 2-D screen coordinates and then call our drop function
+        var screenSpaceCoordinates = Camera.main.WorldToScreenPoint(pos);
 		/* drop2DSprite takes a 2D vector from the anchored position which is the center
 		 * we need to first convert the screen coordinates to centered and unscaled values
 		 */
+		
+		//Get the canvas scale factor
+		if (canvasScale == -1f) {
+			//This means we haven't changed it yet so let's change it
+			Canvas canvas = GameManager.Instance.mainCanvas;
 
-		drop2DSprite(new Vector2(pos.x, pos.z), rotation);
+            canvasScale = canvas.scaleFactor;
+            RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+            canvasDimensions = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height) * canvasScale;
+        }
+		var normalizedScreenSpaceCoordinates = new Vector2(screenSpaceCoordinates.x - canvasDimensions.x/2, screenSpaceCoordinates.y - canvasDimensions.y/2) / canvasScale;
+
+		//vary the points a little bit so that they aren't all direct stacked on one another
+		var randX = UnityEngine.Random.Range(-3f, 3f);
+        var randY = UnityEngine.Random.Range(-3f, 3f);
+        var x = normalizedScreenSpaceCoordinates.x + randX;
+		var y = normalizedScreenSpaceCoordinates.y + randY;
+		//Ignoring the Z for now hopefully it doesn't make too much of a difference
+
+        drop2DSprite(new Vector2(x, y), rotation);
+		
 	}
-
+	
 	/**
 	 * Call this function at the location of a zombie death to drop a 2-D collectible item
 	 */
