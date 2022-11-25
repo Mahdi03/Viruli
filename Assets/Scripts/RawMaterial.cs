@@ -6,7 +6,6 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Create New Raw Material")]
 public class RawMaterial : Item {
-    public override string itemType { get { return this.GetType().Name; } }
-
+	public override string itemType { get { return this.GetType().Name; } }
 
 }

@@ -14,8 +14,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 	private (Item, int) inventoryTupleStoredHere;
 	public int itemID { get; set; } = -1;
 	private int count = 0;
-	public int Count { get { return count; }
-	set {
+	public int Count {
+		get { return count; }
+		set {
 			count = value;
 			countText.SetActive(!(count < 2)); //Disable count text if there is 1 or none
 			countTextValue.text = count.ToString();
@@ -24,7 +25,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 
 	private Vector2 currentSlotRectTransformAnchorMin, currentSlotRectTransformAnchorMax, currentSlotRectTransformAnchorPos;
 
-	
+
 	public void ClearAllItemsInSlot() {
 		//Delete items backwards until we reach the second one
 		for (int i = transform.childCount - 1; i > 1; i--) {
@@ -70,7 +71,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 
 							//This method is highly unlikely
 							throw new System.NotImplementedException("This is pretty unlikely and I don't see it happening");
-
 						}
 						else {
 							//They are not stackable so we can swap the two items but that's stupid if it's the same item because they'll be identical, they'll never know
@@ -78,14 +78,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 							Destroy(itemDroppedIntoSlot);
 							InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
 						}
-
 					}
 					else {
 						//Items do not match, we want to swap the two elements
 						//Call the internal swap function with the index of the two elements in the inventory and then reflect the changes in the UI
 						//The index of the elements should be equal to the index in the inventory array equal to the inventorySlotID
 						InventoryManager.Instance.swapItemsInInventory(currentItemAlreadyInSlotInstance.attachedInventorySlotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
-						//Debug.Log("We are being called");
 						Destroy(itemDroppedIntoSlot);
 					}
 				}
@@ -94,23 +92,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 				}
 			}
 			else {
-                //This slot is empty, if we wanna move it here we should swap this empty slot with the slot where this item is coming from
-                ItemInstance itemDroppedIntoSlotInstance = itemDroppedIntoSlot.GetComponent<ItemInstance>();
-                InventoryManager.Instance.swapItemsInInventory(slotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
-                //Debug.Log("Uhm no we are");
+				//This slot is empty, if we wanna move it here we should swap this empty slot with the slot where this item is coming from
+				ItemInstance itemDroppedIntoSlotInstance = itemDroppedIntoSlot.GetComponent<ItemInstance>();
+				InventoryManager.Instance.swapItemsInInventory(slotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
 				Destroy(itemDroppedIntoSlot); //We instantiate a new one inside InventoryManager that is set to the correct position
-            }
-			/*
-			//Set its canvas relative position to the same position as this container (snap effect)
-			count++;
-			countText.SetActive(!(count < 2)); //Disable count text if there is 1 or none
-			countTextValue.text = count.ToString();
-			RectTransform rectTransformOfDroppedItem = itemDroppedIntoSlot.GetComponent<RectTransform>();
-			rectTransformOfDroppedItem.SetParent(transform, false);
-			rectTransformOfDroppedItem.anchorMin = currentSlotRectTransformAnchorMin;
-			rectTransformOfDroppedItem.anchorMax = currentSlotRectTransformAnchorMax;
-			rectTransformOfDroppedItem.anchoredPosition = currentSlotRectTransformAnchorPos;
-			*/
+			}
 		}
 	}
 }

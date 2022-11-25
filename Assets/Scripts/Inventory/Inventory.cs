@@ -45,8 +45,8 @@ public class Inventory : IEnumerable {
 		public int itemID { get; set; }
 		public int count { get; set; }
 	}
-	
-	private List<InternalInventoryItem> inventory; 
+
+	private List<InternalInventoryItem> inventory;
 	private const string PlayerPrefsKeyName = "MahdiViruliStoredInventory";
 	public Inventory(int initialElements = 0) {
 		this.inventory = new List<InternalInventoryItem>();
@@ -55,7 +55,7 @@ public class Inventory : IEnumerable {
 			this.inventory.Add(item);
 		}
 	}
-	/*C++-fying the C+ List*/
+	/*C++-fying the C# List*/
 	public (int, int) at(int index) {
 		if (index < 0 || index >= inventory.Count) {
 			throw new System.Exception("Index " + index + " out of range. Length of array is " + this.length());
@@ -127,7 +127,7 @@ public class Inventory : IEnumerable {
 		if ((indexA < 0 || indexA >= this.length()) || (indexB < 0 || indexB >= this.length())) {
 			throw new System.IndexOutOfRangeException("Indices provided are out of the range of the inventory array");
 		}
-		
+
 		//Swap the position of the two elements in the inventory array
 		InternalInventoryItem itemA = this.inventory[indexA];
 		this.inventory[indexA] = this.inventory[indexB];
@@ -139,27 +139,6 @@ public class Inventory : IEnumerable {
 	public void removeAt(int index) {
 		inventory.RemoveAt(index);
 	}
-	/*
-	public int indexOf(IItem item) {
-		//Search through inventory to find the first index of an item with a matching ID
-		for (int index = 0; index < this.length(); index++) {
-			(IItem, int) currentVal = this.at(index);
-			if (currentVal.Item1.ID == item.ID) {
-				return index;
-			}
-		}
-		return -1; //Return -1 when not found
-	}
-	public int indexOf((IItem, int) inventoryItem) {
-		for (int index = 0; index < this.length(); index++) {
-			(IItem, int) currentVal = this.at(index);
-			if (currentVal == inventoryItem) {
-				return index;
-			}
-		}
-		return -1;
-	}
-	*/
 	public int length() {
 		return this.inventory.Count;
 	}
@@ -204,7 +183,7 @@ public class Inventory : IEnumerable {
 				//Now that we made it here let us save the new values to the inventory
 				this.inventory[i] = currentItem;
 				return; //We could either break or return but let's just end the function here
-				//Avoids looping and finding the next element and then removing extra elements
+						//Avoids looping and finding the next element and then removing extra elements
 			}
 		}
 		//If we made it here then our code could not find the item

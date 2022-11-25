@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 public class XPSystem : MonoBehaviour {
+	
 	private static XPSystem instance;
 	public static XPSystem Instance { get { return instance; } }
 
@@ -21,7 +22,8 @@ public class XPSystem : MonoBehaviour {
 		100+150+300+500, //Level 3->4
 		100+150+300+500+750, //Level 4->3
 	};
-	
+
+
 	private void Awake() {
 		//Singleton initialization code
 		if (instance != this && instance != null) {
@@ -34,12 +36,13 @@ public class XPSystem : MonoBehaviour {
 			this.XP = 0; //TODO: Load from PlayerPrefs
 			this.MaxXP = this.xpThresholds[this.Level];
 
-			//Initialize the level xp thresholds using a recursively-defined function
+			//TODO: Initialize the level xp thresholds using a recursively-defined function
 
 			//Update UI immediately to get started
 			this.updateXPUI();
 		}
 	}
+
 	public void increaseXP(int xp) {
 		this.XP += xp;
 
@@ -48,16 +51,13 @@ public class XPSystem : MonoBehaviour {
 			if (this.Level + 1 < this.xpThresholds.Count) { //Only increase the level if we have another level to go
 				this.Level++; //Increase the level
 			}
-			
+
 			this.MaxXP = this.xpThresholds[this.Level]; //Update the new XP max
-			
-        }
+
+		}
 		//Indicate changes in XP and Level into the UI
 		this.updateXPUI();
 	}
-
-	
-
 
 	public void updateXPUI() {
 		GameObject[] xpSystemPrefabs = GameObject.FindGameObjectsWithTag("xpSystemUI");
@@ -65,7 +65,8 @@ public class XPSystem : MonoBehaviour {
 			XPSystemUIController xpUIController = currentXPSystemPrefab.GetComponent<XPSystemUIController>();
 			if (xpUIController != null) {
 				xpUIController.updateXPSystemValuesInUI(this.Level, this.XP, this.MaxXP);
-			} else {
+			}
+			else {
 				throw new System.Exception("XPSystemUIController not attached to item");
 			}
 		}

@@ -10,21 +10,21 @@ using UnityEngine.EventSystems;
 /// the editor UI)
 /// </summary>
 public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
-    [SerializeField]
-    private GameObject craftingMenu;
+	[SerializeField]
+	private GameObject craftingMenu;
 
-    
-    //In case it is a 2-D object
-    public void OnPointerDown(PointerEventData eventData) {
-        showCraftingMenu();
-    }
 
-    //In case it is a 3-D object
-    private void OnMouseDown() {
-        showCraftingMenu();
-    }
+	//In case it is a 2-D object
+	public void OnPointerDown(PointerEventData eventData) {
+		showCraftingMenu();
+	}
 
-    public void showCraftingMenu() {
-        craftingMenu.SetActive(true);
-    }
+	//In case it is a 3-D object
+	private void OnMouseDown() {
+		showCraftingMenu();
+	}
+
+	public void showCraftingMenu() {
+		craftingMenu.SetActive(true);
+	}
 }

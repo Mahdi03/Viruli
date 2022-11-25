@@ -45,20 +45,20 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 
 			//Also automatically provide ID's here instead of having to manually assign in each scriptable object
 			int itemID = 0;
-            foreach (var potion in db.potions) {
+			foreach (var potion in db.potions) {
 				potion.ID = itemID; //Set ID in here just in case we need access to it from the actual object
 				if (!itemsDatabase.TryAdd(itemID, potion)) {
-                    throw new System.Exception("An item with this key already exists in the database");
-                }
+					throw new System.Exception("An item with this key already exists in the database");
+				}
 				itemID++;
-            }
-            foreach (var rawMaterial in db.rawMaterials) {
+			}
+			foreach (var rawMaterial in db.rawMaterials) {
 				rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
-                if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
-                    throw new System.Exception("An item with this key already exists in the database");
-                }
+				if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
+					throw new System.Exception("An item with this key already exists in the database");
+				}
 				itemID++;
-            }
+			}
 
 
 			/*
@@ -80,7 +80,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 						int id = dirtyRecipeItems[i].item.ID;
 						int count = dirtyRecipeItems[i].countRequired;
 						finalRecipe.Add((id, count));
-                    }
+					}
 					item.Recipe = finalRecipe;
 					craftableItems.TryAdd(itemEntry.Key, item);
 				}
@@ -89,11 +89,10 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 				for (int i = 0; i < itemEntry.Value.WeightedDropProbability; i++) {
 					droppableItems.Add(itemEntry.Key); //Add itemID as many times as needed by the WeightedDropProbability
 				}
-
 			}
 			//Set public enemies list from database file
 			enemies = db.enemies;
-        }
+		}
 	}
 
 	public void DropRandomItem(Vector3 position, Quaternion rotation) {

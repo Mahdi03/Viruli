@@ -20,7 +20,7 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
 			canvasGroup = (CanvasGroup)gameObject.AddComponent<CanvasGroup>();
 		}
 	}
-	
+
 	public virtual void OnBeginDrag(PointerEventData eventData) {
 		//Debug.Log("BeginDrag");
 		canvasGroup.blocksRaycasts = false;
@@ -35,7 +35,6 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
 		//Debug.Log("Dragging");
 		if (m_RectTransform != null) {
 			m_RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor; //Adds the change in mouse position to the canvas position of our object
-			//If we can move the object 
 		}
 	}
 

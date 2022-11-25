@@ -49,7 +49,7 @@ public class Table : MonoBehaviour {
 		rectTransform.anchoredPosition = new Vector2(0, 0);
 		rectTransform.localScale = new Vector2(1, 1);
 		rectTransform.sizeDelta = new Vector2(tableWidth, tableHeight);
-		
+
 		return table;
 	}
 	/// <summary>
@@ -74,14 +74,9 @@ public class Table : MonoBehaviour {
 		var rectTransform = row.GetComponent<RectTransform>();
 		rectTransform.SetParent(parentTable, false);
 		//Anchors are controlled by parent vertical layout group
-		//rectTransform.anchorMin = new Vector2(0.5f, 1);
-		//rectTransform.anchorMax = new Vector2(0.5f, 1);
 		rectTransform.pivot = new Vector2(0.5f, 0.5f);
 		rectTransform.localScale = new Vector2(1, 1);
 		rectTransform.sizeDelta = new Vector2(0, rowHeight);
-
-		//Destroy(row.GetComponent<Transform>()); //They automatically come with a transform
-
 
 		return row;
 	}
@@ -97,7 +92,7 @@ public class Table : MonoBehaviour {
 	/// <returns>Returns the padding cell inside so that we can directly append text or icons or whatever we need inside of it.</returns>
 	public static GameObject createTableCell(Transform parentRow, float cellWidth, Color borderColor, float borderWidth, Color paddingColor) {
 		var border = new GameObject("Border");
-		
+
 		var borderImage = border.AddComponent<Image>();
 		borderImage.color = borderColor;
 

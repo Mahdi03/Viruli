@@ -26,8 +26,8 @@ public class AttackSpell : SpellAction {
 			Debug.Log("OOPS how did we make it here?!?!?");
 		}
 
-        //Now actually define what happens with the spell
-        StartCoroutine(DealDamage());
+		//Now actually define what happens with the spell
+		StartCoroutine(DealDamage());
 		//Now set the destroy timer
 		base.EnableSpell();
 	}
@@ -38,7 +38,7 @@ public class AttackSpell : SpellAction {
 		//Get all enemies in current space and for each enemy deal damage
 		Collider[] colliders = Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy);
 
-        foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
+		foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 			EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
 			enemyController.DamageHealth(dealsDamage);
 		}

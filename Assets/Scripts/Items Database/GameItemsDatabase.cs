@@ -8,9 +8,9 @@ using UnityEngine;
  * directly on the object in case we need to move it around or accidental deletion
  */
 
-[CreateAssetMenu(menuName ="Items/Create GameItemsDatabase")]
+[CreateAssetMenu(menuName = "Items/Create GameItemsDatabase")]
 public class GameItemsDatabase : ScriptableObject {
-    public List<Potion> potions;
-    public List<RawMaterial> rawMaterials;
-    public List<Enemy> enemies;
+	public List<Potion> potions;
+	public List<RawMaterial> rawMaterials;
+	public List<Enemy> enemies;
 }

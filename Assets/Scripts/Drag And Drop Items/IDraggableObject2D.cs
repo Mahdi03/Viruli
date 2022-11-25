@@ -10,5 +10,5 @@ public interface IDraggableObject2D :
 	/*Drag Events*/
 	IBeginDragHandler, IEndDragHandler, //For begin and end drag events
 	IDragHandler //For while dragging (called each frame)
-{}
+{ }
 
