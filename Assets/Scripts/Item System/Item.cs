@@ -53,10 +53,10 @@ public interface IItem {
 		itemInstance.itemID = itemID; //Give prefab the item ID that it corresponds to
 		itemInstance.attachedInventorySlotID = attachedInventorySlotID;
 	}
-	public static void enableScript<T>(GameObject prefab) {
+	public static T enableScript<T>(GameObject prefab) where T : Component {
 		T script = prefab.GetComponent<T>();
 		if (script == null) {
-			prefab.AddComponent(typeof(T));
+			script = prefab.AddComponent<T>();
 		}
 		else {
 			//We have to do this long workaround because since the type is unknown and generic, it could also not have the "enabled" property we are trying to access
@@ -64,8 +64,9 @@ public interface IItem {
 				script.GetType().GetProperty("enabled").SetValue(script, true);
 			}
 		}
+		return script;
 	}
-	public static void disableScript<T>(GameObject prefab) {
+	public static void disableScript<T>(GameObject prefab) where T : Component {
 		T script = prefab.GetComponent<T>();
 		if (script != null) {
 			//We have to do this long workaround because since the type is unknown and generic, it could also not have the "enabled" property we are trying to access

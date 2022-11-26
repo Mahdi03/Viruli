@@ -71,7 +71,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			craftableItems = new Dictionary<int, IItem>();
 			droppableItems = new List<int>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
-				Debug.Log(itemEntry);
+				//Debug.Log(itemEntry);
 				if (itemEntry.Value.Craftable) {
 					//Then we set the recipe correctly
 					List<(int, int)> finalRecipe = new List<(int, int)>();

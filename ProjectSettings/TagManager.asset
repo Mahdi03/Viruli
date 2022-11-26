@@ -12,6 +12,11 @@ TagManager:
   - effectRing
   - threeDimensionalItemsContainerForDraggingInWorldSpace
   - MainDoor
+  - NorthDoor
+  - SouthDoor
+  - EastDoor
+  - WestDoor
+  - MiniMapPreviewCamera
   layers:
   - Default
   - TransparentFX

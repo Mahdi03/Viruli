@@ -25,6 +25,8 @@ public class MainDoor : ScriptableObject {
         get; set; //Allow settable for DatabaseManager
     }
 
+    public string doorName { get => this.name; }
+
     [SerializeField]
     private bool bigDoor; //Use this just as a reminder to me when I'm setting the data
     private int currentDoorLevel = 0;
@@ -45,7 +47,7 @@ public class MainDoor : ScriptableObject {
         //Set the parent transform that we will use throughout the game to access the physical door within the scene
         parentTransform = GameObject.FindGameObjectWithTag(parentTransformTagName).transform;
         spawnDoor();
-        Debug.Log("We spawned");
+        //Debug.Log("We spawned");
     }
     private void spawnDoor() {
         GameManager.clearAllChildrenOfObj(parentTransform);
