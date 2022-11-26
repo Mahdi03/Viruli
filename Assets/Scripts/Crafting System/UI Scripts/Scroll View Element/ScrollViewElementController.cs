@@ -103,11 +103,12 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 		backgroundImage.color = new Color(1, 1, 1, 0);
 	}
 
-
+	
 	public virtual void OnPointerClick(PointerEventData eventData) {
-		//When we click on our element, the rest of the other elements will be unselected, this one will be selected, and then we will load it
-		//Loop through all the elements in our parent and for each one, unselect it
-		for (int i = 0; i < transform.parent.childCount; i++) {
+        //var k = typeof(ScrollViewElementController);
+        //When we click on our element, the rest of the other elements will be unselected, this one will be selected, and then we will load it
+        //Loop through all the elements in our parent and for each one, unselect it
+        for (int i = 0; i < transform.parent.childCount; i++) {
 			ScrollViewElementController scrollViewElementController = transform.parent.GetChild(i).GetComponent<ScrollViewElementController>();
 			scrollViewElementController.Selected = false;
 		}

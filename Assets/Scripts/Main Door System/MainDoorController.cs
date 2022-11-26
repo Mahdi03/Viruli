@@ -13,6 +13,9 @@ public class MainDoorController : MonoBehaviour {
 	[SerializeField]
 	private HealthBarBehavior healthBarBehaviorScript;
 
+	[SerializeField]
+	private GameObject doorGlow;
+
 	private bool bigDoor;
 
 	public void initStats(bool bigDoor, int level, float attackRange, int maxHealth, int damageDealt) {
@@ -51,38 +54,9 @@ public class MainDoorController : MonoBehaviour {
 	private void updateHealthBar() {
 		healthBarBehaviorScript.UpdateHealthBar(currentHealth, maxHealth);
 	}
-	/*
-    //TODO: set up coroutine that damages surrounding enemies based on current damage value
-    private void OnDrawGizmos() {
-		Gizmos.color = Color.magenta;
-		Vector3 sizeOfDoor = GetComponent<Collider>().bounds.size; //Gets 3D size of the door
-		if (bigDoor) {
-            Gizmos.DrawWireCube(transform.position, sizeOfDoor);
-        }
-		else {
-            Gizmos.DrawWireCube(transform.position, sizeOfDoor + transform.forward * attackRange);
-        }
-    }
 
-	IEnumerator DoorAttack() {
-		damageEnemyInViscinity();
-		yield return new WaitForSeconds(0.75f);
-		StartCoroutine(DoorAttack());
-	}
 
-	private void damageEnemyInViscinity() {
-        Vector3 sizeOfDoor = GetComponent<Collider>().bounds.size; //Gets 3D size of the door
-		Collider[] colliders;
-		if (bigDoor) {
-			colliders = Physics.OverlapBox(transform.position, sizeOfDoor / 2, transform.rotation, GameManager.LAYER_Enemy);
-        }
-		else {
-			colliders = Physics.OverlapBox(transform.position, sizeOfDoor / 2 + transform.forward * attackRange / 2, transform.rotation, GameManager.LAYER_Enemy);
-		}
-		foreach (var collider in colliders) {
-			EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
-			enemyController.DamageHealth(damageDealt);
-		}
-	}
-*/
+	public void GlowDoor() { doorGlow.SetActive(true); }
+	public void UnglowDoor() { doorGlow.SetActive(false); }
+
 }

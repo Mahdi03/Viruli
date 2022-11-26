@@ -72,12 +72,12 @@ public class MainDoor : ScriptableObject {
 
         //else we can upgrade the door
         currentDoorLevel++;
-        spawnDoor();
-        
+        spawnDoor(); //Free repair taken care of by completely restarting a new door with a new max health
+
     }
 
-    //TODO: implement glow https://vionixstudio.com/2022/02/21/how-to-create-a-glow-effect-in-unity/
-    public void AddGlow() { }
-    public void RemoveGlow() { }
+    public MainDoorController getDoorController() {
+        return parentTransform.GetComponentInChildren<MainDoorController>(); //Remember this could be null so be sure to check
+    }
     
 }

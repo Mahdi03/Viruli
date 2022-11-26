@@ -3603,10 +3603,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 270199216}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 270199220}
+        m_TargetAssemblyTypeName: CraftingUIController, Assembly-CSharp
+        m_MethodName: CloseCraftingMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5441,6 +5441,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5870824216943356684, guid: c0cc83dd8c009144a8c9a4a1852f6f30,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7205414446975628182, guid: c0cc83dd8c009144a8c9a4a1852f6f30,
         type: 3}
       propertyPath: m_RootOrder
@@ -5500,6 +5505,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door Big 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205414446975628184, guid: c0cc83dd8c009144a8c9a4a1852f6f30,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0cc83dd8c009144a8c9a4a1852f6f30, type: 3}
@@ -16332,6 +16342,29 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 625977634}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &630393034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7205414446975628183, guid: c0cc83dd8c009144a8c9a4a1852f6f30,
+    type: 3}
+  m_PrefabInstance: {fileID: 215354274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &630393039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630393034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 67a64b856903c9e458a9fc9879acd32e, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!1001 &632648863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33290,6 +33323,7 @@ GameObject:
   - component: {fileID: 1283569833}
   - component: {fileID: 1283569837}
   - component: {fileID: 1283569838}
+  - component: {fileID: 1283569839}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -33376,6 +33410,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesContainer: {fileID: 486560452}
+--- !u!114 &1283569839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283569832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04261756d600f547aeed3ee58025545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1283747187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40356,6 +40402,7 @@ GameObject:
   - component: {fileID: 1579532161}
   - component: {fileID: 1579532160}
   - component: {fileID: 1579532159}
+  - component: {fileID: 1579532162}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -40462,6 +40509,66 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1579532162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579532157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 1579532158}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1001 &1582612274
 PrefabInstance:
   m_ObjectHideFlags: 0

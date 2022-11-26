@@ -187,6 +187,10 @@ public class CraftingUIController : MonoBehaviour {
     public void SelectTab(int tabID) {
         SelectTabButton(tabID);
         ShowTabContent(tabID);
+        if (tabID != 1) {
+            //If we are selecting another tab than tab #2, then make sure to unglow any of the doors
+            MainDoorManager.Instance.UnglowAllDoors();
+        }
     }
 
     private void SelectTabButton(int i) {
@@ -230,6 +234,12 @@ public class CraftingUIController : MonoBehaviour {
             newDoorScrollViewElementController.setItemID(mainDoor.ID);
         }
     }
+    //OpenCraftingMenu is declared in a different script since it requires both options for 2D and 3D handling
+    public void CloseCraftingMenu() {
+        gameObject.SetActive(false);
+        MainDoorManager.Instance.UnglowAllDoors(); //Since we are closing out of it, stop the door selection
+    }
+
 
     /// <summary>
     /// Cleans out all the old choices already present in the scrollview
