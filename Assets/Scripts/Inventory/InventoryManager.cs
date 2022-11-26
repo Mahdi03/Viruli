@@ -19,7 +19,7 @@ public class InventoryManager : MonoBehaviour {
 			currentInventory = new Inventory(100); //TODO: Have a dynamically resizing inventory depending on how many items we have
 			//TODO: Have an if resume game catch here
 			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
-			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(7);
+			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(17);
 
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour {
 			myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
 
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(6);
+			myItem = InGameItemsDatabaseManager.Instance.getItemByID(11);
 
 			myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
@@ -104,8 +104,19 @@ public class InventoryManager : MonoBehaviour {
 								IItem.enableScript<DraggableObject2D>(item2DPrefab);
 								if (inventorySlotAssociatedInfoA.slotID < 10) {
 									IItem.enableScript<DroppableObject3D>(item2DPrefab);
-								}
-								IItem.disableScript<ClickAddInventory>(item2DPrefab);
+
+                                    IItem.disableScript<ClickAddQuickInventory>(item2DPrefab);
+                                }
+								else {
+                                    //we are in the full inventory
+
+                                    //make it so that when we click on an element (pointer up maybe)
+                                    //that it is added to the nearest spot in the quick inventory instead of having to drag it
+                                    IItem.enableScript<ClickAddQuickInventory>(item2DPrefab);
+
+                                    IItem.disableScript<DroppableObject3D>(item2DPrefab);
+                                }
+                                IItem.disableScript<ClickAddInventory>(item2DPrefab);
 								IItem.disableScript<ItemFloat>(item2DPrefab);
 								IItem.enableScript<OnHoverTooltip>(item2DPrefab);
 								item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
