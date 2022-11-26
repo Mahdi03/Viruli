@@ -45,7 +45,8 @@ public class CraftingUIController : MonoBehaviour {
     }
 
     public int itemID { get; set; }
-    private bool craftable { get; set; } = false;
+    public int doorID { get; set; }
+    private bool itemCraftable { get; set; } = false; //private variable referring to whether a potion is craftable
 
     /* Global prefabs the rest of the UI might need access to */
     public GameObject craftableUIInfoGroupContainer; //Bottom left corner of crafting UI
@@ -87,16 +88,16 @@ public class CraftingUIController : MonoBehaviour {
     [SerializeField]
     private Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
     public void UpdateRecipeTable(int amountToCraft) {
-        GameManager.clearAllChildrenOfObj(this.table);
+        GameManager.clearAllChildrenOfObj(this.craftableItemRecipeTable);
         var arrOfRecipeItems = InGameItemsDatabaseManager.Instance.getItemByID(itemID).Recipe;
-        this.craftable = true;
+        this.itemCraftable = true;
         foreach (var item in arrOfRecipeItems) {
             var id = item.Item1;
             var requiredItem = InGameItemsDatabaseManager.Instance.getItemByID(id);
             var countRequired = item.Item2 * amountToCraft;
             var countAvailable = InventoryManager.Instance.getItemCountByID(id);
             //Make a row
-            var row = Table.createTableRow(this.table.transform, 30f);
+            var row = Table.createTableRow(this.craftableItemRecipeTable.transform, 30f);
             //In the first cell instantiate the prefab
             var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
             var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
@@ -114,7 +115,7 @@ public class CraftingUIController : MonoBehaviour {
             text.fontSize = 16f;
             text.verticalAlignment = VerticalAlignmentOptions.Middle;
             if (countAvailable < countRequired) {
-                this.craftable = false;
+                this.itemCraftable = false;
             }
 
             var rectTransform = textbox.GetComponent<RectTransform>();
@@ -128,29 +129,55 @@ public class CraftingUIController : MonoBehaviour {
             rectTransform.offsetMin = new Vector2(5, 0); //(Left, Bottom)
             rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
         }
+        //TODO: Show XP required
+        TextMeshProUGUI xpText;
+        if (craftableItemXPRequiredTextbox != null) {
+            //Delete it and reinstantiate a new one
+            Destroy(craftableItemXPRequiredTextbox);
+        }
 
+            craftableItemXPRequiredTextbox = new GameObject("Required XP");
+
+            xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
+
+            //Set font size to 16
+            xpText.fontSize = 16f;
+            xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
+
+            var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
+            xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform, false);
+        
+        var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
+
+        xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
+
+        if (xpCost > XPSystem.Instance.XP) {
+            this.itemCraftable = false;            
+        }
 
         inputGroupController.SetAmountToCraft(amountToCraft);
-        if (this.craftable) {
+        if (this.itemCraftable) {
             inputGroupController.EnableCraftingButton();
         }
         else {
             inputGroupController.DisableCraftingButton();
         }
     }
-    private GameObject table;
+    private GameObject craftableItemRecipeTable;
+    private GameObject craftableItemXPRequiredTextbox;
     CraftingUIPotionCraftingInputGroupController inputGroupController;
     private void ShowCraftableItemAction(int amountToCraft = 1) {
+        //TODO: Show "Reach Level _ to unlock this spell first"
 
-        table = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
-        table.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
+        craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
+        craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
 
         var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform);
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
         UpdateRecipeTable(amountToCraft);
     }
     public void CraftPotion(int amountToCraft) {
-        if (this.craftable) {
+        if (this.itemCraftable) {
             GetComponent<CraftingManager>().Craft(this.itemID, amountToCraft); //Pass it on to the attached Crafting Manager script
             UpdateRecipeTable(amountToCraft);
         }

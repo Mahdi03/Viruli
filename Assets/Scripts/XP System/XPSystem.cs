@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public class XPSystem : MonoBehaviour {
-	
+
 	private static XPSystem instance;
 	public static XPSystem Instance { get { return instance; } }
 
@@ -58,7 +58,14 @@ public class XPSystem : MonoBehaviour {
 		//Indicate changes in XP and Level into the UI
 		this.updateXPUI();
 	}
+	public void decreaseXP(int xp) {
+		this.XP = Mathf.Max(this.XP - xp, 0); //Limit the xp to drop to 0 and no more
 
+		//We don't need to deal with level stuff, once you level up you level up
+
+		//Indicate changes in XP and Level into the UI
+		this.updateXPUI();
+	}
 	public void updateXPUI() {
 		GameObject[] xpSystemPrefabs = GameObject.FindGameObjectsWithTag("xpSystemUI");
 		foreach (GameObject currentXPSystemPrefab in xpSystemPrefabs) {
