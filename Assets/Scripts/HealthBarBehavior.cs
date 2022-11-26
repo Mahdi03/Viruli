@@ -23,16 +23,16 @@ public class HealthBarBehavior : MonoBehaviour {
 		//Decide whether this is the health bar for the door or for any of the enemies
 		if (transform.parent.name.ToLower().Contains("door")) {
 			player = true;
-			healthBarPosOffset = new Vector3(0, 2, 0);
+			healthBarPosOffset = new Vector3(0, 5, 0);
 		}
 		else { player = false; }
 		enemy = !player;
-		//Keep enemy health bars hidden until we need to show them
 		if (enemy) {
-			slider.gameObject.SetActive(false);
 			healthBarPosOffset = new Vector3(0, 2, 0);
 		}
-	}
+        //Keep health bars hidden until we need to show them
+        slider.gameObject.SetActive(false);
+    }
 
 	//Overloading just in case
 	public void UpdateHealthBar(float health, int maxHealth) {
@@ -44,12 +44,8 @@ public class HealthBarBehavior : MonoBehaviour {
 			Start(); //Call just in case it hasn't been called yet
 		}
 
-		if (enemy) {
-			slider.gameObject.SetActive(health < maxHealth); //Start showing the health bar only if the asteroid starts to take damage
-		}
-		else {
-			slider.gameObject.SetActive(true); //Show health bar no matter what for us
-		}
+		slider.gameObject.SetActive(health < maxHealth); //Start showing the health bar only if the item starts to take damage
+		
 		slider.value = health;
 		slider.maxValue = maxHealth;
 

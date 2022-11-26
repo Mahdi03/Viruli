@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fa6d22cbd646345924c0aa9de8fccb, type: 3}
+  m_Name: East Door
+  m_EditorClassIdentifier: 
+  bigDoor: 1
+  parentTransformTagName: EastDoor
+  doorInfo:
+  - currentLevel: 1
+    maxHealth: 200
+    damageDealt: 0
+    doorPrefab: {fileID: 7205414446975628183, guid: c0cc83dd8c009144a8c9a4a1852f6f30,
+      type: 3}
+  - currentLevel: 2
+    maxHealth: 300
+    damageDealt: 0
+    doorPrefab: {fileID: 0}
+  - currentLevel: 3
+    maxHealth: 500
+    damageDealt: 4
+    doorPrefab: {fileID: 0}

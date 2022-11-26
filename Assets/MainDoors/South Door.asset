@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fa6d22cbd646345924c0aa9de8fccb, type: 3}
+  m_Name: South Door
+  m_EditorClassIdentifier: 
+  bigDoor: 0
+  parentTransformTagName: SouthDoor
+  doorInfo:
+  - currentLevel: 1
+    maxHealth: 100
+    damageDealt: 0
+    doorPrefab: {fileID: 3761703204375082853, guid: c2b70b6de07605b4589101c387d4200c,
+      type: 3}
+  - currentLevel: 2
+    maxHealth: 200
+    damageDealt: 0
+    doorPrefab: {fileID: 0}
+  - currentLevel: 3
+    maxHealth: 400
+    damageDealt: 4
+    doorPrefab: {fileID: 0}
