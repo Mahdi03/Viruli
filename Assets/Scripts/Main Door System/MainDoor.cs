@@ -21,8 +21,13 @@ public class MainDoor : ScriptableObject {
         public GameObject doorPrefab;
     }
 
+    public int ID {
+        get; set; //Allow settable for DatabaseManager
+    }
+
     [SerializeField]
     private bool bigDoor; //Use this just as a reminder to me when I'm setting the data
+    private int currentDoorLevel = 0;
 
     [SerializeField]
     private string parentTransformTagName;
@@ -36,13 +41,41 @@ public class MainDoor : ScriptableObject {
             new DoorStats(currentLevel: 3, 100 + 100 + 200, 4)
         }; //Index of list designates level
 
-    private void Awake() {
-        
+    public void InitDoor() {
+        //Set the parent transform that we will use throughout the game to access the physical door within the scene
         parentTransform = GameObject.FindGameObjectWithTag(parentTransformTagName).transform;
+        spawnDoor();
+        Debug.Log("We spawned");
     }
-    
-    
+    private void spawnDoor() {
+        GameManager.clearAllChildrenOfObj(parentTransform);
+        DoorStats doorStats = doorInfo[currentDoorLevel];
+        var newDoor = Instantiate(doorStats.doorPrefab, parentTransform);
+        MainDoorController doorController;
+        if (bigDoor) {
+            //Door controller is directly attached
+            doorController = newDoor.GetComponent<MainDoorController>();
+        }
+        else {
+            //Door contrller is attached to door which is not a direct child
+            doorController = newDoor.GetComponentInChildren<MainDoorController>();
+        }
+        doorController.initStats(bigDoor, doorStats.currentLevel, 4f, doorStats.maxHealth, doorStats.damageDealt); //Pass along values to the door controller
+    }
+    public void UpgradeDoor() {
+        if (currentDoorLevel + 1 >= doorInfo.Count) {
+            Debug.LogError("Surpassed upgradable amount");
+            return;
+        }
 
+        //else we can upgrade the door
+        currentDoorLevel++;
+        spawnDoor();
+        
+    }
 
+    //TODO: implement glow https://vionixstudio.com/2022/02/21/how-to-create-a-glow-effect-in-unity/
+    public void AddGlow() { }
+    public void RemoveGlow() { }
     
 }

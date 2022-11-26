@@ -15,6 +15,8 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 
 	public List<Enemy> enemies { get; private set; }
 
+	public List<MainDoor> mainDoors { get; private set; }
+
 	//Provide a getter method to get items from the dictionary so we can use the data
 	/*
 	 Make sure you are checking the value of itemID before trying to access it
@@ -92,6 +94,13 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			}
 			//Set public enemies list from database file
 			enemies = db.enemies;
+            //Set public mainDoors list from database file and set each of their ID's for later use in the game
+			mainDoors = db.mainDoors;
+            for (int i = 0; i < db.mainDoors.Count; i++) {
+				mainDoors[i].ID = i;
+				mainDoors[i].InitDoor();
+			}
+			
 		}
 	}
 

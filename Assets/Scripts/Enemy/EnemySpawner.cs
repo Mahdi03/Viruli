@@ -32,10 +32,10 @@ public class EnemySpawner : MonoBehaviour {
 		Enemy chosenEnemy = listOfEnemies[(int)enemyToSpawn];
 		//Step #2: Pick a spawn point (this is a list of approximate centers for each spawn room)
 		List<Vector3> spawnRooms = new List<Vector3>() {
-		new Vector3(42, 0, 0),
-		new Vector3(4, 0, 66),
-		new Vector3(-42, 0, 4),
-		new Vector3(8, 0, -70)
+		new Vector3(42, 0, 0), //South Spawn room
+		new Vector3(4, 0, 66), //East spawn room
+		new Vector3(-42, 0, 4), //North spawn room
+		new Vector3(8, 0, -70) //West spawn room
 		};
 		float locationToSpawn = Random.Range(0, spawnRooms.Count);
 		Vector3 spawnLocation = Random.insideUnitSphere * spawnRadius + spawnRooms[(int)locationToSpawn];
