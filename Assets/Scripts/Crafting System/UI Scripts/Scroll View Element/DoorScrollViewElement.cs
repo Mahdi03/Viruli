@@ -10,7 +10,7 @@ public class DoorScrollViewElement : ScrollViewElementController {
         //Highlight which door this is in the layout
         MainDoorManager.Instance.GlowDoorByID(this.itemID);
 
-        //TODO: Show data on doors
+        //Show data on doors
         CraftingUIDoorsManager.Instance.doorID = this.itemID; //Set a door ID
         CraftingUIDoorsManager.Instance.LoadDoorUI();
 

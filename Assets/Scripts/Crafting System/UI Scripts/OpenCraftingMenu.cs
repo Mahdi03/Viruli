@@ -26,5 +26,6 @@ public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
 
 	public void showCraftingMenu() {
 		craftingMenu.SetActive(true);
+		CraftingUIDoorsManager.Instance.resumeCoroutines();
 	}
 }

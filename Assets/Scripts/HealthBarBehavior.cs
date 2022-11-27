@@ -59,9 +59,11 @@ public class HealthBarBehavior : MonoBehaviour {
 			slider.fillRect.GetComponentInChildren<Image>().color = enemyHealthColor;
 		}
 	}
-
+	public bool regularHealthBar = true;
 	// Update is called once per frame
 	void Update() {
+		if (regularHealthBar) {
 		slider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + healthBarPosOffset);
 	}
+}
 }

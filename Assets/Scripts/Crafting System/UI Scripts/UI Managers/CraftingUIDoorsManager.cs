@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
 
     [SerializeField]
-    private GameObject healthBarPrefab;
+    private GameObject sliderPrefab;
 
 
     public int doorID { get; set; }
@@ -54,6 +55,13 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
 
     private void clearAllDoorInfo() {
+        /*foreach (GameObject g in new[] { doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject, doorRepairRecipeTable }) {
+            Destroy(g);
+        }
+        if (doorRepairTableUpdateCoroutine != null) {
+            StopCoroutine(doorRepairTableUpdateCoroutine);
+            doorRepairTableUpdateCoroutine = null;
+        }*/
         GameManager.clearAllChildrenOfObj(DoorRepairCenterContainer_BottomLeftCorner);
         GameManager.clearAllChildrenOfObj(DoorUpgradeCenterContainer_BottomRightCorner);
     }
@@ -79,7 +87,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         containerRectTransform.SetParent(DoorRepairCenterContainer_BottomLeftCorner.transform, false);
 
-        //TODO: Show text title "Repair _____ Door:"
+        //Show text title "Repair _____ Door:"
         var titleTextbox = new GameObject("Title"); //We don't need to be worried about copies since the entire container is cleared on click anyways
 
         var titleTextboxText = titleTextbox.AddComponent<TextMeshProUGUI>();
@@ -92,49 +100,78 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         titleTextboxRectTransform.SetParent(container.transform, false);
 
         titleTextboxText.text = "Repair " + getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
-        //TODO: Show recipe table (should update as door health changes)
+        //Show recipe table (should update as door health changes)
         doorRepairRecipeTable = Table.createNewTable(containerRectTransform, 220, 100);
-        UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
-        //TODO: Show XP requirement
-
-        //TODO: Repair button (disabled if not repairable or at max health)
+        if (doorRepairTableUpdateCoroutine != null) {
+            StopCoroutine(doorRepairTableUpdateCoroutine);
+            doorRepairTableUpdateCoroutine = null;
+        }
+        doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
+        //StartCoroutine(doorRepairTableUpdateCoroutine);
 
     }
-    private GameObject doorRepairLifeBarContainer;
+    //Use this method to resume our update coroutine if we close the crafting ui and then reopen it
+    public void resumeCoroutines() {
+        if (doorRepairTableUpdateCoroutine != null) {
+            StartCoroutine(doorRepairTableUpdateCoroutine);
+        }
+    }
+    private GameObject doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject;
     private GameObject doorRepairRecipeTable;
-    private void UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
+    private IEnumerator doorRepairTableUpdateCoroutine;
+    private IEnumerator UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
         (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
-        if (doorRepairLifeBarContainer != null) {
-            //Change the bar size and health stats instead of deleting and reinstantiating
-        }
-        else {
-            //We have to instantiate it and then set the values
-
-
-            doorRepairLifeBarContainer = new GameObject("Door Life Bar Container");
+        
+        
+        GameObject healthBar;
+        TextMeshProUGUI healthTextboxText;
+        if (doorRepairLifeBarContainer == null) {
+            //Then we need to instantiate it
+            doorRepairLifeBarContainer = new GameObject("Life Bar Container");
 
             var doorRepairLifeBarContainerHorizontalLayout = doorRepairLifeBarContainer.AddComponent<HorizontalLayoutGroup>();
+            doorRepairLifeBarContainerHorizontalLayout.childControlWidth = false;
+            doorRepairLifeBarContainerHorizontalLayout.childControlHeight = false;
+            doorRepairLifeBarContainerHorizontalLayout.childAlignment = TextAnchor.MiddleLeft;
+            doorRepairLifeBarContainerHorizontalLayout.childForceExpandWidth = false;
+            doorRepairLifeBarContainerHorizontalLayout.childForceExpandHeight = false;
+            doorRepairLifeBarContainerHorizontalLayout.childScaleWidth = true;
+            doorRepairLifeBarContainerHorizontalLayout.childScaleHeight = true;
+            doorRepairLifeBarContainerHorizontalLayout.spacing = 5;
 
             var doorRepairLifeBarContainerRectTransform = doorRepairLifeBarContainer.GetComponent<RectTransform>();
             doorRepairLifeBarContainerRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
-            var healthBar = Instantiate(healthBarPrefab, doorRepairLifeBarContainerRectTransform);
-            var healthBarController = healthBar.GetComponent<HealthBarBehavior>();
-            healthBarController.regularHealthBar = false;
-            healthBarController.UpdateHealthBar(currentDoorHealth, maxDoorHealth);
+            healthBar = Instantiate(sliderPrefab, doorRepairLifeBarContainerRectTransform);
 
-            //Now add text
-            var textbox = new GameObject("Health Text");
-            var textboxText = textbox.AddComponent<TextMeshProUGUI>();
-            Color lerpColor = Color.Lerp(Color.red, Color.green, (float)currentDoorHealth / maxDoorHealth / 100);
-            string colorStr = "#" + ColorUtility.ToHtmlStringRGB(lerpColor);
-            textboxText.text = "<color=\"" + colorStr + "\">" + currentDoorHealth + "</color>/" + maxDoorHealth;
+            var healthTextbox = new GameObject("Health Text");
+            healthTextboxText = healthTextbox.AddComponent<TextMeshProUGUI>();
 
+            RectTransform textboxRectTransform = healthTextbox.GetComponent<RectTransform>();
+            textboxRectTransform.SetParent(doorRepairLifeBarContainerRectTransform);
+            
         }
-
-        GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
+        else {
+            healthBar = doorRepairLifeBarContainer.transform.GetChild(0).gameObject; //The bar is the first child
+            var healthTextbox = doorRepairLifeBarContainer.transform.GetChild(1).gameObject; //The accompanying text is the second child
+            healthTextboxText = healthTextbox.GetComponent<TextMeshProUGUI>();
+        }
         
+        //Now we set the values
+        var slider = healthBar.GetComponent<Slider>();
+        slider.maxValue = maxDoorHealth;
+        slider.value = currentDoorHealth;
+        Color lerpColor = Color.Lerp(Color.red, Color.green, slider.normalizedValue);
+        slider.fillRect.GetComponentInChildren<Image>().color = lerpColor;
+        
+        //Now add text
+        string colorStr = "#" + ColorUtility.ToHtmlStringRGB(lerpColor);
+        healthTextboxText.text = "<color=" + colorStr + ">" + currentDoorHealth + "</color>/" + maxDoorHealth;
+
+        
+        GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
+
         var arrOfRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
         foreach (var item in arrOfRecipeItems) {
@@ -177,20 +214,23 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         }
 
         //Show XP required
-        var repairXPRequiredTextbox = new GameObject("Required XP");
+        TextMeshProUGUI xpText;
+        if (doorRepairXPRequiredTextbox == null) {
+            doorRepairXPRequiredTextbox = new GameObject("Required XP");
 
-        TextMeshProUGUI xpText = repairXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
+            xpText = doorRepairXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
 
-        //Set font size to 16
-        xpText.fontSize = 16f;
-        xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            //Set font size to 16
+            xpText.fontSize = 16f;
+            xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
-        var xpTextRectTransform = repairXPRequiredTextbox.GetComponent<RectTransform>();
-        xpTextRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
-        
+            var xpTextRectTransform = doorRepairXPRequiredTextbox.GetComponent<RectTransform>();
+            xpTextRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
+        }
+        else {
+            xpText = doorRepairXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
+        }
         int currentLevel = doorController.getLevel();
-        
-
         int xpCost = 0; //TODO: Create formula of xpCost for repair based on mainDoors.Level and difference in health
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
@@ -198,11 +238,22 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         if (xpCost > XPSystem.Instance.XP) {
             this.doorRepairable = false;
         }
-        //TODO: add button that will be enabled or disabled depending on repairable
-        var buttonGameObject = createDefaultButton(parentContainerToSpawnElementsIn, "Repair");
-        Button buttonButton = buttonGameObject.GetComponent<Button>();
-        buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
-        buttonButton.onClick.AddListener(RepairDoor);
+        //add button that will be enabled or disabled depending on repairable
+        if (this.doorRepairButtonGameObject == null) {
+            doorRepairButtonGameObject = createDefaultButton(parentContainerToSpawnElementsIn, "Repair");
+            Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
+            buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
+            buttonButton.onClick.AddListener(RepairDoor);
+        }
+        else {
+            Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
+            buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
+        }
+
+        yield return new WaitForSeconds(Time.smoothDeltaTime); //Update every frame
+        doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
+        StartCoroutine(doorRepairTableUpdateCoroutine);
+        //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
     }
 
     private void ShowDoorUpgradeUI() {
@@ -225,7 +276,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         containerRectTransform.SetParent(DoorUpgradeCenterContainer_BottomRightCorner.transform, false);
 
-        //TODO: Show text title "Upgrade ______ Door:"
+        //Show text title "Upgrade ______ Door:"
         var titleTextbox = new GameObject("Title"); //We don't need to be worried about copies since the entire container is cleared on click anyways
 
         var titleTextboxText = titleTextbox.AddComponent<TextMeshProUGUI>();
@@ -247,10 +298,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         if (alreadyUpgradedToMaxLevel) {
             //TODO: Show wall stats and that's it
 
-            var arrOfRecipeItems = mainDoor.repairRecipe;
-
             var descriptionTextbox = new GameObject("Title"); //We don't need to be worried about copies since the entire container is cleared on click anyways
-
             var descriptionTextboxText = titleTextbox.AddComponent<TextMeshProUGUI>();
 
             //Set font size to 16
@@ -269,7 +317,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             UpdateDoorUpgradeRecipeTable(containerRectTransform);
 
 
-            //TODO: Show XP requirement
+            //Show XP requirement
             var upgradeXPRequiredTextbox = new GameObject("Required XP");
 
             TextMeshProUGUI xpText = upgradeXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
@@ -288,7 +336,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             if (xpCost > XPSystem.Instance.XP) {
                 this.doorUpgradable = false;
             }
-            //TODO: Upgrade button (disabled if not upgradable or max level)
+            //Upgrade button (disabled if not upgradable or max level)
             var buttonGameObject = createDefaultButton(containerRectTransform, "Upgrade");
             Button buttonButton = buttonGameObject.GetComponent<Button>();
             buttonButton.enabled = this.doorUpgradable; //Enable button depending on whether we can repair
