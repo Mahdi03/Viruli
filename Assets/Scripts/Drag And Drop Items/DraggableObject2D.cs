@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /*Labelling methods as virtual so that deriving classes can override them and add more functionality on the same behaviors */
 public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
@@ -38,10 +39,35 @@ public class DraggableObject2D : MonoBehaviour, IDraggableObject2D {
 		}
 	}
 
+	private bool overInventoryUI;
+
 	public virtual void OnEndDrag(PointerEventData eventData) {
 		//Debug.Log("EndDrag");
 		canvasGroup.blocksRaycasts = true;
 		canvasGroup.alpha = 1f;
+
+		if (GetComponent<DroppableObject3D>() == null) {
+            //As it turns out, if run this code then that means the drop never took place which means we landed in a non-droppable place so we can just cancel the drop
+            InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+            Destroy(gameObject);
+
+            //Ok we are only a 2D draggable object, not droppable3D is covering us
+            //We need to check if we are dropping over UI or if we need to cancel the drag event
+            overInventoryUI = false;
+			//Here we need to check whether we are on top of the inventory UI before we decide anything else
+			GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
+
+			List<RaycastResult> results = new List<RaycastResult>();
+			gr.Raycast(eventData, results);
+			foreach (RaycastResult result in results) {
+				overInventoryUI = true;
+			}
+			if (!overInventoryUI) {
+                //We need to cancel the drop
+                InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+                Destroy(gameObject);
+            }
+		}
 	}
 
 }
