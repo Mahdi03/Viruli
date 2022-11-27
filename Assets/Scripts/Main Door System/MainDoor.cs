@@ -29,7 +29,6 @@ public class MainDoor : ScriptableObject {
 
     [SerializeField]
     private bool bigDoor; //Use this just as a reminder to me when I'm setting the data
-    private int currentDoorLevel = 0;
 
     [SerializeField]
     private string parentTransformTagName;
@@ -46,8 +45,12 @@ public class MainDoor : ScriptableObject {
     public List<(int, int)> repairRecipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
     public recipeItem[] upgradeToLevel2RecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
     public List<(int, int)> upgradeToLevel2Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+
+    public int xpToUpgradeToLevel2;
+
     public recipeItem[] upgradeToLevel3RecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
     public List<(int, int)> upgradeToLevel3Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+    public int xpToUpgradeToLevel3;
 
 
     //Door upgrade level stats
@@ -63,40 +66,63 @@ public class MainDoor : ScriptableObject {
         spawnDoor();
         //Debug.Log("We spawned");
     }
-    private void spawnDoor() {
+    private void spawnDoor(int level = 1) {
         GameManager.clearAllChildrenOfObj(parentTransform);
-        DoorStats doorStats = doorStatsAtDifferentUpgradeLevels[currentDoorLevel];
+        
+        DoorStats doorStats = doorStatsAtDifferentUpgradeLevels[level - 1];
         var newDoor = Instantiate(doorStats.doorPrefab, parentTransform);
-        MainDoorController doorController;
-        if (bigDoor) {
-            //Door controller is directly attached
-            doorController = newDoor.GetComponent<MainDoorController>();
-        }
-        else {
-            //Door contrller is attached to door which is not a direct child
-            doorController = newDoor.GetComponentInChildren<MainDoorController>();
-        }
-        doorController.initStats(bigDoor, doorStats.currentLevel, 4f, doorStats.maxHealth, doorStats.damageDealt); //Pass along values to the door controller
+        MainDoorController doorController = getDoorController(newDoor.transform);
+        doorController.initStats(bigDoor, level, 4f, doorStats.maxHealth, doorStats.damageDealt); //Pass along values to the door controller
     }
 
     public void RepairDoor() {
+        //TODO: Get upgrade costs
+
+        //TODO: Spend upgrade costs
+
         this.getDoorController().Repair();
     }
 
     public void UpgradeDoor() {
+        int currentDoorLevel = getDoorController().Level;
         if (currentDoorLevel + 1 >= doorStatsAtDifferentUpgradeLevels.Count) {
             Debug.LogError("Surpassed upgradable amount");
             return;
         }
+        Debug.Log("We made it here");
+
+        //Get upgrade costs
+        List<(int, int)> upgradeRecipe = new List<(int, int)>();
+        int xpCost = -1; //Get XP Cost of each upgrade
+        switch (this.getDoorController().Level) {
+            case 1:
+                //upgrade to level 2 costs
+                xpCost = this.xpToUpgradeToLevel2;
+                upgradeRecipe = this.upgradeToLevel2Recipe;
+                break;
+            case 2:
+                //upgrade to level 3 costs
+                xpCost = this.xpToUpgradeToLevel3;
+                upgradeRecipe = this.upgradeToLevel3Recipe;
+                break;
+            default: break;
+        }
+        //Spend upgrade costs
+        XPSystem.Instance.decreaseXP(xpCost);
+        foreach (var item in upgradeRecipe) {
+            var id = item.Item1; //Get the recipe item ID
+            var countRequired = item.Item2; //Get the count of the recipe item
+            InventoryManager.Instance.removeByID(id, countRequired); //Remove that much
+        }
 
         //else we can upgrade the door
-        currentDoorLevel++;
-        spawnDoor(); //Free repair taken care of by completely restarting a new door with a new max health
+        spawnDoor(currentDoorLevel + 1); //Free repair taken care of by completely restarting a new door with a new max health
 
     }
 
-    public MainDoorController getDoorController() {
-        return parentTransform.GetComponentInChildren<MainDoorController>(); //Remember this could be null so be sure to check
+    public MainDoorController getDoorController(Transform t = null) {
+        if (t == null) { t = parentTransform; }
+        return t.GetComponentInChildren<MainDoorController>(); //Remember this could be null so be sure to check
     }
     
 }

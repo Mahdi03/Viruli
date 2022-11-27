@@ -270,6 +270,26 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             descriptionTextboxText.text = getDoorName(this.doorID) + " (Level " + getDoorLevel(this.doorID) + ")" + " is already upgraded to the maximum level";
         }
         else {
+            //Calculate upgrade costs first
+            //Debug.Log(mainDoor.getDoorController().Level);
+            List<(int, int)> upgradeRecipe = new List<(int, int)>();
+            int xpCost = -1; //Get XP Cost of each upgrade
+            switch (mainDoor.getDoorController().Level) {
+                case 1:
+                    //upgrade to level 2 costs
+                    xpCost = mainDoor.xpToUpgradeToLevel2;
+                    upgradeRecipe = mainDoor.upgradeToLevel2Recipe;
+                    break;
+                case 2:
+                    //upgrade to level 3 costs
+                    xpCost = mainDoor.xpToUpgradeToLevel3;
+                    upgradeRecipe= mainDoor.upgradeToLevel3Recipe;
+                    break;
+                default: break;
+            }
+
+
+
             //We can show the table for the next upgrade stuff
 
             doorUpgradeRecipeTable = Table.createNewTable(containerRectTransform, 220, 100);
@@ -288,8 +308,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
             var xpTextRectTransform = upgradeXPRequiredTextbox.GetComponent<RectTransform>();
             xpTextRectTransform.SetParent(containerRectTransform, false);
-
-            int xpCost = 0; //TODO: Get XP Cost of each upgrade
 
             xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
 
@@ -337,6 +355,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         }
     }
     public void UpgradeDoor() {
+
         if (this.doorUpgradable) {
             InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
         }
