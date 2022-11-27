@@ -26,12 +26,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private bool doorUpgradable { get; set; } = false; //private variable referring to whether a door is upgradable
 
 
-
-    [SerializeField]
-    private Color tableBorderColor = Color.white;
-    [SerializeField]
-    private Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
-
     private void Awake() {
         if (instance != this && instance != null) {
             Destroy(gameObject);
@@ -174,44 +168,9 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         var arrOfRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
-        foreach (var item in arrOfRecipeItems) {
-            var id = item.Item1;
-            var requiredItem = InGameItemsDatabaseManager.Instance.getItemByID(id);
-            var countRequired = item.Item2;
-            var countAvailable = InventoryManager.Instance.getItemCountByID(id);
-            //Make a row
-            var row = Table.createTableRow(this.doorRepairRecipeTable.transform, 30f);
-            //In the first cell instantiate the prefab
-            var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
-            var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
-            //Add hover tooltip
-            IItem.attachItemInstance(requiredItemIcon, id); //Give the 2D Icon an ID so that the HoverTooltip can read it
-            IItem.enableScript<OnHoverTooltip>(requiredItemIcon);
 
-            //In the second cell put in the amount required
-            var requiredAmountCell = Table.createTableCell(row.transform, cellWidth: 190f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
-            var textbox = new GameObject("Required Amount");
-
-            var text = textbox.AddComponent<TextMeshProUGUI>();
-            text.text = "<color=\"" + ((countAvailable < countRequired) ? "red" : "green") + "\">" + countAvailable + "</color>/" + countRequired;
-            //Set font size to 16
-            text.fontSize = 16f;
-            text.verticalAlignment = VerticalAlignmentOptions.Middle;
-            if (countAvailable < countRequired) {
-                this.doorRepairable = false;
-            }
-
-            var rectTransform = textbox.GetComponent<RectTransform>();
-            rectTransform.SetParent(requiredAmountCell.transform, false);
-            rectTransform.localScale = Vector3.one;
-            rectTransform.anchoredPosition = new Vector2(0, 0);
-            rectTransform.anchorMin = new Vector2(0, 0);
-            rectTransform.anchorMax = new Vector2(1, 1);
-
-            //Give 5px padding on the left
-            rectTransform.offsetMin = new Vector2(5, 0); //(Left, Bottom)
-            rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
-        }
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, arrOfRecipeItems);
+        if (!recipeRequirementsMet ) { this.doorRepairable = false; } //Only set it to false if we failed to meet the requirements
 
         //Show XP required
         TextMeshProUGUI xpText;
@@ -314,7 +273,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             //We can show the table for the next upgrade stuff
 
             doorUpgradeRecipeTable = Table.createNewTable(containerRectTransform, 220, 100);
-            UpdateDoorUpgradeRecipeTable(containerRectTransform);
+            this.doorUpgradable = true; //Start at true (will change as we check all the values)
+            UpdateDoorUpgradeRecipeTable(containerRectTransform, upgradeRecipe);
 
 
             //Show XP requirement
@@ -349,9 +309,13 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
 
     private GameObject doorUpgradeRecipeTable;
-    private void UpdateDoorUpgradeRecipeTable(Transform parentContainerToSpawnElementsIn) {
+    private void UpdateDoorUpgradeRecipeTable(Transform parentContainerToSpawnElementsIn, List<(int, int)> upgradeRecipe) {
         GameManager.clearAllChildrenOfObj(doorUpgradeRecipeTable);
+        //Loop through all items in upgrade recipe and add them to the table
         //TODO: implement table????
+
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorUpgradeRecipeTable, upgradeRecipe);
+        if (!recipeRequirementsMet) { this.doorUpgradable = false; }
 
     }
 

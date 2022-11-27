@@ -16,11 +16,6 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     public int itemID { get; set; }
     private bool itemCraftable { get; set; } = false; //private variable referring to whether a potion is craftable
 
-    [SerializeField]
-    private Color tableBorderColor = Color.white;
-    [SerializeField]
-    private Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
-
     /* Global prefabs the rest of the UI might need access to */
     public GameObject craftableUIInfoGroupContainer; //Ready-made prefab for bottom left corner of crafting UI
     public GameObject craftingUIPotionCraftingInputGroup; //Ready-made prefab for Input buttons for bottom right corner of crafting UI
@@ -77,44 +72,8 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
         var arrOfRecipeItems = itemToCraft.Recipe;
         this.itemCraftable = true;
-        foreach (var item in arrOfRecipeItems) {
-            var id = item.Item1;
-            var requiredItem = InGameItemsDatabaseManager.Instance.getItemByID(id);
-            var countRequired = item.Item2 * amountToCraft;
-            var countAvailable = InventoryManager.Instance.getItemCountByID(id);
-            //Make a row
-            var row = Table.createTableRow(this.craftableItemRecipeTable.transform, 30f);
-            //In the first cell instantiate the prefab
-            var iconCell = Table.createTableCell(row.transform, cellWidth: 30f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
-            var requiredItemIcon = Instantiate(requiredItem.TwoDimensionalPrefab, iconCell.transform);
-            //Add hover tooltip
-            IItem.attachItemInstance(requiredItemIcon, id); //Give the 2D Icon an ID so that the HoverTooltip can read it
-            IItem.enableScript<OnHoverTooltip>(requiredItemIcon);
-
-            //In the second cell put in the amount required
-            var requiredAmountCell = Table.createTableCell(row.transform, cellWidth: 190f, tableBorderColor, borderWidth: 1f, tablePaddingColor);
-            var textbox = new GameObject("Required Amount");
-
-            var text = textbox.AddComponent<TextMeshProUGUI>();
-            text.text = "<color=\"" + ((countAvailable < countRequired) ? "red" : "green") + "\">" + countAvailable + "</color>/" + countRequired;
-            //Set font size to 16
-            text.fontSize = 16f;
-            text.verticalAlignment = VerticalAlignmentOptions.Middle;
-            if (countAvailable < countRequired) {
-                this.itemCraftable = false;
-            }
-
-            var rectTransform = textbox.GetComponent<RectTransform>();
-            rectTransform.SetParent(requiredAmountCell.transform, false);
-            rectTransform.localScale = Vector3.one;
-            rectTransform.anchoredPosition = new Vector2(0, 0);
-            rectTransform.anchorMin = new Vector2(0, 0);
-            rectTransform.anchorMax = new Vector2(1, 1);
-
-            //Give 5px padding on the left
-            rectTransform.offsetMin = new Vector2(5, 0); //(Left, Bottom)
-            rectTransform.offsetMax = new Vector2(-0, -0); //(-Right, -Top)
-        }
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.craftableItemRecipeTable, arrOfRecipeItems);
+        if (!recipeRequirementsMet) { this.itemCraftable = false; }
         //Show XP required
         TextMeshProUGUI xpText;
         if (craftableItemXPRequiredTextbox != null) {
