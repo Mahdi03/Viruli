@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7205,7 +7205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DoorRepairCenterContainer_BottomLeftCorner: {fileID: 348128507}
   DoorUpgradeCenterContainer_BottomRightCorner: {fileID: 2123246223}
-  healthBarPrefab: {fileID: 5460213502995747922, guid: 70ea2e6c33eb2fe44a38b8fc9b724910,
+  sliderPrefab: {fileID: 6507314239030738812, guid: 02e4af33cc1ee7a4ea35bedffba1c1b5,
     type: 3}
   tableBorderColor: {r: 1, g: 1, b: 1, a: 1}
   tablePaddingColor: {r: 0.1743, g: 0.190365, b: 0.21, a: 1}
@@ -10502,7 +10502,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
@@ -14568,7 +14568,7 @@ MonoBehaviour:
   m_Elasticity: 0.01
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 20
+  m_ScrollSensitivity: 35
   m_Viewport: {fileID: 513439429}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 2092151883}
@@ -31284,7 +31284,7 @@ MonoBehaviour:
   m_Elasticity: 0.01
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 25
+  m_ScrollSensitivity: 35
   m_Viewport: {fileID: 2064885036}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1739343710}
@@ -40280,7 +40280,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.12762547, g: 0.13302478, b: 0.14150941, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
