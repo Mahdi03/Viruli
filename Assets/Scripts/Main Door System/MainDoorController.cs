@@ -34,6 +34,13 @@ public class MainDoorController : MonoBehaviour {
 		*/
     }
 
+	public (int, int) getCurrentHealthStats() {
+		return (this.currentHealth, this.maxHealth);
+	}
+	public int getLevel() {
+	return this.Level;
+	}
+
 	public void DamageHealth(int dealsDamage, Transform enemyTransform) {
 		currentHealth -= dealsDamage;
 		updateHealthBar();

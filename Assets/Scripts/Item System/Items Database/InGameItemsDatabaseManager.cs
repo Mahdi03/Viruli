@@ -98,7 +98,38 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			mainDoors = db.mainDoors;
             for (int i = 0; i < db.mainDoors.Count; i++) {
 				mainDoors[i].ID = i;
-				mainDoors[i].InitDoor();
+                //Convert dirty repair recipe to clean repair recipe
+                List<(int, int)> finalRepairRecipe = new List<(int, int)>();
+                var dirtyRepairRecipeItems = mainDoors[i].repairRecipeDirty;
+                for (int j = 0; j < dirtyRepairRecipeItems.Length; j++) {
+                    int id = dirtyRepairRecipeItems[j].item.ID;
+                    int count = dirtyRepairRecipeItems[j].countRequired;
+                    finalRepairRecipe.Add((id, count));
+                }
+                mainDoors[i].repairRecipe = finalRepairRecipe;
+
+                //Convert dirty repair recipe to clean repair recipe
+                List<(int, int)> finalUpgradeToLevel2Recipe = new List<(int, int)>();
+                var dirtyUpgradeToLevel2RecipeItems = mainDoors[i].upgradeToLevel2RecipeDirty;
+                for (int j = 0; j < dirtyUpgradeToLevel2RecipeItems.Length; j++) {
+                    int id = dirtyUpgradeToLevel2RecipeItems[j].item.ID;
+                    int count = dirtyUpgradeToLevel2RecipeItems[j].countRequired;
+                    finalUpgradeToLevel2Recipe.Add((id, count));
+                }
+                mainDoors[i].upgradeToLevel2Recipe = finalUpgradeToLevel2Recipe;
+
+                //Convert dirty repair recipe to clean repair recipe
+                List<(int, int)> finalUpgradeToLevel3Recipe = new List<(int, int)>();
+                var dirtyUpgradeToLevel3RecipeItems = mainDoors[i].upgradeToLevel3RecipeDirty;
+                for (int j = 0; j < dirtyUpgradeToLevel3RecipeItems.Length; j++) {
+                    int id = dirtyUpgradeToLevel3RecipeItems[j].item.ID;
+                    int count = dirtyUpgradeToLevel3RecipeItems[j].countRequired;
+                    finalUpgradeToLevel3Recipe.Add((id, count));
+                }
+                mainDoors[i].upgradeToLevel3Recipe = finalUpgradeToLevel3Recipe;
+
+
+                mainDoors[i].InitDoor();
 			}
 			
 		}

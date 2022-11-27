@@ -16,7 +16,7 @@ public class TabButtonController : MonoBehaviour, IPointerClickHandler {
 
 	public void OnPointerClick(PointerEventData eventData) {
 		//OnClick, select this tab
-        CraftingUIController.Instance.SelectTab(tabID);
+        CraftingUITabsManager.Instance.SelectTab(tabID);
 	}
     private bool initialized = false;
 	private Image padding = null;

@@ -6,9 +6,13 @@ using UnityEngine.EventSystems;
 public class DoorScrollViewElement : ScrollViewElementController {
     public override void OnPointerClick(PointerEventData eventData) {
         base.OnPointerClick(eventData);
-        //TODO: Show data on doors
-
-        //TODO: Highlight which door this is in the layout
+        
+        //Highlight which door this is in the layout
         MainDoorManager.Instance.GlowDoorByID(this.itemID);
+
+        //TODO: Show data on doors
+        CraftingUIDoorsManager.Instance.doorID = this.itemID; //Set a door ID
+        CraftingUIDoorsManager.Instance.LoadDoorUI();
+
     }
 }

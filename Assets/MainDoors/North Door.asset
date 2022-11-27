@@ -14,17 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bigDoor: 1
   parentTransformTagName: NorthDoor
-  doorInfo:
+  repairRecipeDirty: []
+  upgradeToLevel1RecipeDirty: []
+  upgradeToLevel2RecipeDirty: []
+  upgradeToLevel3RecipeDirty: []
+  doorStatsAtDifferentUpgradeLevels:
   - currentLevel: 1
     maxHealth: 200
     damageDealt: 0
-    doorPrefab: {fileID: 7205414446975628183, guid: c0cc83dd8c009144a8c9a4a1852f6f30,
+    doorPrefab: {fileID: 7205414446975628183, guid: 29e89cf38b31fa24cb8f43bfe32b2981,
       type: 3}
   - currentLevel: 2
-    maxHealth: 300
+    maxHealth: 200
     damageDealt: 0
     doorPrefab: {fileID: 0}
   - currentLevel: 3
-    maxHealth: 500
+    maxHealth: 400
     damageDealt: 4
     doorPrefab: {fileID: 0}

@@ -36,7 +36,7 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 	/// This function is called on click of the button
 	/// </summary>
 	public void CraftPotion() {
-		CraftingUIController.Instance.CraftPotion(this.amountToCraft);
+		CraftingUIPotionsManager.Instance.CraftPotion(this.amountToCraft);
 	}
 	public void UpdateRecipeTable(string inputText) {
 		int result;
@@ -51,7 +51,7 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 		else {
 			//result is now defined
 			this.amountToCraft = result;
-			CraftingUIController.Instance.UpdateRecipeTable(result);
+			CraftingUIPotionsManager.Instance.UpdateCraftingRecipeTable(result);
 		}
 	}
 }

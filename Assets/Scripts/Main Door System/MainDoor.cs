@@ -36,8 +36,22 @@ public class MainDoor : ScriptableObject {
     private Transform parentTransform; //Where to spawn the door
 
     //public int initialHealth; //Have small doors have lesser health than the big doors
+    [Serializable]
+    public class recipeItem {
+        public Item item;
+        public int countRequired;
+    }
 
-    public List<DoorStats> doorInfo = new List<DoorStats>() {
+    public recipeItem[] repairRecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
+    public List<(int, int)> repairRecipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+    public recipeItem[] upgradeToLevel2RecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
+    public List<(int, int)> upgradeToLevel2Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+    public recipeItem[] upgradeToLevel3RecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
+    public List<(int, int)> upgradeToLevel3Recipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
+
+
+    //Door upgrade level stats
+    public List<DoorStats> doorStatsAtDifferentUpgradeLevels = new List<DoorStats>() {
             new DoorStats(currentLevel: 1, 100, 0),
             new DoorStats(currentLevel: 2, 100 + 100, 0),
             new DoorStats(currentLevel: 3, 100 + 100 + 200, 4)
@@ -51,7 +65,7 @@ public class MainDoor : ScriptableObject {
     }
     private void spawnDoor() {
         GameManager.clearAllChildrenOfObj(parentTransform);
-        DoorStats doorStats = doorInfo[currentDoorLevel];
+        DoorStats doorStats = doorStatsAtDifferentUpgradeLevels[currentDoorLevel];
         var newDoor = Instantiate(doorStats.doorPrefab, parentTransform);
         MainDoorController doorController;
         if (bigDoor) {
@@ -64,8 +78,13 @@ public class MainDoor : ScriptableObject {
         }
         doorController.initStats(bigDoor, doorStats.currentLevel, 4f, doorStats.maxHealth, doorStats.damageDealt); //Pass along values to the door controller
     }
+
+    public void RepairDoor() {
+        this.getDoorController().Repair();
+    }
+
     public void UpgradeDoor() {
-        if (currentDoorLevel + 1 >= doorInfo.Count) {
+        if (currentDoorLevel + 1 >= doorStatsAtDifferentUpgradeLevels.Count) {
             Debug.LogError("Surpassed upgradable amount");
             return;
         }
