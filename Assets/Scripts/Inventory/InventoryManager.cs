@@ -56,14 +56,42 @@ public class InventoryManager : MonoBehaviour {
 		return currentInventory.getItemCountByID(id);
 	}
 
-	public void pickupItem(int itemID, bool disableXPIncrease = false) {
-		currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
+	public int getCountOfRemainingOpenSlots() {
+		return currentInventory.getCountOfRemainingOpenSpots();
+	}
+
+	/// <summary>
+	/// Make return type a bool so that we can check whether it was added successfully or not
+	/// and based off that make a decision on whether we should remove it from the scene altogether or what
+	/// </summary>
+	/// <param name="itemID"></param>
+	/// <param name="disableXPIncrease"></param>
+	/// <returns></returns>
+	public bool pickupItem(int itemID, bool disableXPIncrease = false) {
+		var item = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+		if (item.Stackable) {
+			if (currentInventory.indexOf(itemID) < 0) {
+				if (getCountOfRemainingOpenSlots() < 1) {
+				//Item not found in inventory, see if we have space to add one more item
+					return false; //Do not continue the function, we can't add it to the inventory
+				}
+			}
+		}
+		else {
+            //Item is not stackable, just see if we have one slot open for this item or not
+            if (getCountOfRemainingOpenSlots() < 1) {
+                //Item not found in inventory, see if we have space to add one more item
+                return false; //Do not continue the function, we can't add it to the inventory
+            }
+        }
+        currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
 		if (!disableXPIncrease) {
 			//Add +2*level+3 XP for picking up something
 			XPSystem.Instance.increaseXP(2 * XPSystem.Instance.Level + 3); //The amount of XP earned from a pick up will change based on what level you are on
 		}
 		//Update inventory UI to reflect inventory array changes
 		UpdateInventoryUIToReflectInternalInventoryChanges();
+		return true; //Since we made it here, it was a successful add to the inventory
 	}
 	public void swapItemsInInventory(int indexA, int indexB) {
 		currentInventory.swap(indexA, indexB);

@@ -142,7 +142,22 @@ public class Inventory : IEnumerable {
 	public int length() {
 		return this.inventory.Count;
 	}
-
+	/// <summary>
+	/// Will check for the first index of an item in the inventory with the given itemID
+	/// Returns the index if the element is found
+	/// Returns -1 if there is no element with that itemID in the inventory
+	/// </summary>
+	/// <param name="itemID"></param>
+	/// <returns></returns>
+	public int indexOf(int itemID) {
+		for (int i = 0; i < this.inventory.Count; i++) {
+			InternalInventoryItem inventoryItem= this.inventory[i];
+			if (itemID == inventoryItem.itemID) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	/*Use in crafting system to judge whether the recipe can hold */
 	public int getItemCountByID(int itemID) {
 		int count = 0;
@@ -153,7 +168,19 @@ public class Inventory : IEnumerable {
 		}
 		return count;
 	}
+	public int getCountOfRemainingOpenSpots() {
+		int countOfFullInventorySlots = 0;
+		foreach (InternalInventoryItem item in this.inventory) {
+			//itemID's are -1 when empty
+			if (item.itemID > -1) {
+				countOfFullInventorySlots++;
+			}
+		}
+		int remainingSpots = this.inventory.Count - countOfFullInventorySlots;
+		//Debug.Log(remainingSpots);
 
+        return remainingSpots;
+	}
 	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
 		if (amountToRemove <= 0) { return; }
 		if (this.getItemCountByID(itemIDToRemove) < amountToRemove) {

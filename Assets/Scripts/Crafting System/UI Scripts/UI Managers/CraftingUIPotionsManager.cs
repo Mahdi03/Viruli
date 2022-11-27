@@ -74,7 +74,8 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     
     public void UpdateCraftingRecipeTable(int amountToCraft) {
         GameManager.clearAllChildrenOfObj(this.craftableItemRecipeTable);
-        var arrOfRecipeItems = InGameItemsDatabaseManager.Instance.getItemByID(itemID).Recipe;
+        var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+        var arrOfRecipeItems = itemToCraft.Recipe;
         this.itemCraftable = true;
         foreach (var item in arrOfRecipeItems) {
             var id = item.Item1;
@@ -138,6 +139,23 @@ public class CraftingUIPotionsManager : MonoBehaviour {
 
         if (xpCost > XPSystem.Instance.XP) {
             this.itemCraftable = false;
+        }
+
+        if (itemToCraft.Stackable) {
+            if (InventoryManager.Instance.getCountOfRemainingOpenSlots() < 1) {
+                //We have no room in our inventory, do not allow the craft
+                this.itemCraftable = false;
+            }
+        }
+        else {
+            if (InventoryManager.Instance.getCountOfRemainingOpenSlots() < amountToCraft) {
+                //We have no room in our inventory, do not allow the craft
+                this.itemCraftable = false;
+            }
+        }
+        //Last number check to make sure that 
+        if (!(amountToCraft > 0)) {
+            this.itemCraftable= false;
         }
 
         inputGroupController.SetAmountToCraft(amountToCraft);
