@@ -109,8 +109,11 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
         //When we click on our element, the rest of the other elements will be unselected, this one will be selected, and then we will load it
         //Loop through all the elements in our parent and for each one, unselect it
         for (int i = 0; i < transform.parent.childCount; i++) {
-			ScrollViewElementController scrollViewElementController = transform.parent.GetChild(i).GetComponent<ScrollViewElementController>();
-			scrollViewElementController.Selected = false;
+			var scrollViewElementController = transform.parent.GetChild(i).GetComponent(this.GetType());
+            if (scrollViewElementController.GetType().GetProperty("Selected") != null) {
+                scrollViewElementController.GetType().GetProperty("Selected").SetValue(scrollViewElementController, false);
+            }
+            //scrollViewElementController.Selected = false;
 		}
 		//Then select this one - the background color stuff is taken care of with the Selected property
 		this.Selected = true;
