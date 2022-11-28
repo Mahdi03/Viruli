@@ -11,7 +11,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/Create GameItemsDatabase")]
 public class GameItemsDatabase : ScriptableObject {
 	public List<Potion> potions;
-	public List<RawMaterial> rawMaterials;
+	//public List<RawMaterial> rawMaterials;
+    public List<BuildingMaterial> buildingMaterials;
+    public List<CraftingMaterial> craftingMaterials;
 	public List<Enemy> enemies;
 	public List<MainDoor> mainDoors;
 }

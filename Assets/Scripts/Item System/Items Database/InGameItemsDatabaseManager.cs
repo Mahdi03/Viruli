@@ -54,21 +54,28 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 				}
 				itemID++;
 			}
-			foreach (var rawMaterial in db.rawMaterials) {
+			foreach (var rawMaterial in db.buildingMaterials) {
 				rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
 				if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
 					throw new System.Exception("An item with this key already exists in the database");
 				}
 				itemID++;
 			}
+            foreach (var rawMaterial in db.craftingMaterials) {
+                rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
+                if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
+                    throw new System.Exception("An item with this key already exists in the database");
+                }
+                itemID++;
+            }
 
 
-			/*
+            /*
 			 * Loop through the dictionary of items and then set each Recipe property as an array of itemIDs
 			 * and countRequired's instead of actual Item objects and their counts because the Unity editor
 			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
 			 */
-			craftableItems = new Dictionary<int, IItem>();
+            craftableItems = new Dictionary<int, IItem>();
 			droppableItems = new List<int>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
 				//Debug.Log(itemEntry);
