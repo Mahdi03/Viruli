@@ -9,18 +9,22 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
 	public void OnPointerDown(PointerEventData eventData) {
 		//We were clicked on, now add this item to inventory
 		int itemID = GetComponent<ItemInstance>().itemID;
-		InventoryManager.Instance.pickupItem(itemID);
-		//Now remove this object from the game altogether
-		Destroy(gameObject);
+		if (InventoryManager.Instance.pickupItem(itemID)) {
+            //Now remove this object from the game altogether
+            Destroy(gameObject);
+        }
+		//If we made it here then there was no more room in the inventory so we cannot pick it up
 	}
 
 	/*For 3D Objects*/
 	private void OnMouseDown() {
 		//We were clicked on, now add this item to inventory
 		int itemID = GetComponent<ItemInstance>().itemID;
-		InventoryManager.Instance.pickupItem(itemID);
-		//Now remove this object from the game altogether
-		Destroy(gameObject);
+		if (InventoryManager.Instance.pickupItem(itemID)) {
+            //Now remove this object from the game altogether
+            Destroy(gameObject);
+        }
+		
 	}
 
 }

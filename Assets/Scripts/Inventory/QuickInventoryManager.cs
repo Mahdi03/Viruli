@@ -16,7 +16,7 @@ public class QuickInventoryManager : MonoBehaviour {
 
 		//Get width of each slot
 		slotWidth = inventorySlotPrefab.GetComponent<Image>().rectTransform.sizeDelta.x;
-		//TODO: Could have made this a dynamic horizontal layout but I guess this works well with the open inventory button
+		//Could have made this a dynamic horizontal layout but I guess this works well with the open inventory button
 		int i = 0;
 		for (i = 0; i < numOfQuickInventorySlots; i++) {
 			float currentSlotPos = (i - numOfQuickInventorySlots / 2f) * slotWidth;

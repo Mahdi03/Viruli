@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -15,7 +16,9 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject tooltipObjInScene;
 
-
+	public static void clearAllChildrenOfObj(Transform obj) {
+		clearAllChildrenOfObj(obj.gameObject);
+	}
 	/// <summary>
 	/// Publicly defined method to remove all children of a GameObject (for UI purposes mainly)
 	/// </summary>

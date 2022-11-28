@@ -15,6 +15,8 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 
 	public List<Enemy> enemies { get; private set; }
 
+	public List<MainDoor> mainDoors { get; private set; }
+
 	//Provide a getter method to get items from the dictionary so we can use the data
 	/*
 	 Make sure you are checking the value of itemID before trying to access it
@@ -52,24 +54,31 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 				}
 				itemID++;
 			}
-			foreach (var rawMaterial in db.rawMaterials) {
+			foreach (var rawMaterial in db.buildingMaterials) {
 				rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
 				if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
 					throw new System.Exception("An item with this key already exists in the database");
 				}
 				itemID++;
 			}
+            foreach (var rawMaterial in db.craftingMaterials) {
+                rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
+                if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
+                    throw new System.Exception("An item with this key already exists in the database");
+                }
+                itemID++;
+            }
 
 
-			/*
+            /*
 			 * Loop through the dictionary of items and then set each Recipe property as an array of itemIDs
 			 * and countRequired's instead of actual Item objects and their counts because the Unity editor
 			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
 			 */
-			craftableItems = new Dictionary<int, IItem>();
+            craftableItems = new Dictionary<int, IItem>();
 			droppableItems = new List<int>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
-				Debug.Log(itemEntry);
+				//Debug.Log(itemEntry);
 				if (itemEntry.Value.Craftable) {
 					//Then we set the recipe correctly
 					List<(int, int)> finalRecipe = new List<(int, int)>();
@@ -92,6 +101,44 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			}
 			//Set public enemies list from database file
 			enemies = db.enemies;
+            //Set public mainDoors list from database file and set each of their ID's for later use in the game
+			mainDoors = db.mainDoors;
+            for (int i = 0; i < db.mainDoors.Count; i++) {
+				mainDoors[i].ID = i;
+                //Convert dirty repair recipe to clean repair recipe
+                List<(int, int)> finalRepairRecipe = new List<(int, int)>();
+                var dirtyRepairRecipeItems = mainDoors[i].repairRecipeDirty;
+                for (int j = 0; j < dirtyRepairRecipeItems.Length; j++) {
+                    int id = dirtyRepairRecipeItems[j].item.ID;
+                    int count = dirtyRepairRecipeItems[j].countRequired;
+                    finalRepairRecipe.Add((id, count));
+                }
+                mainDoors[i].repairRecipe = finalRepairRecipe;
+
+                //Convert dirty repair recipe to clean repair recipe
+                List<(int, int)> finalUpgradeToLevel2Recipe = new List<(int, int)>();
+                var dirtyUpgradeToLevel2RecipeItems = mainDoors[i].upgradeToLevel2RecipeDirty;
+                for (int j = 0; j < dirtyUpgradeToLevel2RecipeItems.Length; j++) {
+                    int id = dirtyUpgradeToLevel2RecipeItems[j].item.ID;
+                    int count = dirtyUpgradeToLevel2RecipeItems[j].countRequired;
+                    finalUpgradeToLevel2Recipe.Add((id, count));
+                }
+                mainDoors[i].upgradeToLevel2Recipe = finalUpgradeToLevel2Recipe;
+
+                //Convert dirty repair recipe to clean repair recipe
+                List<(int, int)> finalUpgradeToLevel3Recipe = new List<(int, int)>();
+                var dirtyUpgradeToLevel3RecipeItems = mainDoors[i].upgradeToLevel3RecipeDirty;
+                for (int j = 0; j < dirtyUpgradeToLevel3RecipeItems.Length; j++) {
+                    int id = dirtyUpgradeToLevel3RecipeItems[j].item.ID;
+                    int count = dirtyUpgradeToLevel3RecipeItems[j].countRequired;
+                    finalUpgradeToLevel3Recipe.Add((id, count));
+                }
+                mainDoors[i].upgradeToLevel3Recipe = finalUpgradeToLevel3Recipe;
+
+
+                mainDoors[i].InitDoor();
+			}
+			
 		}
 	}
 

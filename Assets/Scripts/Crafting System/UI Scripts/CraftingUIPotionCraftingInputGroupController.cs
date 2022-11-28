@@ -36,7 +36,7 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 	/// This function is called on click of the button
 	/// </summary>
 	public void CraftPotion() {
-		CraftingUIController.Instance.CraftPotion(this.amountToCraft);
+		CraftingUIPotionsManager.Instance.CraftPotion(this.amountToCraft);
 	}
 	public void UpdateRecipeTable(string inputText) {
 		int result;
@@ -46,12 +46,13 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 			return;
 		}
 		if (!int.TryParse(inputText, out result)) {
-			throw new System.FormatException("The input \"" + inputText + "\" is not an acceptable integer type");
+            this.DisableCraftingButton();
+            throw new System.FormatException("The input \"" + inputText + "\" is not an acceptable integer type");
 		}
 		else {
 			//result is now defined
 			this.amountToCraft = result;
-			CraftingUIController.Instance.UpdateRecipeTable(result);
+			CraftingUIPotionsManager.Instance.UpdateCraftingRecipeTable(result);
 		}
 	}
 }

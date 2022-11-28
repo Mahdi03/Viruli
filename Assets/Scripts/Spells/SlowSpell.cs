@@ -36,6 +36,7 @@ public class SlowSpell : SpellAction {
 			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
 				enemyController.changeMovementSpeed(enemyController.BaseMovementSpeed * slowDownFactor); //Reduce speed
+				//TODO: reduce attack speed
 			}
 		}
 	}
@@ -44,6 +45,7 @@ public class SlowSpell : SpellAction {
 		foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 			EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
 			enemyController.changeMovementSpeed(enemyController.BaseMovementSpeed); //Reset speed
+			//TODO: reinstate original attack speed
 		}
 		base.EndSpellEffects();
 	}

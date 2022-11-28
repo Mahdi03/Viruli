@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour {
 	private Transform target;
 	private bool isAttacking = false;
 	private float attackRadius = 1f;
+	//TODO: Add public attack speed controls for spells to manipulate
 	private int dealsDamage;
 
 	private int xpValue;
@@ -93,11 +94,16 @@ public class EnemyController : MonoBehaviour {
 		return Vector3.Magnitude(transform.position - target.position) <= meshAgent.stoppingDistance;
 	}
 	private int doorMask = GameManager.LAYER_MainDoor;
-	public void Attack() { //Called from the animator in the middle of an attack animation
+    private void OnDrawGizmos() {
+		Gizmos.DrawWireSphere(transform.position + transform.forward * attackRadius, attackRadius);
+    }
+    public void Attack() { //Called from the animator in the middle of an attack animation
 		isAttacking = false;
-		foreach (var collider in Physics.OverlapSphere(transform.position + transform.forward * attackRadius, attackRadius, doorMask)) {
-			MainDoorController doorController = collider.transform.GetComponent<MainDoorController>();
-			doorController.DamageHealth(dealsDamage);
+		//var yeet = Physics.OverlapSphere(transform.position + transform.forward * attackRadius, attackRadius, doorMask);
+
+        foreach (var collider in Physics.OverlapSphere(transform.position + transform.forward * attackRadius, attackRadius, doorMask)) {
+			MainDoorController doorController = collider.transform.GetComponentInChildren<MainDoorController>();
+			doorController.DamageHealth(dealsDamage, transform);
 		}
 	}
 	// Update is called once per frame
@@ -110,7 +116,8 @@ public class EnemyController : MonoBehaviour {
 		}
 		else {
 			Debug.Log("Target nonexistent");
-		}
+            SetTarget(findNearestDoor());
+        }
 	}
 	public void changeMovementSpeed(float speed) {
 		if (!enemyMotor) {

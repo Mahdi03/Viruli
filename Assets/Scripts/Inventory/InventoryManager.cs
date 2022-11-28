@@ -19,7 +19,7 @@ public class InventoryManager : MonoBehaviour {
 			currentInventory = new Inventory(100); //TODO: Have a dynamically resizing inventory depending on how many items we have
 			//TODO: Have an if resume game catch here
 			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
-			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(7);
+			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(17);
 
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour {
 			myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
 
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(6);
+			myItem = InGameItemsDatabaseManager.Instance.getItemByID(11);
 
 			myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
@@ -47,6 +47,9 @@ public class InventoryManager : MonoBehaviour {
 	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
 		currentInventory.removeByID(itemIDToRemove, amountToRemove);
 	}
+	public void removeAtSlotLocation(int indexToRemoveAt, int amountToRemove = 1) {
+		currentInventory.removeAtIndex(indexToRemoveAt, amountToRemove);
+	}
 
 	public int getTotalItemsCount() {
 		return this.currentInventory.length();
@@ -56,12 +59,42 @@ public class InventoryManager : MonoBehaviour {
 		return currentInventory.getItemCountByID(id);
 	}
 
-	public void pickupItem(int itemID) {
-		currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
-		//Add +2*level+3 XP for picking up something
-		XPSystem.Instance.increaseXP(2 * XPSystem.Instance.Level + 3); //The amount of XP earned from a pick up will change based on what level you are on
+	public int getCountOfRemainingOpenSlots() {
+		return currentInventory.getCountOfRemainingOpenSpots();
+	}
+
+	/// <summary>
+	/// Make return type a bool so that we can check whether it was added successfully or not
+	/// and based off that make a decision on whether we should remove it from the scene altogether or what
+	/// </summary>
+	/// <param name="itemID"></param>
+	/// <param name="disableXPIncrease"></param>
+	/// <returns></returns>
+	public bool pickupItem(int itemID, bool disableXPIncrease = false) {
+		var item = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+		if (item.Stackable) {
+			if (currentInventory.indexOf(itemID) < 0) {
+				if (getCountOfRemainingOpenSlots() < 1) {
+				//Item not found in inventory, see if we have space to add one more item
+					return false; //Do not continue the function, we can't add it to the inventory
+				}
+			}
+		}
+		else {
+            //Item is not stackable, just see if we have one slot open for this item or not
+            if (getCountOfRemainingOpenSlots() < 1) {
+                //Item not found in inventory, see if we have space to add one more item
+                return false; //Do not continue the function, we can't add it to the inventory
+            }
+        }
+        currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
+		if (!disableXPIncrease) {
+			//Add +2*level+3 XP for picking up something
+			XPSystem.Instance.increaseXP(2 * XPSystem.Instance.Level + 3); //The amount of XP earned from a pick up will change based on what level you are on
+		}
 		//Update inventory UI to reflect inventory array changes
 		UpdateInventoryUIToReflectInternalInventoryChanges();
+		return true; //Since we made it here, it was a successful add to the inventory
 	}
 	public void swapItemsInInventory(int indexA, int indexB) {
 		currentInventory.swap(indexA, indexB);
@@ -104,8 +137,19 @@ public class InventoryManager : MonoBehaviour {
 								IItem.enableScript<DraggableObject2D>(item2DPrefab);
 								if (inventorySlotAssociatedInfoA.slotID < 10) {
 									IItem.enableScript<DroppableObject3D>(item2DPrefab);
-								}
-								IItem.disableScript<ClickAddInventory>(item2DPrefab);
+
+                                    IItem.disableScript<ClickAddQuickInventory>(item2DPrefab);
+                                }
+								else {
+                                    //we are in the full inventory
+
+                                    //make it so that when we click on an element (pointer up maybe)
+                                    //that it is added to the nearest spot in the quick inventory instead of having to drag it
+                                    IItem.enableScript<ClickAddQuickInventory>(item2DPrefab);
+
+                                    IItem.disableScript<DroppableObject3D>(item2DPrefab);
+                                }
+                                IItem.disableScript<ClickAddInventory>(item2DPrefab);
 								IItem.disableScript<ItemFloat>(item2DPrefab);
 								IItem.enableScript<OnHoverTooltip>(item2DPrefab);
 								item2DPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
