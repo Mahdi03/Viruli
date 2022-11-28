@@ -11,9 +11,16 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 	private Dictionary<int, IItem> itemsDatabase; //Actual database that will store all the types of items in the game
 	public Dictionary<int, IItem> craftableItems { get; private set; }
 
-	public List<int> droppableItems { get; private set; } //Store itemID's a weighted amount for randomized drops
+    
+	//A droppable item is an item that is dropped by dead enemies
+    public List<int> allDropSpawnableItems { get; private set; } //Store itemID's a weighted amount for randomized drops
+    public List<int> dropSpawnableBuildingItems { get; private set; }
+    public List<int> dropSpawnableCraftingItems { get; private set; }
+
+	
 
 	public List<Enemy> enemies { get; private set; }
+	public List<int> enemiesToSpawnFrom { get; private set; }
 
 	public List<MainDoor> mainDoors { get; private set; }
 
@@ -28,7 +35,9 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 		}
 		return item;
 	}
-
+	public Enemy getEnemyByID(int enemyID) {
+		return enemies[enemyID];
+	}
 
 	private void Awake() {
 		//Singleton initialization code
@@ -54,19 +63,35 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 				}
 				itemID++;
 			}
-			foreach (var rawMaterial in db.buildingMaterials) {
-				rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
-				if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
+
+			allDropSpawnableItems = new List<int>(); //don't forget to initialize the list before adding to it
+            dropSpawnableBuildingItems = new List<int>(); //don't forget to initialize the list before adding to it
+            foreach (var buildingMaterial in db.buildingMaterials) {
+				buildingMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
+				//Add to main big database
+				if (!itemsDatabase.TryAdd(itemID, buildingMaterial)) {
 					throw new System.Exception("An item with this key already exists in the database");
 				}
+				//Add to the probabilistically weighted list dedicated to only building materials
+				for (int i = 0; i < buildingMaterial.WeightedDropProbability; i++) {
+					dropSpawnableBuildingItems.Add(buildingMaterial.ID);
+				}
+				
 				itemID++;
 			}
-            foreach (var rawMaterial in db.craftingMaterials) {
-                rawMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
-                if (!itemsDatabase.TryAdd(itemID, rawMaterial)) {
+			dropSpawnableCraftingItems= new List<int>(); //don't forget to initialize the list before adding to it
+            foreach (var craftingMaterial in db.craftingMaterials) {
+                craftingMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
+				//Add to main big database
+                if (!itemsDatabase.TryAdd(itemID, craftingMaterial)) {
                     throw new System.Exception("An item with this key already exists in the database");
                 }
-                itemID++;
+                //Add to the probabilistically weighted list dedicated to only crafting materials
+				for (int i = 0; i < craftingMaterial.WeightedDropProbability; i++) {
+					dropSpawnableCraftingItems.Add(craftingMaterial.ID);
+				}
+                
+				itemID++;
             }
 
 
@@ -76,7 +101,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
 			 */
             craftableItems = new Dictionary<int, IItem>();
-			droppableItems = new List<int>();
+			allDropSpawnableItems = new List<int>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
 				//Debug.Log(itemEntry);
 				if (itemEntry.Value.Craftable) {
@@ -94,13 +119,22 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 					craftableItems.TryAdd(itemEntry.Key, item);
 				}
 
-				//Add to probability list (keep in same foreach loop to avoid extra O(n) runtime
-				for (int i = 0; i < itemEntry.Value.WeightedDropProbability; i++) {
-					droppableItems.Add(itemEntry.Key); //Add itemID as many times as needed by the WeightedDropProbability
+			}
+
+
+            //Set public enemies list from database file
+			enemies = new List<Enemy>();
+            enemiesToSpawnFrom = new List<int>();
+            for (int i = 0; i < db.enemies.Count; i++) {
+				Enemy enemy= db.enemies[i];
+				enemy.enemyID= i;
+				enemies.Add(enemy);
+				for (int j = 0; j < enemy.spawnProbability; j++) {
+					enemiesToSpawnFrom.Add(enemy.enemyID);
 				}
 			}
-			//Set public enemies list from database file
-			enemies = db.enemies;
+
+			
             //Set public mainDoors list from database file and set each of their ID's for later use in the game
 			mainDoors = db.mainDoors;
             for (int i = 0; i < db.mainDoors.Count; i++) {
@@ -142,8 +176,19 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 		}
 	}
 
-	public void DropRandomItem(Vector3 position, Quaternion rotation) {
-		int itemIDToDrop = droppableItems[(int)Random.Range(0, droppableItems.Count)]; //The ID's are numbered off based on count of items total
+	public void DropRandomItem(Vector3 position, Quaternion rotation, string enemyKilledName) {
+		int itemIDToDrop = -1;
+		if (enemyKilledName.ToLower().Contains("zombie")) {
+			//We are dealing with the basic zombie, we only drop crafting items
+			itemIDToDrop = dropSpawnableCraftingItems[(int)Random.Range(0, dropSpawnableCraftingItems.Count)];
+		}
+		else if (enemyKilledName.ToLower().Contains("troll")) {
+            itemIDToDrop = dropSpawnableBuildingItems[(int)Random.Range(0, dropSpawnableBuildingItems.Count)];
+        }
+		//TODO: Add more enemy drop capabilities here after adding more enemies
+		else {
+            itemIDToDrop = allDropSpawnableItems[(int)Random.Range(0, allDropSpawnableItems.Count)]; //The ID's are numbered off based on count of items total
+        }
 		getItemByID(itemIDToDrop).drop2DSprite(position, rotation);
 	}
 

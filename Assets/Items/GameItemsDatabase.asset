@@ -31,7 +31,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22093f3b2d66eb84ea96d2d434df76f6, type: 2}
   - {fileID: 11400000, guid: 4cbfe8b98e1b6f74b99f2e283724e334, type: 2}
   - {fileID: 11400000, guid: 7064a968bd86a3c4d807e40f4b618a15, type: 2}
-  buildingMaterials: []
+  buildingMaterials:
+  - {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+  - {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
   craftingMaterials:
   - {fileID: 11400000, guid: d8f9b2fe30fc9bb4cb969f0779d82f9f, type: 2}
   - {fileID: 11400000, guid: 1b3d731d3065b3d4cb631c16aba38390, type: 2}
