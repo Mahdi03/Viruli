@@ -114,7 +114,7 @@ public class MainDoor : ScriptableObject {
             var countRequired = item.Item2; //Get the count of the recipe item
             InventoryManager.Instance.removeByID(id, countRequired); //Remove that much
         }
-
+        InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
         //else we can upgrade the door
         spawnDoor(currentDoorLevel + 1); //Free repair taken care of by completely restarting a new door with a new max health
 

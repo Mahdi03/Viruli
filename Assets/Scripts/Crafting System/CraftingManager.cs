@@ -12,7 +12,7 @@ public class CraftingManager : MonoBehaviour {
             var countRequired = item.Item2 * amountToCraft; //Get the count of the recipe item
             InventoryManager.Instance.removeByID(id, countRequired); //Remove that much
         }
-
+        InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
         //spend XP to craft
         var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
         XPSystem.Instance.decreaseXP(xpCost);
