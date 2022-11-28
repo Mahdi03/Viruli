@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d7d0ca83c0f554459ac8c084ef84a09, type: 3}
-  m_Name: Lungs
+  m_Name: Brain
   m_EditorClassIdentifier: 
   stackable: 1
   craftable: 0
   myrecipe: []
   xpValue: 0
-  weightedDropProbability: 1
-  twoDimensionalPrefab: {fileID: 393584035041145675, guid: 448dfb3a89754524194a185b5c402317,
+  weightedDropProbability: 2
+  twoDimensionalPrefab: {fileID: 8088875609325279497, guid: 536d0b558e4e7ea4b94f00893ed33420,
     type: 3}
-  threeDimensionalPrefab: {fileID: 100000, guid: ad705fc9729465f43bb92434f860924a,
+  threeDimensionalPrefab: {fileID: 1663703721864648742, guid: c766385ff317b16438aa41ebcf349d7c,
     type: 3}
   itemDescription: 
