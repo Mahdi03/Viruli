@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3344069958339122997
+--- !u!1 &5717077082142877095
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3344069958339152661}
-  - component: {fileID: 3344069958339922741}
-  - component: {fileID: 3344069958341052917}
-  - component: {fileID: 3611577729562138402}
-  - component: {fileID: 111177427425244832}
+  - component: {fileID: 4908065958659587869}
+  - component: {fileID: 8337051766731862200}
+  - component: {fileID: 6077571554651702386}
+  - component: {fileID: 8023303271119955842}
+  - component: {fileID: 3809329824800446182}
   m_Layer: 0
   m_Name: Heart 3D
   m_TagString: Untagged
@@ -20,50 +20,50 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3344069958339152661
+--- !u!4 &4908065958659587869
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344069958339122997}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.913339}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_GameObject: {fileID: 5717077082142877095}
+  m_LocalRotation: {x: -0.7057111, y: 0.5478693, z: 0.21507871, w: 0.394401}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1000, y: 1000, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3344069958339922741
+  m_LocalEulerAnglesHint: {x: -127.596, y: -12.167999, z: 81.652}
+--- !u!33 &8337051766731862200
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344069958339122997}
-  m_Mesh: {fileID: 4300070, guid: be49c48f4e563cb4a959151df7b36c13, type: 3}
---- !u!23 &3344069958341052917
+  m_GameObject: {fileID: 5717077082142877095}
+  m_Mesh: {fileID: -3676728085192693422, guid: f491a60a07c8b0e4f996a84ee2c37df5, type: 3}
+--- !u!23 &6077571554651702386
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344069958339122997}
+  m_GameObject: {fileID: 5717077082142877095}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 0
+  m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 683f81f951efb9246a7eb6ca15960aab, type: 2}
+  - {fileID: 2100000, guid: c5773891497563741bfa4c708921825e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,27 +85,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3611577729562138402
-MeshCollider:
+--- !u!135 &8023303271119955842
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344069958339122997}
+  m_GameObject: {fileID: 5717077082142877095}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300070, guid: be49c48f4e563cb4a959151df7b36c13, type: 3}
---- !u!54 &111177427425244832
+  serializedVersion: 2
+  m_Radius: 0.0010140997
+  m_Center: {x: -5.205042e-13, y: 0.000011177182, z: 0.000002848334}
+--- !u!54 &3809329824800446182
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344069958339122997}
+  m_GameObject: {fileID: 5717077082142877095}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0

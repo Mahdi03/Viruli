@@ -17,8 +17,8 @@ MonoBehaviour:
   myrecipe: []
   xpValue: 0
   weightedDropProbability: 2
-  twoDimensionalPrefab: {fileID: 5474762249764514726, guid: 6d652416f6a3c314d952e8a14771f51e,
+  twoDimensionalPrefab: {fileID: 4180475047291595231, guid: c5b40960b6025c446b89da1d9f7df2d3,
     type: 3}
-  threeDimensionalPrefab: {fileID: 3344069958339122997, guid: 3164ab902d8f61348ac78a5cff07bf2d,
+  threeDimensionalPrefab: {fileID: 5717077082142877095, guid: 8b4cdf9bb36d7ea49b9e76e763a143d2,
     type: 3}
   itemDescription: 
