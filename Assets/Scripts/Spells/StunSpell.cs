@@ -15,6 +15,7 @@ public class StunSpell : SpellAction {
 			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
 				enemyController.changeMovementSpeed(0); //Should stop all movement within the spell's radius
+				//TODO: Stop the attacks as well
 			}
 		}
 	}
@@ -23,6 +24,7 @@ public class StunSpell : SpellAction {
 		foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 			EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
 			enemyController.changeMovementSpeed(enemyController.BaseMovementSpeed);//Restore their original speed
+			//TODO: Resume attacks
 		}
 		base.EndSpellEffects();
 	}

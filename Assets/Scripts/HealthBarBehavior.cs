@@ -15,9 +15,18 @@ public class HealthBarBehavior : MonoBehaviour {
 	private Color playerHighHealthColor = Color.green;
 	private Color enemyHealthColor = Color.blue;
 
-
+	public void SwitchCanvasToCamera() {
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
+        //canvas.worldCamera = GameObject.FindGameObjectWithTag("MiniMapPreviewCamera").GetComponent<Camera>();	
+    }
+    public void SwitchCanvasToScreenSpaceOverlay() {
+        Canvas canvas = GetComponent<Canvas>();
+		canvas.renderMode= RenderMode.ScreenSpaceOverlay;
+    }
 	// Start is called before the first frame update
 	void Start() {
+
 		slider = transform.GetChild(0).GetComponent<Slider>(); //Actually get the slider component from the canvas' only child
 
 		//Decide whether this is the health bar for the door or for any of the enemies
@@ -63,7 +72,7 @@ public class HealthBarBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		if (regularHealthBar) {
-		slider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + healthBarPosOffset);
+			slider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + healthBarPosOffset);
+		}
 	}
-}
 }

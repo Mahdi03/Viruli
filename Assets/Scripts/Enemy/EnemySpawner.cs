@@ -19,9 +19,9 @@ public class EnemySpawner : MonoBehaviour {
 	private int i = 0;
 	IEnumerator spawner() {
 		spawnRandomEnemy();
-		spawnDelay = Random.Range(1f, 5f);
+		spawnDelay = Random.Range(3f, 6f);
 		yield return new WaitForSeconds(spawnDelay);
-		if (i < 20) { //TODO: make this variable so that we can have rounds of increasingly difficult numbers
+		if (i < 10) { //TODO: make this variable so that we can have rounds of increasingly difficult numbers
 			StartCoroutine(spawner());
 		}
 	}

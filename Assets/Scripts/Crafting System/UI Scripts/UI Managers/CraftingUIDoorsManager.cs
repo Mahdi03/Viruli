@@ -51,15 +51,20 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private void clearAllDoorInfo() {
         /*foreach (GameObject g in new[] { doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject, doorRepairRecipeTable }) {
             Destroy(g);
-        }
+        }*/
+
         if (doorRepairTableUpdateCoroutine != null) {
             StopCoroutine(doorRepairTableUpdateCoroutine);
             doorRepairTableUpdateCoroutine = null;
-        }*/
+        }
         GameManager.clearAllChildrenOfObj(DoorRepairCenterContainer_BottomLeftCorner);
         GameManager.clearAllChildrenOfObj(DoorUpgradeCenterContainer_BottomRightCorner);
     }
 
+    /***********************************************************Door Repair**************************************************************/
+
+
+    //TODO: fix glitch in UI where it appears lower for a split second before it recenters (I suspect it's the update function)
     private void ShowDoorRepairUI() {
         //doorID was set from the OnClick Handler of the scrollview element so we can use it here
 
@@ -101,7 +106,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             doorRepairTableUpdateCoroutine = null;
         }
         doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
-        //StartCoroutine(doorRepairTableUpdateCoroutine);
+        StartCoroutine(doorRepairTableUpdateCoroutine);
 
     }
     //Use this method to resume our update coroutine if we close the crafting ui and then reopen it
@@ -117,8 +122,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
         (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
-        
-        
+
+
         GameObject healthBar;
         TextMeshProUGUI healthTextboxText;
         if (doorRepairLifeBarContainer == null) {
@@ -144,26 +149,26 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
             RectTransform textboxRectTransform = healthTextbox.GetComponent<RectTransform>();
             textboxRectTransform.SetParent(doorRepairLifeBarContainerRectTransform);
-            
+
         }
         else {
             healthBar = doorRepairLifeBarContainer.transform.GetChild(0).gameObject; //The bar is the first child
             var healthTextbox = doorRepairLifeBarContainer.transform.GetChild(1).gameObject; //The accompanying text is the second child
             healthTextboxText = healthTextbox.GetComponent<TextMeshProUGUI>();
         }
-        
+
         //Now we set the values
         var slider = healthBar.GetComponent<Slider>();
         slider.maxValue = maxDoorHealth;
         slider.value = currentDoorHealth;
         Color lerpColor = Color.Lerp(Color.red, Color.green, slider.normalizedValue);
         slider.fillRect.GetComponentInChildren<Image>().color = lerpColor;
-        
+
         //Now add text
         string colorStr = "#" + ColorUtility.ToHtmlStringRGB(lerpColor);
         healthTextboxText.text = "<color=" + colorStr + ">" + currentDoorHealth + "</color>/" + maxDoorHealth;
 
-        
+
         GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
 
         var arrOfRecipeItems = mainDoor.repairRecipe;
@@ -171,7 +176,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, arrOfRecipeItems);
         if (!recipeRequirementsMet ) { this.doorRepairable = false; } //Only set it to false if we failed to meet the requirements
-
+        
         //Show XP required
         TextMeshProUGUI xpText;
         if (doorRepairXPRequiredTextbox == null) {
@@ -215,6 +220,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
     }
 
+    /***********************************************************Door Upgrade**************************************************************/
+
     private void ShowDoorUpgradeUI() {
         //doorID was set from the OnClick Handler of the scrollview element so we can use it here
         var container = new GameObject("Vertical Layout Container");
@@ -247,7 +254,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         var titleTextboxRectTransform = titleTextbox.GetComponent<RectTransform>();
         titleTextboxRectTransform.SetParent(containerRectTransform, false);
 
-        titleTextboxText.text = "Upgrade " + getDoorName(this.doorID) + "(" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
+        titleTextboxText.text = "Upgrade " + getDoorName(this.doorID) + ":";
         //TODO: Show recipe table for upgrade (text if max level reached)
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         int doorLevel = mainDoor.getDoorController().Level;
@@ -267,7 +274,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             var descriptionTextboxRectTransform = descriptionTextbox.GetComponent<RectTransform>();
             titleTextboxRectTransform.SetParent(containerRectTransform, false);
 
-            descriptionTextboxText.text = getDoorName(this.doorID) + " (Level " + getDoorLevel(this.doorID) + ")" + " is already upgraded to the maximum level";
+            descriptionTextboxText.text = getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + ")" + " is already upgraded to the maximum level";
         }
         else {
             //Calculate upgrade costs first
@@ -308,7 +315,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
             var xpTextRectTransform = upgradeXPRequiredTextbox.GetComponent<RectTransform>();
             xpTextRectTransform.SetParent(containerRectTransform, false);
-
+            
             xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
 
             if (xpCost > XPSystem.Instance.XP) {
@@ -331,7 +338,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         GameManager.clearAllChildrenOfObj(doorUpgradeRecipeTable);
         //Loop through all items in upgrade recipe and add them to the table
         //TODO: implement table????
-
+        
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorUpgradeRecipeTable, upgradeRecipe);
         if (!recipeRequirementsMet) { this.doorUpgradable = false; }
 

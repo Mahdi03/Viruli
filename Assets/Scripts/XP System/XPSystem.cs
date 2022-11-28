@@ -20,7 +20,7 @@ public class XPSystem : MonoBehaviour {
 		100 + 150, //Level 1->2
 		100 + 150 + 300, //Level 2->3
 		100+150+300+500, //Level 3->4
-		100+150+300+500+750, //Level 4->3
+		100+150+300+500+750, //Level 4->5
 	};
 
 
