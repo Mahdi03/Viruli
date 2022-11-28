@@ -15,9 +15,16 @@ MonoBehaviour:
   bigDoor: 1
   parentTransformTagName: EastDoor
   repairRecipeDirty: []
-  upgradeToLevel1RecipeDirty: []
   upgradeToLevel2RecipeDirty: []
-  upgradeToLevel3RecipeDirty: []
+  xpToUpgradeToLevel2: 0
+  upgradeToLevel3RecipeDirty:
+  - item: {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
+    countRequired: 10
+  - item: {fileID: 11400000, guid: 089fe6d9e27203048a2cdbca7602b26f, type: 2}
+    countRequired: 40
+  - item: {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
+    countRequired: 20
+  xpToUpgradeToLevel3: 0
   doorStatsAtDifferentUpgradeLevels:
   - currentLevel: 1
     maxHealth: 200
