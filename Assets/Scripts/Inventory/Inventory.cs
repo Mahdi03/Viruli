@@ -142,7 +142,22 @@ public class Inventory : IEnumerable {
 	public int length() {
 		return this.inventory.Count;
 	}
-
+	/// <summary>
+	/// Will check for the first index of an item in the inventory with the given itemID
+	/// Returns the index if the element is found
+	/// Returns -1 if there is no element with that itemID in the inventory
+	/// </summary>
+	/// <param name="itemID"></param>
+	/// <returns></returns>
+	public int indexOf(int itemID) {
+		for (int i = 0; i < this.inventory.Count; i++) {
+			InternalInventoryItem inventoryItem= this.inventory[i];
+			if (itemID == inventoryItem.itemID) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	/*Use in crafting system to judge whether the recipe can hold */
 	public int getItemCountByID(int itemID) {
 		int count = 0;
@@ -153,7 +168,19 @@ public class Inventory : IEnumerable {
 		}
 		return count;
 	}
+	public int getCountOfRemainingOpenSpots() {
+		int countOfFullInventorySlots = 0;
+		foreach (InternalInventoryItem item in this.inventory) {
+			//itemID's are -1 when empty
+			if (item.itemID > -1) {
+				countOfFullInventorySlots++;
+			}
+		}
+		int remainingSpots = this.inventory.Count - countOfFullInventorySlots;
+		//Debug.Log(remainingSpots);
 
+        return remainingSpots;
+	}
 	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
 		if (amountToRemove <= 0) { return; }
 		if (this.getItemCountByID(itemIDToRemove) < amountToRemove) {
@@ -188,9 +215,30 @@ public class Inventory : IEnumerable {
 		}
 		//If we made it here then our code could not find the item
 	}
+	public void removeAtIndex(int index, int amountToRemove = 1) { //We can extend this functionality if we need to remove more than one, or just loop and call it multiple times
+		this.at(index); //Do nothing with the result, just using the error checker to check that index is in the bounds of the array
+        if (amountToRemove <= 0) { return; }
+		if (amountToRemove > this.inventory[index].count) {
+            throw new SystemException("Trying to remove more elements than currently exist in inventory slot " + index);
+        }
+		//Now we remove that amount
+		var currentItem = this.inventory[index];
+        int originalCountOfItemsInInventory = currentItem.count; //Store original amount of how much of this item there was
+        if (amountToRemove < originalCountOfItemsInInventory) {
+            //We are removing less than the total amount that exists here, we can simply change it and then save it later
+            currentItem.count -= amountToRemove;
+        }
+        else {
+            //We are removing the same amount
+            // so we need to empty this slot
+            currentItem = new InternalInventoryItem(-1, -1);
+        }
+		//Save the new values to the inventory
+		this.inventory[index] = currentItem;
+    }
 
-	//Inherit from IEnumerable so that we can use a foreach loop on this container
-	public IEnumerator GetEnumerator() {
+    //Inherit from IEnumerable so that we can use a foreach loop on this container
+    public IEnumerator GetEnumerator() {
 		for (int i = 0; i < this.length(); i++) {
 			yield return this.at(i);
 		}

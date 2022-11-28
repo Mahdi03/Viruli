@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4287cb79944f314eb3c918dc5d589c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regularHealthBar: 1
 --- !u!1 &5479604417744999681
 GameObject:
   m_ObjectHideFlags: 0

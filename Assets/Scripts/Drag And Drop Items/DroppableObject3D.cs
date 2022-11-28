@@ -13,7 +13,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	private Canvas canvas;
 	private GameObject threeDimensionalItemsContainerForDraggingInWorldSpace;
 	private CanvasGroup canvasGroup;
-	private int itemID;
+	private int itemID, attachedInventorySlotID;
+
 	private IItem item;
 	private GameObject threeDimensionalPrefab;
 
@@ -25,7 +26,9 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 		if (canvasGroup == null) {
 			canvasGroup = (CanvasGroup)gameObject.AddComponent<CanvasGroup>();
 		}
-		this.itemID = GetComponent<ItemInstance>().itemID;
+		ItemInstance itemInstance = GetComponent<ItemInstance>();
+		this.itemID = itemInstance.itemID;
+		this.attachedInventorySlotID = itemInstance.attachedInventorySlotID;
 		this.item = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
 	}
 
@@ -153,7 +156,10 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 				//Whoops how did we get here
 			}
 
-			InventoryManager.Instance.removeByID(itemID);
+            //TODO: Instead of removing by ID, we want to remove from that location
+			//When we remove by ID it will remove the first instance of that object and then some weird glitch will happen where it comes back from another one
+            //InventoryManager.Instance.removeByID(itemID);
+			InventoryManager.Instance.removeAtSlotLocation(attachedInventorySlotID);
 			InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges(); //Don't forget to update the inventory UI
 
 			Destroy(gameObject);
