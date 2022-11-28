@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour {
+
+    private string enemyName;
+
     public float BaseMovementSpeed { get; private set; }
     private float movementSpeed;
 
@@ -25,7 +28,8 @@ public class EnemyController : MonoBehaviour {
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
-    public void initStats(float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
+    public void initStats(string enemyName, float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
+        this.enemyName = enemyName;
         this.BaseMovementSpeed = speed;
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
@@ -86,7 +90,7 @@ public class EnemyController : MonoBehaviour {
         EnemySpawner.Instance.EnemyKilled();
         //Tell DatabaseManager to drop some items for killing the enemy
         for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
-            InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity);
+            InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity, this.enemyName);
         }
         XPSystem.Instance.increaseXP(xpValue); //Add XP on enemy death
         Destroy(gameObject);

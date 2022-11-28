@@ -166,8 +166,16 @@ public class EnemySpawner : MonoBehaviour {
         var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
         //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
         var enemyController = newEnemy.GetComponent<EnemyController>();
-        enemyController.initStats(chosenEnemy.speed, adjustedEnemyHealth, chosenEnemy.dealsDamage, chosenEnemy.xpValue, chosenEnemy.minItemDropCount, chosenEnemy.maxItemDropCount);
+        enemyController.initStats(
+            enemyName: chosenEnemy.name,
+            speed: chosenEnemy.speed,
+            maxHealth: adjustedEnemyHealth,
+            dealsDamage: chosenEnemy.dealsDamage,
+            xpValue: chosenEnemy.xpValue,
+            minItemDropCount: chosenEnemy.minItemDropCount,
+            maxItemDropCount: chosenEnemy.maxItemDropCount);
         enemiesSpawned++;
+        Debug.Log(chosenEnemy.name);
     }
     private int enemyKillCounter = 0;
     public void EnemyKilled() {
