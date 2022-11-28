@@ -118,6 +118,11 @@ public class EnemyController : MonoBehaviour {
         if (target) {
             if (closeEnoughToAttack() && !isAttacking) {
                 isAttacking = true;
+                if (gameObject.name.ToLower().Contains("troll")) {
+                    //We are the troll, so we have 4 attacks to choose from
+                    int attack = Random.Range(0, 4);
+                    enemyAnimator.SetInteger("AttackIndex", attack);
+                }
                 enemyAnimator.SetTrigger("Attack");
             }
         }
