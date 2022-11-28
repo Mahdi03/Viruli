@@ -46,7 +46,8 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 			return;
 		}
 		if (!int.TryParse(inputText, out result)) {
-			throw new System.FormatException("The input \"" + inputText + "\" is not an acceptable integer type");
+            this.DisableCraftingButton();
+            throw new System.FormatException("The input \"" + inputText + "\" is not an acceptable integer type");
 		}
 		else {
 			//result is now defined
