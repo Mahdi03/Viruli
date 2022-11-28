@@ -76,7 +76,7 @@ public class EnemySpawner : MonoBehaviour {
                 enemiesSpawned = 0;
                 //TODO: wait for all enemies to be killed before we can start the 
                 //Start the pause coroutine
-                
+
             }
             else {
                 //Woah we made it through the game, why are we still calling the spawner??
@@ -129,12 +129,12 @@ public class EnemySpawner : MonoBehaviour {
     */
     private void spawnRandomEnemy() {
         //Step #1: Pick an enemy from random to spawn
-        var listOfEnemies = InGameItemsDatabaseManager.Instance.enemies; //TODO: make this a weighted probability in between the different enemies
+        var listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
         float enemyToSpawn = Random.Range(0, listOfEnemies.Count);
-        Enemy chosenEnemy = listOfEnemies[(int)enemyToSpawn];
+        Enemy chosenEnemy = InGameItemsDatabaseManager.Instance.getEnemyByID(listOfEnemies[(int)enemyToSpawn]);
         //Scale the enemy health based on what round we are to make the game harder
         int adjustedEnemyHealth = chosenEnemy.maxHealth;
-        switch(roundNumber) {
+        switch (roundNumber) {
             case 1:
             case 2:
             case 3:

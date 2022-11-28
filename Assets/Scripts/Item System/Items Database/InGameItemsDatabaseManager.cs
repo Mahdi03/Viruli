@@ -11,9 +11,11 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 	private Dictionary<int, IItem> itemsDatabase; //Actual database that will store all the types of items in the game
 	public Dictionary<int, IItem> craftableItems { get; private set; }
 
+	//A droppable item is an item that is dropped by dead enemies
 	public List<int> droppableItems { get; private set; } //Store itemID's a weighted amount for randomized drops
 
 	public List<Enemy> enemies { get; private set; }
+	public List<int> enemiesToSpawnFrom { get; private set; }
 
 	public List<MainDoor> mainDoors { get; private set; }
 
@@ -28,7 +30,9 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 		}
 		return item;
 	}
-
+	public Enemy getEnemyByID(int enemyID) {
+		return enemies[enemyID];
+	}
 
 	private void Awake() {
 		//Singleton initialization code
@@ -99,8 +103,19 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 					droppableItems.Add(itemEntry.Key); //Add itemID as many times as needed by the WeightedDropProbability
 				}
 			}
-			//Set public enemies list from database file
-			enemies = db.enemies;
+            //Set public enemies list from database file
+			enemies = new List<Enemy>();
+            enemiesToSpawnFrom = new List<int>();
+            for (int i = 0; i < db.enemies.Count; i++) {
+				Enemy enemy= db.enemies[i];
+				enemy.enemyID= i;
+				enemies.Add(enemy);
+				for (int j = 0; j < enemy.spawnProbability; j++) {
+					enemiesToSpawnFrom.Add(enemy.enemyID);
+				}
+			}
+
+			
             //Set public mainDoors list from database file and set each of their ID's for later use in the game
 			mainDoors = db.mainDoors;
             for (int i = 0; i < db.mainDoors.Count; i++) {
