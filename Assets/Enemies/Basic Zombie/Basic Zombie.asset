@@ -18,5 +18,6 @@ MonoBehaviour:
   maxHealth: 10
   dealsDamage: 1
   xpValue: 10
-  minItemDropCount: 2
-  maxItemDropCount: 5
+  minItemDropCount: 1
+  maxItemDropCount: 3
+  spawnProbability: 1
