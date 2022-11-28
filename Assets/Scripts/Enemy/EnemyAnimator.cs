@@ -26,4 +26,7 @@ public class EnemyAnimator : MonoBehaviour {
 	public void SetTrigger(string name) {
 		animator.SetTrigger(name);
 	}
+	public void SetInteger(string key, int value) {
+		animator.SetInteger(key, value);
+	}
 }

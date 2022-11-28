@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d942e1136bf0ac468365966ec0073d4, type: 3}
-  m_Name: Basic Zombie
+  m_Name: Troll
   m_EditorClassIdentifier: 
   enemyID: 0
-  enemyPrefab: {fileID: 409818638705913167, guid: 7151e6faddb7d724da6eef44e8889f3b,
-    type: 3}
-  speed: 0.2
-  maxHealth: 10
-  dealsDamage: 1
-  xpValue: 10
-  minItemDropCount: 1
-  maxItemDropCount: 3
-  spawnProbability: 3
+  enemyPrefab: {fileID: 156312, guid: 1ad753987db44bf43857b2e8a342cf37, type: 3}
+  speed: 2
+  maxHealth: 20
+  dealsDamage: 5
+  xpValue: 20
+  minItemDropCount: 2
+  maxItemDropCount: 5
+  spawnProbability: 1
