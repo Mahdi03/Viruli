@@ -12,7 +12,7 @@ public class IconMaker2D : MonoBehaviour {
         string filename = "icon.png";
         string filepath = Path.GetFullPath("Assets\\2dIconMaker\\" + filename);
         Debug.Log(filepath);
-        int size = 1024/4;
+        int size = 1024;
         m_Camera = GetComponent<Camera>();
 
         RenderTexture renderTexture = new RenderTexture(size, size, 24);
