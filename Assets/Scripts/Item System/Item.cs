@@ -11,7 +11,7 @@ public interface IItem {
 
 	[Serializable]
 	public class recipeItem {
-		public Item item;
+		public Item item; //Keep it as item any time we want to use one potion to make another
 		public int countRequired;
 	}
 	public recipeItem[] dirtyRecipe { get; } //Set through scriptable objects

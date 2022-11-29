@@ -15,8 +15,8 @@ MonoBehaviour:
   stackable: 0
   craftable: 1
   myrecipe:
-  - item: {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
-    countRequired: 2
+  - item: {fileID: 11400000, guid: cbed348a678a4074bbe3b7e3d27fff13, type: 2}
+    countRequired: 6
   xpValue: 0
   weightedDropProbability: 1
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 179e975e12cd6a74d9ecf2768a4f09ac,
