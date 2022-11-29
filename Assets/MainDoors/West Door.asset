@@ -15,9 +15,10 @@ MonoBehaviour:
   bigDoor: 0
   parentTransformTagName: WestDoor
   repairRecipeDirty: []
-  upgradeToLevel1RecipeDirty: []
   upgradeToLevel2RecipeDirty: []
+  xpToUpgradeToLevel2: 0
   upgradeToLevel3RecipeDirty: []
+  xpToUpgradeToLevel3: 0
   doorStatsAtDifferentUpgradeLevels:
   - currentLevel: 1
     maxHealth: 100
@@ -27,8 +28,10 @@ MonoBehaviour:
   - currentLevel: 2
     maxHealth: 200
     damageDealt: 0
-    doorPrefab: {fileID: 0}
+    doorPrefab: {fileID: 3761703204375082853, guid: 5fce45d6dcc6b9f4d92f1ef8df32c1d4,
+      type: 3}
   - currentLevel: 3
     maxHealth: 400
     damageDealt: 4
-    doorPrefab: {fileID: 0}
+    doorPrefab: {fileID: 3761703204375082853, guid: 5fce45d6dcc6b9f4d92f1ef8df32c1d4,
+      type: 3}

@@ -20,9 +20,9 @@ MonoBehaviour:
   upgradeToLevel3RecipeDirty:
   - item: {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
     countRequired: 10
-  - item: {fileID: 11400000, guid: 089fe6d9e27203048a2cdbca7602b26f, type: 2}
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
     countRequired: 40
-  - item: {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
+  - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
     countRequired: 20
   xpToUpgradeToLevel3: 0
   doorStatsAtDifferentUpgradeLevels:
@@ -34,8 +34,10 @@ MonoBehaviour:
   - currentLevel: 2
     maxHealth: 200
     damageDealt: 0
-    doorPrefab: {fileID: 0}
+    doorPrefab: {fileID: 7205414446975628183, guid: 29e89cf38b31fa24cb8f43bfe32b2981,
+      type: 3}
   - currentLevel: 3
     maxHealth: 400
     damageDealt: 4
-    doorPrefab: {fileID: 0}
+    doorPrefab: {fileID: 7205414446975628183, guid: 29e89cf38b31fa24cb8f43bfe32b2981,
+      type: 3}

@@ -37,7 +37,7 @@ public class MainDoor : ScriptableObject {
     //public int initialHealth; //Have small doors have lesser health than the big doors
     [Serializable]
     public class recipeItem {
-        public Item item;
+        public Item item; //keep as Item in case we want to add potions to this
         public int countRequired;
     }
 

@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackable: 0
   craftable: 1
-  myrecipe:
-  - item: {fileID: 11400000, guid: e9d96aeebe6d803499a7730915f069e7, type: 2}
-    countRequired: 2
+  myrecipe: []
   xpValue: 0
   weightedDropProbability: 3
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 5afff8dedc95f7844a930eae4704fbfe,
