@@ -63,6 +63,9 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			);
 		return viewportCoordinates;
 	}
+
+	private Vector3 verticalOffsetFor3DDrop = new Vector3(0, 6, 0);
+
 	private bool overInventoryUI;
 	public void OnDrag(PointerEventData eventData) {
 		RectTransform rectTransformOfDraggableObj = eventData.pointerDrag.GetComponent<RectTransform>();
@@ -98,8 +101,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			//Get distance to hit and make that our distance from camera
 			var worldPointAtGround = hit.point;
 			threeDimensionalPrefab.SetActive(true);
-			if (item.itemType == "RawMaterial") {
-				threeDimensionalPrefab.transform.position = worldPointAtGround + new Vector3(0, 4, 0);
+			if (item.GetType().IsSubclassOf(typeof(RawMaterial))) {
+				threeDimensionalPrefab.transform.position = worldPointAtGround + verticalOffsetFor3DDrop;
 			}
 			else {
 				threeDimensionalPrefab.transform.position = worldPointAtGround;
@@ -139,11 +142,16 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 
 			//Now activate the prefab, remove one of these from inventory, and then destroy this
 			threeDimensionalPrefab.SetActive(true);
+			Debug.Log(item.GetType());
+			//If we are dropping a raw material (whether it is for building or crafting)
+			if (item.GetType().IsSubclassOf(typeof(RawMaterial))) {
+				threeDimensionalPrefab.transform.position = worldPointAtGround + verticalOffsetFor3DDrop;
+				
+				/*//Let's make it pick-up able again
+				IItem.enableScript<ClickAddInventory>(threeDimensionalPrefab);*/
 
-			if (item.itemType == "RawMaterial") {
-				threeDimensionalPrefab.transform.position = worldPointAtGround + new Vector3(0, 4, 0);
-				//Let's make it pick-up able again
-				IItem.enableScript<ClickAddInventory>(threeDimensionalPrefab);
+				//make it do damage and get destroyed when it hits an enemy
+				IItem.enableScript<Attack3DDroppableItem>(threeDimensionalPrefab);
 				//Now enable the gravity
 				threeDimensionalPrefab.GetComponent<Rigidbody>().useGravity = true;
 			}
