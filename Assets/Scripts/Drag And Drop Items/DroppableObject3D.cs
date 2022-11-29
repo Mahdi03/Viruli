@@ -77,7 +77,10 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 		List<RaycastResult> results = new List<RaycastResult>();
 		gr.Raycast(eventData, results);
 		foreach (RaycastResult result in results) {
-			overInventoryUI = true;
+			if (result.gameObject.name.ToLower().Contains("inventory")) {
+				overInventoryUI = true;
+			}
+			//Debug.Log(result.gameObject.name);
 		}
 		if (overInventoryUI) {
 			//Then we need to disable the 3D one
@@ -142,7 +145,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 
 			//Now activate the prefab, remove one of these from inventory, and then destroy this
 			threeDimensionalPrefab.SetActive(true);
-			Debug.Log(item.GetType());
+			//Debug.Log(item.GetType());
 			//If we are dropping a raw material (whether it is for building or crafting)
 			if (item.GetType().IsSubclassOf(typeof(RawMaterial))) {
 				threeDimensionalPrefab.transform.position = worldPointAtGround + verticalOffsetFor3DDrop;
