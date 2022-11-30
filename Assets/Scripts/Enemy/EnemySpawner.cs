@@ -67,24 +67,13 @@ public class EnemySpawner : MonoBehaviour {
         }
 
         yield return new WaitForSeconds(spawnDelay);
+        Debug.Log("enemiesToSpawnThisRound: " + enemiesToSpawnThisRound);
+        Debug.Log("enemiesSpawned: " + enemiesSpawned);
         if (enemiesSpawned < enemiesToSpawnThisRound) {
             StartCoroutine(spawner());
         }
-        else {
-            if (roundNumber < 10) {
-                //This is the end of the round since we have ran the course of how many enemies to spawn this round, reset values and then move on to next round
-                enemiesSpawned = 0;
-                //TODO: wait for all enemies to be killed before we can start the 
-                //Start the pause coroutine
-
-            }
-            else {
-                //Woah we made it through the game, why are we still calling the spawner??
-                Debug.LogError("We really shouldn't be here");
-            }
-        }
     }
-    public int roundDelay = 30; //30 seconds in between rounds, we can vary this later
+    private int roundDelay = 30; //30 seconds in between rounds, we can vary this later
     private int timeRemaining;
     private void startRoundBreak() {
         timeRemaining = roundDelay;
@@ -101,7 +90,7 @@ public class EnemySpawner : MonoBehaviour {
         }
         roundCounterTextbox.text = timeToPrint;
         yield return new WaitForSeconds(1);
-        if (timeRemaining == 0) {
+        if (timeRemaining <= 0) {
             stopRoundBreak();
         }
         else {
@@ -113,6 +102,10 @@ public class EnemySpawner : MonoBehaviour {
         roundNumber++;
         roundCounterTextbox.text = "Round " + roundNumber;
         enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
+        //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
+        enemiesSpawned = 0;
+        //enemiesToSpawnThisRound = roundNumber;
+        Debug.Log("roundNumber: " + roundNumber);
         //Actually start the spawning again
         StartCoroutine(spawner());
     }
@@ -180,12 +173,13 @@ public class EnemySpawner : MonoBehaviour {
     private int enemyKillCounter = 0;
     public void EnemyKilled() {
         enemyKillCounter++;
+        Debug.Log("enemyKillCounter: " + enemyKillCounter);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
+            enemyKillCounter = 0;
             //The last enemy was just killed, we can start the round break now
             startRoundBreak();
             //Reset values
-            enemyKillCounter = 0;
-            enemiesToSpawnThisRound = 0;
+            
         }
     }
 

@@ -82,18 +82,20 @@ public class EnemyController : MonoBehaviour {
         yield return new WaitForSeconds(delay);
         StartCoroutine(recurringPoison(delay, 2 * amountToDamage + 1));
     }
-
+    private bool isAlive = true;
 
     public void killEnemy() { //Make public for instant death potion
-
-        //Notify the Enemy Spawner that another enemy has been killed (it is keeping track to know when to start the next round)
-        EnemySpawner.Instance.EnemyKilled();
-        //Tell DatabaseManager to drop some items for killing the enemy
-        for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
-            InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity, this.enemyName);
+        if (isAlive) {
+            isAlive = false;
+            //Notify the Enemy Spawner that another enemy has been killed (it is keeping track to know when to start the next round)
+            EnemySpawner.Instance.EnemyKilled();
+            //Tell DatabaseManager to drop some items for killing the enemy
+            for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
+                InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity, this.enemyName);
+            }
+            XPSystem.Instance.increaseXP(xpValue); //Add XP on enemy death
+            Destroy(gameObject);
         }
-        XPSystem.Instance.increaseXP(xpValue); //Add XP on enemy death
-        Destroy(gameObject);
 
     }
 
