@@ -11,7 +11,10 @@ using UnityEngine.UI;
 public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData) {
+        if (eventData.rawPointerPress.name.Contains("Overlay")) {
         CloseCraftingMenu();
+            //Only close the craftin menu if we clicked on the overlay, ignore all other clicks
+    }
     }
 
     //OpenCraftingMenu is declared in a different script since it requires both options for 2D and 3D handling
