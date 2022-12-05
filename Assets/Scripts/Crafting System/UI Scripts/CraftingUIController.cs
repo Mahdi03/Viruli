@@ -12,9 +12,9 @@ public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData) {
         if (eventData.rawPointerPress.name.Contains("Overlay")) {
-        CloseCraftingMenu();
+            CloseCraftingMenu();
             //Only close the craftin menu if we clicked on the overlay, ignore all other clicks
-    }
+        }       
     }
 
     //OpenCraftingMenu is declared in a different script since it requires both options for 2D and 3D handling
@@ -28,12 +28,12 @@ public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
     [SerializeField]
     private static readonly Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
 
-    public static bool fillOutRecipeTable(GameObject recipeTable, List<(int, int)> recipeArr) {
+    public static bool fillOutRecipeTable(GameObject recipeTable, List<(int, int)> recipeArr, int amountToCraft = 1) {
         bool recipeRequirementsMet = true;
         foreach (var item in recipeArr) {
             var id = item.Item1;
             var requiredItem = InGameItemsDatabaseManager.Instance.getItemByID(id);
-            var countRequired = item.Item2;
+            var countRequired = item.Item2 * amountToCraft;
             var countAvailable = InventoryManager.Instance.getItemCountByID(id);
             //Make a row
             var row = Table.createTableRow(recipeTable.transform, 30f);

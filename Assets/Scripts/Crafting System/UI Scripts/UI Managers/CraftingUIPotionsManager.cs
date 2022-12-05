@@ -72,7 +72,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
         var arrOfRecipeItems = itemToCraft.Recipe;
         this.itemCraftable = true;
-        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.craftableItemRecipeTable, arrOfRecipeItems);
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.craftableItemRecipeTable, arrOfRecipeItems, amountToCraft);
         if (!recipeRequirementsMet) { this.itemCraftable = false; }
         //Show XP required
         TextMeshProUGUI xpText;
