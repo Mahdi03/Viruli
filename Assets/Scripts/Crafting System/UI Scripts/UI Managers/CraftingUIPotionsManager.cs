@@ -64,7 +64,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableUIInfoGroupContainerController.SetIcon(item.TwoDimensionalPrefab);
         craftableUIInfoGroupContainerController.SetItemName(item.itemName);
         craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
-        craftableUIInfoGroupContainerController.SetItemStatsText("- Effect Radius: " + item.EffectRadius + "ft\n- Effect Timeout: " + item.EffectTimeout + "sec");
+        craftableUIInfoGroupContainerController.SetItemStatsText("    Effect Radius: " + item.EffectRadius + " ft\n    Effect Timeout: " + item.EffectTimeout + " sec");
     }
     
     public void UpdateCraftingRecipeTable(int amountToCraft) {
