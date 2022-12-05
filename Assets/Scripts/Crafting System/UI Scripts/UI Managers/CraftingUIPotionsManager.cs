@@ -85,8 +85,9 @@ public class CraftingUIPotionsManager : MonoBehaviour {
 
         xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
 
-        //Set font size to 16
-        xpText.fontSize = 16f;
+        //Set font size to 10
+        xpText.fontSize = 10f;
+        xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
         xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
         var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();

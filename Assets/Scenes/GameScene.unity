@@ -33242,6 +33242,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCanvas: {fileID: 393337917}
   tooltipObjInScene: {fileID: 1435354284}
+  CRAFTINGUI_regularTextFont: {fileID: 11400000, guid: b79b2331349910e44bd1dc71695ffb3a,
+    type: 2}
+  CRAFTINGUI_costTextFont: {fileID: 11400000, guid: 5ffd4f3911c4edf4aad5785b41745ede,
+    type: 2}
 --- !u!114 &1283569837
 MonoBehaviour:
   m_ObjectHideFlags: 0

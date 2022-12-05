@@ -93,6 +93,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         //Set font size to 16
         titleTextboxText.fontSize = 23f;
+        titleTextboxText.font = GameManager.Instance.CRAFTINGUI_regularTextFont;
         titleTextboxText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
         var titleTextboxRectTransform = titleTextbox.GetComponent<RectTransform>();
@@ -122,7 +123,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
         (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
-
 
         GameObject healthBar;
         TextMeshProUGUI healthTextboxText;
@@ -174,9 +174,12 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         var arrOfRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
 
-        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, arrOfRecipeItems);
-        if (!recipeRequirementsMet ) { this.doorRepairable = false; } //Only set it to false if we failed to meet the requirements
-        
+        int repairCostScaleFactor = 15;
+        //Scale the repair cost but always ensure a minimum cost
+        int repairCost = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, arrOfRecipeItems, repairCost);
+        if (!recipeRequirementsMet) { this.doorRepairable = false; } //Only set it to false if we failed to meet the requirements
+
         //Show XP required
         TextMeshProUGUI xpText;
         if (doorRepairXPRequiredTextbox == null) {
@@ -184,8 +187,9 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
             xpText = doorRepairXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
 
-            //Set font size to 16
-            xpText.fontSize = 16f;
+            //Set font size to 10
+            xpText.fontSize = 10f;
+            xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
             xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
             var xpTextRectTransform = doorRepairXPRequiredTextbox.GetComponent<RectTransform>();
@@ -195,7 +199,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             xpText = doorRepairXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
         }
         int currentLevel = doorController.getLevel();
-        int xpCost = 0; //TODO: Create formula of xpCost for repair based on mainDoors.Level and difference in health
+        //TODO: Adjust XP cost score
+        int xpCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
 
@@ -249,6 +254,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         //Set font size to 16
         titleTextboxText.fontSize = 23f;
+        titleTextboxText.font = GameManager.Instance.CRAFTINGUI_regularTextFont;
         titleTextboxText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
         var titleTextboxRectTransform = titleTextbox.GetComponent<RectTransform>();
@@ -290,7 +296,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
                 case 2:
                     //upgrade to level 3 costs
                     xpCost = mainDoor.xpToUpgradeToLevel3;
-                    upgradeRecipe= mainDoor.upgradeToLevel3Recipe;
+                    upgradeRecipe = mainDoor.upgradeToLevel3Recipe;
                     break;
                 default: break;
             }
@@ -309,13 +315,14 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
             TextMeshProUGUI xpText = upgradeXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
 
-            //Set font size to 16
-            xpText.fontSize = 16f;
+            //Set font size to 10
+            xpText.fontSize = 10f;
+            xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
             xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
             var xpTextRectTransform = upgradeXPRequiredTextbox.GetComponent<RectTransform>();
             xpTextRectTransform.SetParent(containerRectTransform, false);
-            
+
             xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
 
             if (xpCost > XPSystem.Instance.XP) {
@@ -338,7 +345,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         GameManager.clearAllChildrenOfObj(doorUpgradeRecipeTable);
         //Loop through all items in upgrade recipe and add them to the table
         //TODO: implement table????
-        
+
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorUpgradeRecipeTable, upgradeRecipe);
         if (!recipeRequirementsMet) { this.doorUpgradable = false; }
 
