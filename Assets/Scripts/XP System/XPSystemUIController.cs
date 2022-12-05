@@ -48,7 +48,7 @@ public class XPSystemUIController : MonoBehaviour {
 	private void updateUI() {
 		if (levelTextboxText != null && xpBarSlider != null) {
 			//Update level text w/ new level info
-			levelTextboxText.text = "Level " + this.level;
+			levelTextboxText.text = "XP Level " + this.level;
 			//Update xpBar w/ new xp info
 			xpBarSlider.maxValue = this.maxXp; //Make sure to set max value before we set main value or else slider freaks out
 			xpBarSlider.value = this.currentXp;
