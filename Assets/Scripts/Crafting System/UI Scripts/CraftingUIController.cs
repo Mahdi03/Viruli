@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
 /// 
 /// </summary>
-public class CraftingUIController : MonoBehaviour {
+public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
+
+    public void OnPointerClick(PointerEventData eventData) {
+        CloseCraftingMenu();
+    }
+
     //OpenCraftingMenu is declared in a different script since it requires both options for 2D and 3D handling
     public void CloseCraftingMenu() {
         gameObject.SetActive(false);
@@ -61,4 +67,6 @@ public class CraftingUIController : MonoBehaviour {
         }
         return recipeRequirementsMet;
     }
+
+   
 }
