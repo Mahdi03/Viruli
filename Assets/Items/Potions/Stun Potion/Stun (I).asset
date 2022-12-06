@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Stun Potion (III)
+  m_Name: Stun (I)
   m_EditorClassIdentifier: 
-  stackable: 0
+  stackable: 1
   craftable: 1
   myrecipe:
   - item: {fileID: 11400000, guid: d1bf9436ecdc0d048951a23261186f0b, type: 2}
-    countRequired: 6
+    countRequired: 2
   xpValue: 0
-  weightedDropProbability: 1
+  weightedDropProbability: 3
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 3e56bcb602f3dcb4a92d5e489060c804,
     type: 3}
   threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 5fb500ec66a7bcd4b9e9a24c511c79b7,
     type: 3}
-  itemDescription: This potion will stun your enemies for 7 seconds. Use carefully
+  itemDescription: This potion will stun your enemies for 3 seconds. Use carefully
     as it only lasts for a couple seconds!
   xpCost: 0
-  effectRadius: 7
-  timeout: 7
+  effectRadius: 5
+  timeout: 3

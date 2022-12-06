@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
   m_Name: Slow Potion (III)
   m_EditorClassIdentifier: 
-  stackable: 0
+  stackable: 1
   craftable: 1
   myrecipe:
   - item: {fileID: 11400000, guid: cbed348a678a4074bbe3b7e3d27fff13, type: 2}

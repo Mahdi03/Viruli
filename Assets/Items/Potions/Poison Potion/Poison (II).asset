@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Poison Potion (I)
+  m_Name: Poison (II)
   m_EditorClassIdentifier: 
-  stackable: 0
+  stackable: 1
   craftable: 1
   myrecipe: []
   xpValue: 0
-  weightedDropProbability: 3
+  weightedDropProbability: 2
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 5afff8dedc95f7844a930eae4704fbfe,
     type: 3}
   threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 14591d96c1f7785438572417bc4b6586,
