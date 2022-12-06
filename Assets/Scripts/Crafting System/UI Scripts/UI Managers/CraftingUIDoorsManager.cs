@@ -344,7 +344,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private void UpdateDoorUpgradeRecipeTable(Transform parentContainerToSpawnElementsIn, List<(int, int)> upgradeRecipe) {
         GameManager.clearAllChildrenOfObj(doorUpgradeRecipeTable);
         //Loop through all items in upgrade recipe and add them to the table
-        //TODO: implement table????
+        //implement table????
 
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorUpgradeRecipeTable, upgradeRecipe);
         if (!recipeRequirementsMet) { this.doorUpgradable = false; }

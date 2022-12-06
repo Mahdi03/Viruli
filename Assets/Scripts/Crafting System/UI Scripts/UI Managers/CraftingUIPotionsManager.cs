@@ -55,7 +55,6 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         else {
             CraftableItemInfoGroup = CraftingUIInfoContainer_BottomLeftCorner.transform.GetChild(0);
         }
-        //TODO: Next time we might need to instantiate the prefab and not just find it in the hierarchy depending on how the walls system works
         var craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
         CraftableItemInfoGroup.gameObject.SetActive(true);
 
