@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 871191098629454490}
   - component: {fileID: 871191098629454494}
   - component: {fileID: 871191098629454495}
-  - component: {fileID: 871191098629454488}
-  - component: {fileID: 871191098629454489}
   m_Layer: 5
   m_Name: Big Door 2D Icon
   m_TagString: Untagged
@@ -78,27 +76,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &871191098629454488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871191098629454491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8263dd6c94a97ad46ac104181760b9ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &871191098629454489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871191098629454491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a650ec6ddaf1414183bcafdcc175dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

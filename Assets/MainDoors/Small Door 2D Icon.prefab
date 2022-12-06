@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1540417213109976107}
   - component: {fileID: 1540417213109976101}
   - component: {fileID: 1540417213109976100}
-  - component: {fileID: 1540417213109976103}
-  - component: {fileID: 1540417213109976102}
   m_Layer: 5
   m_Name: Small Door 2D Icon
   m_TagString: Untagged
@@ -78,27 +76,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1540417213109976103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540417213109976106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8263dd6c94a97ad46ac104181760b9ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1540417213109976102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540417213109976106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a650ec6ddaf1414183bcafdcc175dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -31707,6 +31707,8 @@ GameObject:
   - component: {fileID: 1244576122}
   - component: {fileID: 1244576121}
   - component: {fileID: 1244576124}
+  - component: {fileID: 1244576126}
+  - component: {fileID: 1244576125}
   m_Layer: 5
   m_Name: Tab 2 Button
   m_TagString: Untagged
@@ -31831,6 +31833,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonTabActiveColor: {r: 0.45588237, g: 0.58235306, b: 0.75, a: 1}
   buttonTabInactiveColor: {r: 0.38823533, g: 0.4156863, b: 0.5294118, a: 1}
+--- !u!114 &1244576125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244576119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a650ec6ddaf1414183bcafdcc175dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customMessage: Doors
+--- !u!114 &1244576126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244576119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8263dd6c94a97ad46ac104181760b9ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1246397699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47463,6 +47490,8 @@ GameObject:
   - component: {fileID: 1905251377}
   - component: {fileID: 1905251376}
   - component: {fileID: 1905251379}
+  - component: {fileID: 1905251381}
+  - component: {fileID: 1905251380}
   m_Layer: 5
   m_Name: Tab 1 Button
   m_TagString: Untagged
@@ -47587,6 +47616,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonTabActiveColor: {r: 0.45588237, g: 0.58235306, b: 0.75, a: 1}
   buttonTabInactiveColor: {r: 0.38823533, g: 0.4156863, b: 0.5294118, a: 1}
+--- !u!114 &1905251380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905251374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a650ec6ddaf1414183bcafdcc175dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customMessage: Craft Spells
+--- !u!114 &1905251381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905251374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8263dd6c94a97ad46ac104181760b9ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1906410856
 PrefabInstance:
   m_ObjectHideFlags: 0
