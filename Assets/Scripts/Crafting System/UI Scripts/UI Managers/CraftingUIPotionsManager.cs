@@ -81,27 +81,26 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         if (!recipeRequirementsMet) { this.itemCraftable = false; }
         //Show XP required
         TextMeshProUGUI xpText;
-        if (craftableItemXPRequiredTextbox != null) {
-            //Delete it and reinstantiate a new one
-            Destroy(craftableItemXPRequiredTextbox);
+        if (craftableItemXPRequiredTextbox == null) {
+            craftableItemXPRequiredTextbox = new GameObject("Required XP");
+            xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
+            //Set font size to 10
+            xpText.fontSize = 10f;
+            xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
+            xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
+
+            var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
+            xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
+            xpTextRectTransform.sizeDelta = new Vector2(xpTextRectTransform.sizeDelta.x, 30);
+
         }
-
-        craftableItemXPRequiredTextbox = new GameObject("Required XP");
-
-        xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
-
-        //Set font size to 10
-        xpText.fontSize = 10f;
-        xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
-        xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
-
-        var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
-        xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
-
+        else {
+            xpText = craftableItemXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
+        }
+        
         var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
-        
 
         if (xpCost > XPSystem.Instance.XP) {
             this.itemCraftable = false;
@@ -143,12 +142,6 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
 
         UpdateCraftingRecipeTable(amountToCraft);
-        
-        //Resize textbox height
-        if (craftableItemXPRequiredTextbox != null) {
-            RectTransform xpRequiredTextBoxRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
-            xpRequiredTextBoxRectTransform.sizeDelta = new Vector2(xpRequiredTextBoxRectTransform.sizeDelta.x, 30);
-        }
         
         var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
