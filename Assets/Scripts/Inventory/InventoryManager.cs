@@ -132,7 +132,7 @@ public class InventoryManager : MonoBehaviour {
 						foreach (var inventorySlotA in inventorySlots) {
 							InventorySlot inventorySlotAssociatedInfoA = inventorySlotA.GetComponent<InventorySlot>();
 							if (inventorySlotAssociatedInfoA.slotID == inventorySlotID) {
-								GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform);
+								GameObject item2DPrefab = Instantiate(currentItem.TwoDimensionalPrefab, inventorySlotA.gameObject.transform.GetChild(0));
 								IItem.attachItemInstance(item2DPrefab, currentItemID, inventorySlotID);
 								IItem.enableScript<DraggableObject2D>(item2DPrefab);
 								if (inventorySlotAssociatedInfoA.slotID < 10) {

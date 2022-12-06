@@ -27,6 +27,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 
 
 	public void ClearAllItemsInSlot() {
+		//Delete items nested in the item obj
+		var item = transform.GetChild(0);
+		for (int i = 0; i < item.childCount; i++) {
+            GameObject objToDelete = item.GetChild(i).gameObject;
+            Destroy(objToDelete);
+        }
 		//Delete items backwards until we reach the second one
 		for (int i = transform.childCount - 1; i > 1; i--) {
 			GameObject objToDelete = transform.GetChild(i).gameObject;

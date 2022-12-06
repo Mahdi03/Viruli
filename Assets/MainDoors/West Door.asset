@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bigDoor: 0
   parentTransformTagName: WestDoor
+  twoDimensionalPrefab: {fileID: 1540417213109976106, guid: 012e19329de59c946b4ee4ea2b05b750,
+    type: 3}
   repairRecipeDirty: []
   upgradeToLevel2RecipeDirty: []
   xpToUpgradeToLevel2: 0

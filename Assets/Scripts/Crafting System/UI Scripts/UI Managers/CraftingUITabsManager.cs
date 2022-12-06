@@ -113,8 +113,8 @@ public class CraftingUITabsManager : MonoBehaviour {
             ScrollViewElementController newScrollViewElementController = newScrollViewElement.GetComponent<ScrollViewElementController>();
             DoorScrollViewElement newDoorScrollViewElementController = IItem.enableScript<DoorScrollViewElement>(newScrollViewElement); //Add the door click callback
             IItem.disableScript<ScrollViewElementController>(newScrollViewElement);
-            //TODO: Set 2D door icon
-            //newScrollViewElementController.setIcon(keyValuePair.Value.TwoDimensionalPrefab);
+            //Set 2D door icon
+            newDoorScrollViewElementController.setIcon(mainDoor.twoDimensionalPrefab);
             newDoorScrollViewElementController.setText(mainDoor.doorName);
             newDoorScrollViewElementController.setItemID(mainDoor.ID);
         }

@@ -41,6 +41,8 @@ public class MainDoor : ScriptableObject {
         public int countRequired;
     }
 
+    public GameObject twoDimensionalPrefab;
+
     public recipeItem[] repairRecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
     public List<(int, int)> repairRecipe { get; set; } //Actual recipe object that will be referenced throughout all scripts (set in InGameItemsDatabaseManager.cs)
     public recipeItem[] upgradeToLevel2RecipeDirty; //Set through scriptable objects - make public so InGameItemsDatabaseManager can access it
@@ -72,7 +74,7 @@ public class MainDoor : ScriptableObject {
         DoorStats doorStats = doorStatsAtDifferentUpgradeLevels[level - 1];
         var newDoor = Instantiate(doorStats.doorPrefab, parentTransform);
         MainDoorController doorController = getDoorController(newDoor.transform);
-        doorController.initStats(bigDoor, level, 4f, doorStats.maxHealth, doorStats.damageDealt); //Pass along values to the door controller
+        doorController.initStats(bigDoor, level, 4f, doorStats.maxHealth, doorStats.damageDealt, this.twoDimensionalPrefab); //Pass along values to the door controller
     }
 
     public void RepairDoor() {
