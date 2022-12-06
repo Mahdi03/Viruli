@@ -101,6 +101,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
+        
 
         if (xpCost > XPSystem.Instance.XP) {
             this.itemCraftable = false;
@@ -122,13 +123,14 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         if (!(amountToCraft > 0)) {
             this.itemCraftable= false;
         }
-
-        inputGroupController.SetAmountToCraft(amountToCraft);
-        if (this.itemCraftable) {
-            inputGroupController.EnableCraftingButton();
-        }
-        else {
-            inputGroupController.DisableCraftingButton();
+        if (inputGroupController != null) {
+            inputGroupController.SetAmountToCraft(amountToCraft);
+            if (this.itemCraftable) {
+                inputGroupController.EnableCraftingButton();
+            }
+            else {
+                inputGroupController.DisableCraftingButton();
+            }
         }
     }
     private GameObject craftableItemRecipeTable;
@@ -140,9 +142,17 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), 220, 100);
         craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
 
+        UpdateCraftingRecipeTable(amountToCraft);
+        
+        //Resize textbox height
+        if (craftableItemXPRequiredTextbox != null) {
+            RectTransform xpRequiredTextBoxRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
+            xpRequiredTextBoxRectTransform.sizeDelta = new Vector2(xpRequiredTextBoxRectTransform.sizeDelta.x, 30);
+        }
+        
         var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
-        UpdateCraftingRecipeTable(amountToCraft);
+        
     }
     public void CraftPotion(int amountToCraft) {
         if (this.itemCraftable) {
