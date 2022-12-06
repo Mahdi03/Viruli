@@ -77,11 +77,18 @@ public class MainDoor : ScriptableObject {
         doorController.initStats(bigDoor, level, 4f, doorStats.maxHealth, doorStats.damageDealt, this.twoDimensionalPrefab); //Pass along values to the door controller
     }
 
-    public void RepairDoor() {
-        //TODO: Get upgrade costs
-
-        //TODO: Spend upgrade costs
-
+    public void RepairDoor(int xpCost, int repairCostScale) {
+        //Spend upgrade costs
+        //Spend XP
+        XPSystem.Instance.decreaseXP(xpCost);
+        //Use up items
+        foreach (var item in this.repairRecipe) { //No need to pass the repair recipe from the UI controller since the UI controller gets it from us
+            var id = item.Item1; //Get the recipe item ID
+            var countRequired = item.Item2 * repairCostScale; //Get the count of the recipe item
+            InventoryManager.Instance.removeByID(id, countRequired); //Remove that much
+        }
+        //Update UI
+        InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
         this.getDoorController().Repair();
     }
 

@@ -119,6 +119,10 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private GameObject doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject;
     private GameObject doorRepairRecipeTable;
     private IEnumerator doorRepairTableUpdateCoroutine;
+
+    private int doorRepairXPCost = -1;
+    private int doorRepairCostScale = -1;
+
     private IEnumerator UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
@@ -171,13 +175,13 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
 
-        var arrOfRecipeItems = mainDoor.repairRecipe;
+        var doorRepairArrRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
 
         int repairCostScaleFactor = 15;
         //Scale the repair cost but always ensure a minimum cost
-        int repairCost = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
-        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, arrOfRecipeItems, repairCost);
+        this.doorRepairCostScale = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, doorRepairArrRecipeItems, this.doorRepairCostScale);
         if (!recipeRequirementsMet) { this.doorRepairable = false; } //Only set it to false if we failed to meet the requirements
 
         //Show XP required
@@ -200,11 +204,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         }
         int currentLevel = doorController.getLevel();
         //TODO: Adjust XP cost score
-        int xpCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
+        doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
-        xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
+        xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < doorRepairXPCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + doorRepairXPCost;
 
-        if (xpCost > XPSystem.Instance.XP) {
+        if (doorRepairXPCost > XPSystem.Instance.XP) {
             this.doorRepairable = false;
         }
         //add button that will be enabled or disabled depending on repairable
@@ -365,7 +369,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     public void RepairDoor() {
         Debug.Log("Button Clicked"); //On click works
         if (this.doorRepairable) {
-            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor();
+
+            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
         }
     }
     public void UpgradeDoor() {
