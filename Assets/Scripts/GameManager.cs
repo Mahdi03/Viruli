@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,7 +17,14 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject tooltipObjInScene;
 
-	public static void clearAllChildrenOfObj(Transform obj) {
+
+    /*Fonts*/
+    public TMP_FontAsset CRAFTINGUI_regularTextFont;
+    public TMP_FontAsset CRAFTINGUI_costTextFont;
+
+
+
+    public static void clearAllChildrenOfObj(Transform obj) {
 		clearAllChildrenOfObj(obj.gameObject);
 	}
 	/// <summary>
