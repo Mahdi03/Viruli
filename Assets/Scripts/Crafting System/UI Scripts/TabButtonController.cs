@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-//TODO: Change tab button text in Unity editor (replace with icons)
 public class TabButtonController : MonoBehaviour, IPointerClickHandler {
-	public Color buttonTabActiveColor = Color.white;
-	public Color buttonTabInactiveColor = Color.HSVToRGB(0, 0, 0.6f);
+    public Color buttonTabActiveColor = Color.HSVToRGB(214f/360, 39f/100, 75f/100); //Color.white;
+    public Color buttonTabInactiveColor = Color.HSVToRGB(228f/360, 27f/100, 53f/100); // Color.HSVToRGB(0, 0, 0.6f);
 
     public int tabID { get { 
             if (!initialized) { Awake(); }

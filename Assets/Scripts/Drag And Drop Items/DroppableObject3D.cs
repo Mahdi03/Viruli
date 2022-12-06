@@ -167,7 +167,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 				//Whoops how did we get here
 			}
 
-            //TODO: Instead of removing by ID, we want to remove from that location
+            //Instead of removing by ID, we want to remove from that location
 			//When we remove by ID it will remove the first instance of that object and then some weird glitch will happen where it comes back from another one
             //InventoryManager.Instance.removeByID(itemID);
 			InventoryManager.Instance.removeAtSlotLocation(attachedInventorySlotID);

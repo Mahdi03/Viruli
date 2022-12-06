@@ -71,7 +71,8 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 	}
 
 	public void setIcon(GameObject prefab) {
-		GameManager.clearAllChildrenOfObj(iconPlaceholderPrefab);
+        if (!initialized) { Awake(); }
+        GameManager.clearAllChildrenOfObj(iconPlaceholderPrefab);
 		Instantiate(prefab, iconPlaceholderPrefab.transform);
 	}
 	public void setText(string txt) {

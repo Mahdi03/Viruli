@@ -55,7 +55,6 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         else {
             CraftableItemInfoGroup = CraftingUIInfoContainer_BottomLeftCorner.transform.GetChild(0);
         }
-        //TODO: Next time we might need to instantiate the prefab and not just find it in the hierarchy depending on how the walls system works
         var craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
         CraftableItemInfoGroup.gameObject.SetActive(true);
 
@@ -64,7 +63,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableUIInfoGroupContainerController.SetIcon(item.TwoDimensionalPrefab);
         craftableUIInfoGroupContainerController.SetItemName(item.itemName);
         craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
-        craftableUIInfoGroupContainerController.SetItemStatsText("- Effect Radius: " + item.EffectRadius + "ft\n- Effect Timeout: " + item.EffectTimeout + "sec");
+        craftableUIInfoGroupContainerController.SetItemStatsText("    Effect Radius: " + item.EffectRadius + " ft\n    Effect Timeout: " + item.EffectTimeout + " sec");
     }
     
     public void UpdateCraftingRecipeTable(int amountToCraft) {
@@ -72,7 +71,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
         var arrOfRecipeItems = itemToCraft.Recipe;
         this.itemCraftable = true;
-        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.craftableItemRecipeTable, arrOfRecipeItems);
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.craftableItemRecipeTable, arrOfRecipeItems, amountToCraft);
         if (!recipeRequirementsMet) { this.itemCraftable = false; }
         //Show XP required
         TextMeshProUGUI xpText;
@@ -85,8 +84,9 @@ public class CraftingUIPotionsManager : MonoBehaviour {
 
         xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
 
-        //Set font size to 16
-        xpText.fontSize = 16f;
+        //Set font size to 10
+        xpText.fontSize = 10f;
+        xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
         xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
         var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();

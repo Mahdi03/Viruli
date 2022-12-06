@@ -75,3 +75,4 @@ crashlytics-build.properties
 /ProjectSettings/CommonBurstAotSettings.json
 /ProjectSettings/ProjectSettings.asset
 /ProjectSettings/QualitySettings.asset
+*.zip
