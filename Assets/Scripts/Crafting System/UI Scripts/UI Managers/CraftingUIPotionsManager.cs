@@ -40,9 +40,12 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         ShowCraftableItemAction();
 
     }
+
+    /***********************************************************Potion Info**************************************************************/
+
     private void clearAllCraftableUIInfo() {
         //GameManager.clearAllChildrenOfObj(CraftingUIInfoContainer_BottomLeftCorner);
-        GameManager.clearAllChildrenOfObj(CraftingUIActionContainer_BottomRightCorner);
+        GameManager.clearAllChildrenOfObj(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
     }
 
     private void ShowCraftableItemInfo() {
@@ -65,7 +68,10 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
         craftableUIInfoGroupContainerController.SetItemStatsText("    Effect Radius: " + item.EffectRadius + " ft\n    Effect Timeout: " + item.EffectTimeout + " sec");
     }
-    
+
+
+    /***********************************************************Potion Action**************************************************************/
+
     public void UpdateCraftingRecipeTable(int amountToCraft) {
         GameManager.clearAllChildrenOfObj(this.craftableItemRecipeTable);
         var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
@@ -90,7 +96,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
         var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
-        xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform, false);
+        xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
 
         var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
 
@@ -131,10 +137,10 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     private void ShowCraftableItemAction(int amountToCraft = 1) {
         //TODO: Show "Reach Level _ to unlock this spell first"
 
-        craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform, 220, 100);
+        craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), 220, 100);
         craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
 
-        var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform);
+        var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
         UpdateCraftingRecipeTable(amountToCraft);
     }
