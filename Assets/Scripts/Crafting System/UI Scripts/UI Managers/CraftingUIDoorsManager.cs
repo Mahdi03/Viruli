@@ -69,14 +69,15 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         //doorID was set from the OnClick Handler of the scrollview element so we can use it here
 
         var container = new GameObject("Vertical Layout Container");
+        
         VerticalLayoutGroup verticalLayoutGroup = container.AddComponent<VerticalLayoutGroup>();
         verticalLayoutGroup.childAlignment = TextAnchor.UpperCenter;
         verticalLayoutGroup.childControlWidth = true;
         verticalLayoutGroup.childControlHeight = true; //Keep elements on screen
-
+        
         var containerRectTransform = container.GetComponent<RectTransform>();
 
-        //Sets to stretch
+        //Sets to stretch in all directions
         containerRectTransform.anchorMin = new Vector2(0, 0);
         containerRectTransform.anchorMax = new Vector2(1, 1);
         //Stretch components: https://stackoverflow.com/questions/30782829/how-to-access-recttransforms-left-right-top-bottom-positions-via-code
@@ -98,6 +99,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         var titleTextboxRectTransform = titleTextbox.GetComponent<RectTransform>();
         titleTextboxRectTransform.SetParent(container.transform, false);
+        //Sets to stretch top
+        titleTextboxRectTransform.anchorMin = new Vector2(0, 1);
+        titleTextboxRectTransform.anchorMax = new Vector2(1, 1);
+        titleTextboxRectTransform.sizeDelta = new Vector2(titleTextboxRectTransform.sizeDelta.x, 30); //Resize height to 30
+        titleTextboxRectTransform.localPosition = new Vector2(0, 0); //Bring it to right position at (0, 0)
 
         titleTextboxText.text = "Repair " + getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
         //Show recipe table (should update as door health changes)

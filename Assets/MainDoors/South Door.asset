@@ -16,11 +16,25 @@ MonoBehaviour:
   parentTransformTagName: SouthDoor
   twoDimensionalPrefab: {fileID: 1540417213109976106, guid: 012e19329de59c946b4ee4ea2b05b750,
     type: 3}
-  repairRecipeDirty: []
-  upgradeToLevel2RecipeDirty: []
-  xpToUpgradeToLevel2: 0
-  upgradeToLevel3RecipeDirty: []
-  xpToUpgradeToLevel3: 0
+  repairRecipeDirty:
+  - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
+    countRequired: 1
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+    countRequired: 1
+  upgradeToLevel2RecipeDirty:
+  - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
+    countRequired: 20
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+    countRequired: 15
+  xpToUpgradeToLevel2: 200
+  upgradeToLevel3RecipeDirty:
+  - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
+    countRequired: 40
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+    countRequired: 30
+  - item: {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
+    countRequired: 5
+  xpToUpgradeToLevel3: 1000
   doorStatsAtDifferentUpgradeLevels:
   - currentLevel: 1
     maxHealth: 100
