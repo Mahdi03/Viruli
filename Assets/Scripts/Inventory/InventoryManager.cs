@@ -19,11 +19,12 @@ public class InventoryManager : MonoBehaviour {
 			currentInventory = new Inventory(100); //TODO: Have a dynamically resizing inventory depending on how many items we have
 			//TODO: Have an if resume game catch here
 			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
-			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(17);
+			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
 
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+			/*
 			myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
@@ -41,6 +42,7 @@ public class InventoryManager : MonoBehaviour {
 			myItem.drop2DSprite(new Vector2(20, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(3, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-17, 10), Quaternion.identity);
+			*/
 		}
 	}
 
