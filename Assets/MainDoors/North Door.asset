@@ -17,16 +17,24 @@ MonoBehaviour:
   twoDimensionalPrefab: {fileID: 871191098629454491, guid: c31ee63b155c01540807b8cda6bb0bad,
     type: 3}
   repairRecipeDirty:
-  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
-    countRequired: 1
   - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
-    countRequired: 1
+    countRequired: 2
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+    countRequired: 2
   upgradeToLevel2RecipeDirty:
-  - item: {fileID: 11400000, guid: ee4ad914737074a44be503bdeac0e2f5, type: 2}
-    countRequired: 1
-  xpToUpgradeToLevel2: 0
-  upgradeToLevel3RecipeDirty: []
-  xpToUpgradeToLevel3: 0
+  - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
+    countRequired: 40
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+    countRequired: 30
+  xpToUpgradeToLevel2: 200
+  upgradeToLevel3RecipeDirty:
+  - item: {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}
+    countRequired: 80
+  - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
+    countRequired: 60
+  - item: {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
+    countRequired: 10
+  xpToUpgradeToLevel3: 1000
   doorStatsAtDifferentUpgradeLevels:
   - currentLevel: 1
     maxHealth: 200

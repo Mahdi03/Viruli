@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
   m_Name: Lure Potion (III)
   m_EditorClassIdentifier: 
-  stackable: 0
+  stackable: 1
   craftable: 1
-  myrecipe: []
+  myrecipe:
+  - item: {fileID: 11400000, guid: d8f9b2fe30fc9bb4cb969f0779d82f9f, type: 2}
+    countRequired: 1
+  - item: {fileID: 11400000, guid: 6fdedf7ad22a9c34f880e451a3e3ac38, type: 2}
+    countRequired: 0
+  - item: {fileID: 11400000, guid: d1bf9436ecdc0d048951a23261186f0b, type: 2}
+    countRequired: 0
   xpValue: 0
   weightedDropProbability: 1
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: a5c74bc565d93654da514a1590f54fc7,

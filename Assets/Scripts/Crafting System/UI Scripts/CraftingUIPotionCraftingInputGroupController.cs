@@ -16,7 +16,7 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 		craftingButtonButton = craftingButton.GetComponent<Button>();
 		integerInputField = integerInput.GetComponent<TMP_InputField>();
 	}
-	private int amountToCraft = -1;
+	private int amountToCraft = 1; //Start it off at 1
 	public void SetAmountToCraft(int amountToCraft) {
 
 		integerInputField.text = amountToCraft.ToString();
@@ -51,8 +51,13 @@ public class CraftingUIPotionCraftingInputGroupController : MonoBehaviour {
 		}
 		else {
 			//result is now defined
-			this.amountToCraft = result;
-			CraftingUIPotionsManager.Instance.UpdateCraftingRecipeTable(result);
+			if (result > 0) { //Make sure we don't try any funny business
+				this.amountToCraft = result;
+				CraftingUIPotionsManager.Instance.UpdateCraftingRecipeTable(result);
+			}
+			else {
+                this.DisableCraftingButton();
+            }
 		}
 	}
 }

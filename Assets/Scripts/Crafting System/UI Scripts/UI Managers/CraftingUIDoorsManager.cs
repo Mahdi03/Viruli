@@ -69,14 +69,15 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         //doorID was set from the OnClick Handler of the scrollview element so we can use it here
 
         var container = new GameObject("Vertical Layout Container");
+        
         VerticalLayoutGroup verticalLayoutGroup = container.AddComponent<VerticalLayoutGroup>();
         verticalLayoutGroup.childAlignment = TextAnchor.UpperCenter;
         verticalLayoutGroup.childControlWidth = true;
         verticalLayoutGroup.childControlHeight = true; //Keep elements on screen
-
+        
         var containerRectTransform = container.GetComponent<RectTransform>();
 
-        //Sets to stretch
+        //Sets to stretch in all directions
         containerRectTransform.anchorMin = new Vector2(0, 0);
         containerRectTransform.anchorMax = new Vector2(1, 1);
         //Stretch components: https://stackoverflow.com/questions/30782829/how-to-access-recttransforms-left-right-top-bottom-positions-via-code
@@ -98,6 +99,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         var titleTextboxRectTransform = titleTextbox.GetComponent<RectTransform>();
         titleTextboxRectTransform.SetParent(container.transform, false);
+        //Sets to stretch top
+        titleTextboxRectTransform.anchorMin = new Vector2(0, 1);
+        titleTextboxRectTransform.anchorMax = new Vector2(1, 1);
+        titleTextboxRectTransform.sizeDelta = new Vector2(titleTextboxRectTransform.sizeDelta.x, 30); //Resize height to 30
+        titleTextboxRectTransform.localPosition = new Vector2(0, 0); //Bring it to right position at (0, 0)
 
         titleTextboxText.text = "Repair " + getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
         //Show recipe table (should update as door health changes)
@@ -119,6 +125,10 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private GameObject doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject;
     private GameObject doorRepairRecipeTable;
     private IEnumerator doorRepairTableUpdateCoroutine;
+
+    private int doorRepairXPCost = -1;
+    private int doorRepairCostScale = -1;
+
     private IEnumerator UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
@@ -171,13 +181,13 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
 
-        var arrOfRecipeItems = mainDoor.repairRecipe;
+        var doorRepairArrRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
 
         int repairCostScaleFactor = 15;
         //Scale the repair cost but always ensure a minimum cost
-        int repairCost = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
-        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, arrOfRecipeItems, repairCost);
+        this.doorRepairCostScale = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
+        bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, doorRepairArrRecipeItems, this.doorRepairCostScale);
         if (!recipeRequirementsMet) { this.doorRepairable = false; } //Only set it to false if we failed to meet the requirements
 
         //Show XP required
@@ -200,11 +210,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         }
         int currentLevel = doorController.getLevel();
         //TODO: Adjust XP cost score
-        int xpCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
+        doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
-        xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
+        xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < doorRepairXPCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + doorRepairXPCost;
 
-        if (xpCost > XPSystem.Instance.XP) {
+        if (doorRepairXPCost > XPSystem.Instance.XP) {
             this.doorRepairable = false;
         }
         //add button that will be enabled or disabled depending on repairable
@@ -365,7 +375,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     public void RepairDoor() {
         Debug.Log("Button Clicked"); //On click works
         if (this.doorRepairable) {
-            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor();
+
+            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
         }
     }
     public void UpgradeDoor() {

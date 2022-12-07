@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: GameItemsDatabase
   m_EditorClassIdentifier: 
   potions:
-  - {fileID: 11400000, guid: af5997a8162edba4f8284291119c52d2, type: 2}
-  - {fileID: 11400000, guid: 85c058272e3dfe14e8307e5e2c5fefb6, type: 2}
-  - {fileID: 11400000, guid: 87ad61e11bf18f44c91261110fe28abd, type: 2}
   - {fileID: 11400000, guid: 362980411aaf196489f1b41ed50f767c, type: 2}
   - {fileID: 11400000, guid: 0ed28ddd427a8b846be6acf09f07b4c7, type: 2}
   - {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}

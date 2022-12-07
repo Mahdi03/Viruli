@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(ItemInstance))] //Make sure that we have item instance before we proceed
 public class OnHoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
 	private Tooltip tooltipScript;
-    public string customMessage;
+    public string customMessage = "";
     private string itemName;
 	private void Start() {
 		GameObject tooltip = GameManager.Instance.GetTooltip();
