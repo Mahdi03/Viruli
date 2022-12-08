@@ -15,7 +15,8 @@ public class LureSpell : SpellAction {
 		//Now set the destroy timer
 		base.EnableSpell();
 	}
-	private void Update() {
+	protected override void Update() {
+		base.Update();
 		if (startLuring) {
 			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();

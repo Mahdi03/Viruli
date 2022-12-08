@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public interface ISpellAction {
 	public virtual void EnableSpell() { }
@@ -10,10 +11,15 @@ public interface ISpellAction {
 [RequireComponent(typeof(ItemInstance))]
 public class SpellAction : MonoBehaviour, ISpellAction {
 
+	//TODO: Add potion timeout bar at the top of the potion
+	private HealthBarBehavior potionTimeoutController;
+
 	protected int itemID;
 
 	protected float attackRadius;
 	protected float timeout;
+	protected float timeRemaining;
+	private bool isActive = false;
 
 	/*Use gizmos to visualize the Physics.OverlapSphere in the editor to see if it matches with the ring prefab - won't be called in the actual build*/
 	protected virtual void OnDrawGizmos() {
@@ -25,9 +31,13 @@ public class SpellAction : MonoBehaviour, ISpellAction {
 		IItem potion = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
 		attackRadius = potion.EffectRadius * 1.5f;
 		timeout = potion.EffectTimeout;
-	}
+		timeRemaining = timeout;
+		potionTimeoutController = transform.GetChild(0).GetComponent<HealthBarBehavior>(); //The first child will be the health bar controller prefab with changed public booleans
+
+    }
 	public virtual void EnableSpell() {
-		StartCoroutine(destroySpell());
+		isActive = true;
+		//StartCoroutine(destroySpell());
 	}
 	protected virtual void EndSpellEffects() { }
 	protected IEnumerator destroySpell() {
@@ -35,4 +45,14 @@ public class SpellAction : MonoBehaviour, ISpellAction {
 		EndSpellEffects();
 		Destroy(gameObject);
 	}
+    protected virtual void Update() { //Make overridable so that different child types of spells can customize Update() functionality
+        if (isActive) {
+			timeRemaining -= Time.deltaTime;
+			potionTimeoutController.UpdateHealthBar(timeRemaining, timeout);
+			if (timeRemaining < 0) {
+                EndSpellEffects();
+                Destroy(gameObject);
+            }
+		}
+    }
 }

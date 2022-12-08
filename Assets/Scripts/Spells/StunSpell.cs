@@ -10,7 +10,8 @@ public class StunSpell : SpellAction {
 		//Now set the destroy timer
 		base.EnableSpell();
 	}
-	private void Update() {
+	protected override void Update() {
+        base.Update();
 		if (startStunning) {
 			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
