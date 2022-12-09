@@ -46,6 +46,10 @@ public class MainDoorController : MonoBehaviour {
 	}
 
 	public void DamageHealth(int dealsDamage, Transform enemyTransform) {
+
+		//Play a door breaking sound
+		GameManager.Instance.PlayRandomDoorAttackNoise();
+
 		currentHealth -= dealsDamage;
 		updateHealthBar();
 		if (damageDealt != 0) {
