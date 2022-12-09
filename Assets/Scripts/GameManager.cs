@@ -24,8 +24,7 @@ public class GameManager : MonoBehaviour {
     public TMP_FontAsset CRAFTINGUI_regularTextFont;
     public TMP_FontAsset CRAFTINGUI_costTextFont;
 
-	private AudioSource[] doorAudioSources;
-	//public List<AudioSouce> audioClipList { get; private set; } = new List<AudioClip>();
+	
 
 
     public static void clearAllChildrenOfObj(Transform obj) {
@@ -50,7 +49,6 @@ public class GameManager : MonoBehaviour {
 			instance = this;
 			//Now we can instantiate stuff if needed
 			audioManager = GetComponent<AudioManager>();
-			doorAudioSources = GetComponents<AudioSource>();
 
 		}
 	}
@@ -66,10 +64,6 @@ public class GameManager : MonoBehaviour {
 	}
 	public void SetSoundEffectsVolume(float volume) {
 		audioManager.SetSoundEffectsVolume(volume);
-	}
-	public void PlayRandomDoorAttackNoise() {
-		int indexOfRandom = Random.Range(0, doorAudioSources.Length);
-		doorAudioSources[indexOfRandom].Play();
 	}
 
 	public GameObject GetTooltip() { return tooltipObjInScene; }

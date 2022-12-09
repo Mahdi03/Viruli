@@ -48,7 +48,7 @@ public class MainDoorController : MonoBehaviour {
 	public void DamageHealth(int dealsDamage, Transform enemyTransform) {
 
 		//Play a door breaking sound
-		GameManager.Instance.PlayRandomDoorAttackNoise();
+		MainDoorManager.Instance.PlayRandomDoorAttackNoise();
 
 		currentHealth -= dealsDamage;
 		updateHealthBar();
@@ -57,6 +57,7 @@ public class MainDoorController : MonoBehaviour {
 		}
 		if (currentHealth <= 0) {
 			//Oops the zombies broke through a door!! game overrrr
+			MainDoorManager.Instance.PlayDoorBreakNoise();
 			GameManager.Instance.GameOver();
 		}
 	}
