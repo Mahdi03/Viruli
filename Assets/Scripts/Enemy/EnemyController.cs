@@ -42,11 +42,15 @@ public class EnemyController : MonoBehaviour {
         this.maxItemDropCount = maxItemDropCount;
     }
 
+    private AudioSource enemyHurtNoise;
+
     // Start is called before the first frame update
     void Start() {
         meshAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<EnemyAnimator>();
         enemyMotor = GetComponent<EnemyMotor>();
+
+        enemyHurtNoise = GetComponents<AudioSource>()[1]; //The second attached noise is the noise to play when this enemy is hurt
 
         //Set current health to maxHealth possible
         currentHealth = maxHealth;
@@ -69,6 +73,9 @@ public class EnemyController : MonoBehaviour {
         if (currentHealth <= 0) {
             //Welp we ded, destroy bye bye
             killEnemy();
+        }
+        else {
+            enemyHurtNoise.Play();
         }
     }
 

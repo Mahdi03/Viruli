@@ -22,4 +22,4 @@ MonoBehaviour:
   xpValue: 25
   minItemDropCount: 3
   maxItemDropCount: 10
-  spawnProbability: 10000
+  spawnProbability: 1
