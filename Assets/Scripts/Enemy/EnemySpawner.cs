@@ -122,6 +122,7 @@ public class EnemySpawner : MonoBehaviour {
     */
     private void spawnRandomEnemy() {
         //Step #1: Pick an enemy from random to spawn
+        //TODO: Make round 1&2 only zombies, add trolls lvl 3 and minotaurs in lvl 5
         var listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
         float enemyToSpawn = Random.Range(0, listOfEnemies.Count);
         Enemy chosenEnemy = InGameItemsDatabaseManager.Instance.getEnemyByID(listOfEnemies[(int)enemyToSpawn]);

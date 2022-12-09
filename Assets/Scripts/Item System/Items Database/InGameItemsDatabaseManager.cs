@@ -64,7 +64,8 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 				itemID++;
 			}
 
-			allDropSpawnableItems = new List<int>(); //don't forget to initialize the list before adding to it
+
+            allDropSpawnableItems = new List<int>(); //don't forget to initialize the list before adding to it
             dropSpawnableBuildingItems = new List<int>(); //don't forget to initialize the list before adding to it
             foreach (var buildingMaterial in db.buildingMaterials) {
 				buildingMaterial.ID = itemID; //Set ID in here just in case we need access to it from the actual object
@@ -74,6 +75,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 				}
 				//Add to the probabilistically weighted list dedicated to only building materials
 				for (int i = 0; i < buildingMaterial.WeightedDropProbability; i++) {
+					allDropSpawnableItems.Add(buildingMaterial.ID);
 					dropSpawnableBuildingItems.Add(buildingMaterial.ID);
 				}
 				
@@ -88,6 +90,7 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
                 }
                 //Add to the probabilistically weighted list dedicated to only crafting materials
 				for (int i = 0; i < craftingMaterial.WeightedDropProbability; i++) {
+					allDropSpawnableItems.Add(craftingMaterial.ID);
 					dropSpawnableCraftingItems.Add(craftingMaterial.ID);
 				}
                 
@@ -101,7 +104,6 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 			 * is limited (use .Recipe in script as it is in the form of List<(int, int)>())
 			 */
             craftableItems = new Dictionary<int, IItem>();
-			allDropSpawnableItems = new List<int>();
 			foreach (KeyValuePair<int, IItem> itemEntry in itemsDatabase) {
 				//Debug.Log(itemEntry);
 				if (itemEntry.Value.Craftable) {
