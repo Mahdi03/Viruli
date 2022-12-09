@@ -18,6 +18,7 @@ MonoBehaviour:
   speed: 3
   maxHealth: 40
   dealsDamage: 3
+  attackRadius: 2
   xpValue: 25
   minItemDropCount: 3
   maxItemDropCount: 10
