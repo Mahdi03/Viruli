@@ -30,12 +30,13 @@ public class EnemyController : MonoBehaviour {
 
     public bool isStunned { get; set; } = false;
 
-    public void initStats(string enemyName, float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
+    public void initStats(string enemyName, float speed, int maxHealth, int dealsDamage, float attackRadius, int xpValue, int minItemDropCount, int maxItemDropCount) {
         this.enemyName = enemyName;
         this.BaseMovementSpeed = speed;
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
         this.dealsDamage = dealsDamage;
+        this.attackRadius = attackRadius;
         this.xpValue = xpValue;
         this.minItemDropCount = minItemDropCount;
         this.maxItemDropCount = maxItemDropCount;

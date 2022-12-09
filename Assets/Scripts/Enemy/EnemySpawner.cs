@@ -165,6 +165,7 @@ public class EnemySpawner : MonoBehaviour {
             speed: chosenEnemy.speed,
             maxHealth: adjustedEnemyHealth,
             dealsDamage: chosenEnemy.dealsDamage,
+            attackRadius: chosenEnemy.attackRadius,
             xpValue: chosenEnemy.xpValue,
             minItemDropCount: chosenEnemy.minItemDropCount,
             maxItemDropCount: chosenEnemy.maxItemDropCount);

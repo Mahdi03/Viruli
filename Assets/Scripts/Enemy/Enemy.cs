@@ -9,6 +9,7 @@ public class Enemy : ScriptableObject {
 	public float speed;
 	public int maxHealth;
 	public int dealsDamage;
+	public float attackRadius = 1f;
 	public int xpValue;
 	public int minItemDropCount, maxItemDropCount;
 	public int spawnProbability;
