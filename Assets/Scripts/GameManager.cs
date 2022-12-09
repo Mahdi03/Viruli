@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
 	private static GameManager instance;
 	public static GameManager Instance { get { return instance; } }
 
+	private AudioManager audioManager;
+
 	public GameObject tooltipObjInScene;
 
 
@@ -47,10 +49,24 @@ public class GameManager : MonoBehaviour {
 		else {
 			instance = this;
 			//Now we can instantiate stuff if needed
+			audioManager = GetComponent<AudioManager>();
 			doorAudioSources = GetComponents<AudioSource>();
+
 		}
 	}
 
+
+	/*Audio Controls*/
+
+	public void SetMasterVolume(float volume) {
+		audioManager.SetMasterVolume(volume);
+	}
+	public void SetMusicVolume(float volume) {
+		audioManager.SetMusicVolume(volume);
+	}
+	public void SetSoundEffectsVolume(float volume) {
+		audioManager.SetSoundEffectsVolume(volume);
+	}
 	public void PlayRandomDoorAttackNoise() {
 		int indexOfRandom = Random.Range(0, doorAudioSources.Length);
 		doorAudioSources[indexOfRandom].Play();
