@@ -28,6 +28,8 @@ public class EnemyController : MonoBehaviour {
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
+    public bool isStunned { get; set; } = false;
+
     public void initStats(string enemyName, float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
         this.enemyName = enemyName;
         this.BaseMovementSpeed = speed;
@@ -118,7 +120,7 @@ public class EnemyController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (target) {
-            if (closeEnoughToAttack() && !isAttacking) {
+            if (closeEnoughToAttack() && !isAttacking && !isStunned) {
                 isAttacking = true;
                 if (gameObject.name.ToLower().Contains("troll")) {
                     //We are the troll, so we have 4 attacks to choose from
