@@ -31,7 +31,8 @@ public class SlowSpell : SpellAction {
 		//Now set the destroy timer
 		base.EnableSpell();
 	}
-	private void Update() {
+	protected override void Update() {
+		base.Update();
 		if (startSlowingDown) {
 			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();

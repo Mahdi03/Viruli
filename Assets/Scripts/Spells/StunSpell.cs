@@ -10,21 +10,22 @@ public class StunSpell : SpellAction {
 		//Now set the destroy timer
 		base.EnableSpell();
 	}
-	private void Update() {
-		if (startStunning) {
-			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
-				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
-				enemyController.changeMovementSpeed(0); //Should stop all movement within the spell's radius
-				//TODO: Stop the attacks as well
-			}
-		}
-	}
+	protected override void Update() {
+        base.Update();
+        if (startStunning) {
+            foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
+                EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
+                enemyController.changeMovementSpeed(0);
+				enemyController.isStunned = true;
+            }
+        }
+    }
 	protected override void EndSpellEffects() {
 		//We need to redirect the zombies to their nearest door again
 		foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 			EnemyController enemyController = collider.transform.GetComponent<EnemyController>();
 			enemyController.changeMovementSpeed(enemyController.BaseMovementSpeed);//Restore their original speed
-			//TODO: Resume attacks
+			enemyController.isStunned = false;
 		}
 		base.EndSpellEffects();
 	}

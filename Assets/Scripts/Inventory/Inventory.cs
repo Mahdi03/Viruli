@@ -42,8 +42,8 @@ public class Inventory : IEnumerable {
 			this.itemID = itemID;
 			this.count = count;
 		}
-		public int itemID { get; set; }
-		public int count { get; set; }
+		public int itemID;
+		public int count;
 	}
 
 	private List<InternalInventoryItem> inventory;
@@ -260,7 +260,7 @@ public class Inventory : IEnumerable {
 		PlayerPrefs.SetString(PlayerPrefsKeyName, saveToJSONString());
 		PlayerPrefs.Save();
 	}
-	private string saveToJSONString() {
+	public string saveToJSONString() {
 		return JsonHelper.ToJson(inventory.ToArray());
 
 	}

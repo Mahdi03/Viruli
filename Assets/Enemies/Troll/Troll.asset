@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d942e1136bf0ac468365966ec0073d4, type: 3}
   m_Name: Troll
   m_EditorClassIdentifier: 
-  enemyID: 0
+  enemyID: 1
   enemyPrefab: {fileID: 156312, guid: 1ad753987db44bf43857b2e8a342cf37, type: 3}
   speed: 2
   maxHealth: 20
   dealsDamage: 5
+  attackRadius: 1
   xpValue: 20
   minItemDropCount: 2
   maxItemDropCount: 5

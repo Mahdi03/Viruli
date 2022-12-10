@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d942e1136bf0ac468365966ec0073d4, type: 3}
+  m_Name: Minotaur
+  m_EditorClassIdentifier: 
+  enemyID: 2
+  enemyPrefab: {fileID: 935915182897215889, guid: e5cb6fe34d01260408275f0d507f2f25,
+    type: 3}
+  speed: 3
+  maxHealth: 40
+  dealsDamage: 3
+  attackRadius: 2
+  xpValue: 25
+  minItemDropCount: 3
+  maxItemDropCount: 10
+  spawnProbability: 1

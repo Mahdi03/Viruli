@@ -28,22 +28,31 @@ public class EnemyController : MonoBehaviour {
     private EnemyAnimator enemyAnimator;
     private EnemyMotor enemyMotor;
 
-    public void initStats(string enemyName, float speed, int maxHealth, int dealsDamage, int xpValue, int minItemDropCount, int maxItemDropCount) {
+    public bool isStunned { get; set; } = false;
+
+    public void initStats(string enemyName, float speed, int maxHealth, int dealsDamage, float attackRadius, int xpValue, int minItemDropCount, int maxItemDropCount) {
         this.enemyName = enemyName;
         this.BaseMovementSpeed = speed;
         this.movementSpeed = speed;
         this.maxHealth = maxHealth;
         this.dealsDamage = dealsDamage;
+        this.attackRadius = attackRadius;
         this.xpValue = xpValue;
         this.minItemDropCount = minItemDropCount;
         this.maxItemDropCount = maxItemDropCount;
     }
+
+    private AudioSource enemyHurtNoise, enemyKilledNoise;
 
     // Start is called before the first frame update
     void Start() {
         meshAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<EnemyAnimator>();
         enemyMotor = GetComponent<EnemyMotor>();
+
+        var attachedNoises = GetComponents<AudioSource>();
+        enemyHurtNoise = attachedNoises[1]; //The second attached noise is the noise to play when this enemy is hurt
+        enemyKilledNoise = attachedNoises[2]; //The third noise attached would be when the enemy is killed
 
         //Set current health to maxHealth possible
         currentHealth = maxHealth;
@@ -67,6 +76,9 @@ public class EnemyController : MonoBehaviour {
             //Welp we ded, destroy bye bye
             killEnemy();
         }
+        else {
+            enemyHurtNoise.Play();
+        }
     }
 
     //Poison code for Poison Spell
@@ -86,6 +98,10 @@ public class EnemyController : MonoBehaviour {
 
     public void killEnemy() { //Make public for instant death potion
         if (isAlive) {
+            enemyKilledNoise.outputAudioMixerGroup.audioMixer.GetFloat("EnemyInjuredVolume", out float volume);
+            volume = Mathf.Pow(10f, volume / 20); //Convert from Log_10??
+            AudioSource.PlayClipAtPoint(enemyKilledNoise.clip, Camera.main.transform.position, volume); //Use play clip at point in case this object is destroyed before it can finish playing the sound
+            //enemyKilledNoise.PlayOneShot(enemyKilledNoise.clip); 
             isAlive = false;
             //Notify the Enemy Spawner that another enemy has been killed (it is keeping track to know when to start the next round)
             EnemySpawner.Instance.EnemyKilled();
@@ -118,7 +134,7 @@ public class EnemyController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (target) {
-            if (closeEnoughToAttack() && !isAttacking) {
+            if (closeEnoughToAttack() && !isAttacking && !isStunned) {
                 isAttacking = true;
                 if (gameObject.name.ToLower().Contains("troll")) {
                     //We are the troll, so we have 4 attacks to choose from

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour {
     private static EnemySpawner instance;
@@ -78,6 +79,7 @@ public class EnemySpawner : MonoBehaviour {
     private void startRoundBreak() {
         timeRemaining = roundDelay;
         StartCoroutine(updateTimer());
+        GameManager.Instance.SaveGame(this.roundNumber); //Save game between rounds
     }
     private IEnumerator updateTimer() {
         timeRemaining--;
@@ -100,14 +102,19 @@ public class EnemySpawner : MonoBehaviour {
     private void stopRoundBreak() {
         //Set all the correct values
         roundNumber++;
-        roundCounterTextbox.text = "Round " + roundNumber;
-        enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
-        //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
-        enemiesSpawned = 0;
-        //enemiesToSpawnThisRound = roundNumber;
-        Debug.Log("roundNumber: " + roundNumber);
-        //Actually start the spawning again
-        StartCoroutine(spawner());
+        if (!(roundNumber > 10)) {
+            roundCounterTextbox.text = "Round " + roundNumber;
+            enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
+            //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
+            enemiesSpawned = 0;
+            //enemiesToSpawnThisRound = roundNumber;
+            Debug.Log("roundNumber: " + roundNumber);
+            //Actually start the spawning again
+            StartCoroutine(spawner());
+        }
+        else {
+            SceneManager.LoadScene("WinGame", LoadSceneMode.Additive);
+        }
     }
     /*
     private IEnumerator startRoundBreak() {
@@ -122,6 +129,7 @@ public class EnemySpawner : MonoBehaviour {
     */
     private void spawnRandomEnemy() {
         //Step #1: Pick an enemy from random to spawn
+        //TODO: Make round 1&2 only zombies, add trolls lvl 3 and minotaurs in lvl 5
         var listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
         float enemyToSpawn = Random.Range(0, listOfEnemies.Count);
         Enemy chosenEnemy = InGameItemsDatabaseManager.Instance.getEnemyByID(listOfEnemies[(int)enemyToSpawn]);
@@ -164,6 +172,7 @@ public class EnemySpawner : MonoBehaviour {
             speed: chosenEnemy.speed,
             maxHealth: adjustedEnemyHealth,
             dealsDamage: chosenEnemy.dealsDamage,
+            attackRadius: chosenEnemy.attackRadius,
             xpValue: chosenEnemy.xpValue,
             minItemDropCount: chosenEnemy.minItemDropCount,
             maxItemDropCount: chosenEnemy.maxItemDropCount);

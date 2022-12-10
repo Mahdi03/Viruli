@@ -20,12 +20,12 @@ public class MainDoorController : MonoBehaviour {
 
 	private GameObject twoDimensionalPrefab;
 
-	public void initStats(bool bigDoor, int level, float attackRange, int maxHealth, int damageDealt, GameObject twoDimensionalPrefab) {
-		this.bigDoor = bigDoor;
+	public void initStats(bool isBigDoor, int level, float attackRange, int currentHealth, int maxHealth, int damageDealt, GameObject twoDimensionalPrefab) {
+		this.bigDoor = isBigDoor;
 		this.Level= level;
 		this.attackRange = attackRange;
 		this.maxHealth = maxHealth;
-		currentHealth = maxHealth;
+		this.currentHealth = currentHealth;
 		this.damageDealt = damageDealt;
 		this.twoDimensionalPrefab = twoDimensionalPrefab;
 
@@ -46,6 +46,10 @@ public class MainDoorController : MonoBehaviour {
 	}
 
 	public void DamageHealth(int dealsDamage, Transform enemyTransform) {
+
+		//Play a door breaking sound
+		MainDoorManager.Instance.PlayRandomDoorAttackNoise();
+
 		currentHealth -= dealsDamage;
 		updateHealthBar();
 		if (damageDealt != 0) {
@@ -53,6 +57,7 @@ public class MainDoorController : MonoBehaviour {
 		}
 		if (currentHealth <= 0) {
 			//Oops the zombies broke through a door!! game overrrr
+			MainDoorManager.Instance.PlayDoorBreakNoise();
 			GameManager.Instance.GameOver();
 		}
 	}

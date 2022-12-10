@@ -31,7 +31,8 @@ public class PoisonSpell : SpellAction {
 		base.EnableSpell();
 	}
 
-	private void Update() {
+	protected override void Update() {
+		base.Update();
 		if (startPoisoning) {
 			foreach (var collider in Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy)) {
 				EnemyController enemyController = collider.transform.GetComponent<EnemyController>();

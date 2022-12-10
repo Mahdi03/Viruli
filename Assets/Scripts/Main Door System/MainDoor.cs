@@ -68,13 +68,24 @@ public class MainDoor : ScriptableObject {
         spawnDoor();
         //Debug.Log("We spawned");
     }
-    private void spawnDoor(int level = 1) {
+    private void spawnDoor(int level = 1, int currentDoorHealth = -1) {
         GameManager.clearAllChildrenOfObj(parentTransform);
         
         DoorStats doorStats = doorStatsAtDifferentUpgradeLevels[level - 1];
         var newDoor = Instantiate(doorStats.doorPrefab, parentTransform);
         MainDoorController doorController = getDoorController(newDoor.transform);
-        doorController.initStats(bigDoor, level, 4f, doorStats.maxHealth, doorStats.damageDealt, this.twoDimensionalPrefab); //Pass along values to the door controller
+        //Add this tidbit in case we want to supply a current health for a door like if we are loading the game from a save point
+        if (currentDoorHealth < 0) {
+            currentDoorHealth = doorStats.maxHealth;
+        }
+        doorController.initStats(
+            isBigDoor: bigDoor,
+            level,
+            attackRange: 4f,
+            currentHealth: currentDoorHealth,
+            maxHealth: doorStats.maxHealth,
+            damageDealt: doorStats.damageDealt,
+            twoDimensionalPrefab: this.twoDimensionalPrefab); //Pass along values to the door controller
     }
 
     public void RepairDoor(int xpCost, int repairCostScale) {
