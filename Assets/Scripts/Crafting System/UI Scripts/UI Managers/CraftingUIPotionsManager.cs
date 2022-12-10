@@ -81,7 +81,9 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         if (!recipeRequirementsMet) { this.itemCraftable = false; }
         //Show XP required
         TextMeshProUGUI xpText;
-        if (craftableItemXPRequiredTextbox == null) {
+        if (craftableItemXPRequiredTextbox != null) {
+            Destroy(craftableItemXPRequiredTextbox);
+        }
             craftableItemXPRequiredTextbox = new GameObject("Required XP");
             xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
             //Set font size to 10
@@ -93,10 +95,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
             xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
             xpTextRectTransform.sizeDelta = new Vector2(xpTextRectTransform.sizeDelta.x, 30);
 
-        }
-        else {
-            xpText = craftableItemXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
-        }
+        
         
         var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
 
