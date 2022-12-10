@@ -3669,10 +3669,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120541826}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2120541832}
+        m_TargetAssemblyTypeName: CraftingUIController, Assembly-CSharp
+        m_MethodName: CloseCraftingMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -19594,7 +19594,7 @@ PrefabInstance:
     - target: {fileID: 5609607253879794372, guid: 38c275bee345e814783e201aceaa37e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 86.75
+      value: 83.75
       objectReference: {fileID: 0}
     - target: {fileID: 5609607253879794372, guid: 38c275bee345e814783e201aceaa37e1,
         type: 3}
@@ -19644,7 +19644,7 @@ PrefabInstance:
     - target: {fileID: 5609607254757794387, guid: 38c275bee345e814783e201aceaa37e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 190.5
+      value: 215
       objectReference: {fileID: 0}
     - target: {fileID: 5609607254757794387, guid: 38c275bee345e814783e201aceaa37e1,
         type: 3}
@@ -19664,7 +19664,7 @@ PrefabInstance:
     - target: {fileID: 5609607255232642639, guid: 38c275bee345e814783e201aceaa37e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 16.5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5609607255232642639, guid: 38c275bee345e814783e201aceaa37e1,
         type: 3}
