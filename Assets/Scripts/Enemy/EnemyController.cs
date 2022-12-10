@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour {
         this.maxItemDropCount = maxItemDropCount;
     }
 
-    private AudioSource enemyHurtNoise;
+    private AudioSource enemyHurtNoise, enemyKilledNoise;
 
     // Start is called before the first frame update
     void Start() {
@@ -50,7 +50,9 @@ public class EnemyController : MonoBehaviour {
         enemyAnimator = GetComponent<EnemyAnimator>();
         enemyMotor = GetComponent<EnemyMotor>();
 
-        enemyHurtNoise = GetComponents<AudioSource>()[1]; //The second attached noise is the noise to play when this enemy is hurt
+        var attachedNoises = GetComponents<AudioSource>();
+        enemyHurtNoise = attachedNoises[1]; //The second attached noise is the noise to play when this enemy is hurt
+        enemyKilledNoise = attachedNoises[2]; //The third noise attached would be when the enemy is killed
 
         //Set current health to maxHealth possible
         currentHealth = maxHealth;
@@ -96,6 +98,10 @@ public class EnemyController : MonoBehaviour {
 
     public void killEnemy() { //Make public for instant death potion
         if (isAlive) {
+            enemyKilledNoise.outputAudioMixerGroup.audioMixer.GetFloat("EnemyInjuredVolume", out float volume);
+            volume = Mathf.Pow(10f, volume / 20); //Convert from Log_10??
+            AudioSource.PlayClipAtPoint(enemyKilledNoise.clip, Camera.main.transform.position, volume); //Use play clip at point in case this object is destroyed before it can finish playing the sound
+            //enemyKilledNoise.PlayOneShot(enemyKilledNoise.clip); 
             isAlive = false;
             //Notify the Enemy Spawner that another enemy has been killed (it is keeping track to know when to start the next round)
             EnemySpawner.Instance.EnemyKilled();

@@ -89,7 +89,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: e26a6942350fd4d4b945050ba07b385f
+    name: EnemyInjuredVolume
   m_AudioMixerGroupViews:
   - guids:
     - b6685bf05825d2345a7a153cc3a39dc5
