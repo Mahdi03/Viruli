@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour {
     private static EnemySpawner instance;
@@ -101,14 +102,19 @@ public class EnemySpawner : MonoBehaviour {
     private void stopRoundBreak() {
         //Set all the correct values
         roundNumber++;
-        roundCounterTextbox.text = "Round " + roundNumber;
-        enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
-        //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
-        enemiesSpawned = 0;
-        //enemiesToSpawnThisRound = roundNumber;
-        Debug.Log("roundNumber: " + roundNumber);
-        //Actually start the spawning again
-        StartCoroutine(spawner());
+        if (!(roundNumber > 10)) {
+            roundCounterTextbox.text = "Round " + roundNumber;
+            enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
+            //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
+            enemiesSpawned = 0;
+            //enemiesToSpawnThisRound = roundNumber;
+            Debug.Log("roundNumber: " + roundNumber);
+            //Actually start the spawning again
+            StartCoroutine(spawner());
+        }
+        else {
+            SceneManager.LoadScene("WinGame", LoadSceneMode.Additive);
+        }
     }
     /*
     private IEnumerator startRoundBreak() {

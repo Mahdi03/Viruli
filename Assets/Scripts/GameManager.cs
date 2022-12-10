@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -69,10 +70,12 @@ public class GameManager : MonoBehaviour {
 
     public GameObject GetTooltip() { return tooltipObjInScene; }
 
+    private bool gameAlreadyLost = false;
     public void GameOver() {
-        Debug.Log("Game lost");
-        //TODO: Implement game lose
-
+        if (!gameAlreadyLost) {
+            Debug.Log("Game lost");
+            SceneManager.LoadScene("LoseGame", LoadSceneMode.Additive);
+        }
     }
 
     [Serializable]
@@ -156,6 +159,23 @@ public class GameManager : MonoBehaviour {
 
 
         }
+    }
+
+    public void ClearAllSaveData() {
+        PlayerPrefs.DeleteKey(PlayerPrefsKeyName);
+    }
+    public void RestartGame() {
+        //Start game afresh
+        ClearAllSaveData();
+        PlayGame();
+    }
+
+    public void PlayGame() {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    public void QuitGame() {
+        Application.Quit();
     }
 
 }
