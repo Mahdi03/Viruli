@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour {
     public GameObject tooltipObjInScene;
 
 
+    [SerializeField]
+    private GameObject pauseMenu;
+
+
     /*Fonts*/
     public TMP_FontAsset CRAFTINGUI_regularTextFont;
     public TMP_FontAsset CRAFTINGUI_costTextFont;
@@ -51,8 +55,49 @@ public class GameManager : MonoBehaviour {
             instance = this;
             //Now we can instantiate stuff if needed
             audioManager = GetComponent<AudioManager>();
+            //ClearAllGameSettings();
 
         }
+    }
+    private void Start() {
+
+        //Let's load the sound settings if they exist and apply them to the sound
+        (float musicVolume, float sfxVolume) = LoadGameSettings();
+        if (musicVolume < 0 || sfxVolume < 0) {
+            //Then just keep it at default since they haven't done anything to it yet
+        }
+        else {
+            PauseMenuSliderBehavior pauseMenuController = pauseMenu.GetComponent<PauseMenuSliderBehavior>();
+            pauseMenuController.SetMusicVolume(musicVolume);
+            pauseMenuController.SetSFXVolume(sfxVolume);
+        }
+    }
+
+    private void Update() {
+        if (Input.GetKeyUp(KeyCode.Escape)) {
+            if (pauseMenu.activeSelf) {
+                //The pause menu is already open, let us resume game
+                ResumeGame();
+            }
+            else {
+                //We need to pause the game
+                PauseGame();
+            }
+        }
+    }
+
+    //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
+    public bool IS_GAME_PAUSED { get; private set; } = false;
+
+    public void PauseGame() { //Set as public so that the pause button can use it
+        this.IS_GAME_PAUSED = true;
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void ResumeGame() { //Set as public so that the pause menu can use it
+        this.IS_GAME_PAUSED = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
     }
 
 
@@ -66,6 +111,10 @@ public class GameManager : MonoBehaviour {
     }
     public void SetSoundEffectsVolume(float volume) {
         audioManager.SetSoundEffectsVolume(volume);
+    }
+
+    private void UpdatePlayerSettingsPreferences() {
+
     }
 
     public GameObject GetTooltip() { return tooltipObjInScene; }
@@ -84,13 +133,16 @@ public class GameManager : MonoBehaviour {
             this.doorName = doorName;
             this.currentLevel = currentLevel;
             this.currentHealth = currentHealth;
-            
+
         }
         public string doorName;
         public int currentLevel;
         public int currentHealth;
     }
-    
+
+
+    private const string SaveDataPlayerPrefsKeyName = "Mahdi_Viruli_StoredGameData";
+    private const string GameSettingsPlayerPrefsKeyName = "Mahdi_Viruli_GameSettings";
 
     [Serializable]
     private class SaveGameData {
@@ -101,7 +153,42 @@ public class GameManager : MonoBehaviour {
         public string allDoorInfoJSONString;
     }
 
-    private const string PlayerPrefsKeyName = "Mahdi_Viruli_StoredGameData";
+    [Serializable]
+    private class GameSettings {
+        public float musicVolume;
+        public float sfxVolume;
+    }
+
+    /// <summary>
+    /// Returns the values as floats so as to be applied to the game's audio mixer and also show up in the settings every time
+    /// </summary>
+    /// <returns>(musicVolume, sfxVolume)</returns>
+    public (float, float) LoadGameSettings() {
+        string result = PlayerPrefs.GetString(GameSettingsPlayerPrefsKeyName, "");
+        if (result == "") {
+            return (-1f, -1f);
+        }
+        else {
+            GameSettings savedGameSettings = JsonUtility.FromJson<GameSettings>(result);
+            return (savedGameSettings.musicVolume, savedGameSettings.sfxVolume);
+        }
+    }
+
+    /// <summary>
+    /// Call this function only on value set, not on value changing
+    /// </summary>
+    /// <param name="musicVolume"></param>
+    /// <param name="sfxVolume"></param>
+    public void SaveGameSettings(float musicVolume, float sfxVolume) {
+        GameSettings gameSettings = new GameSettings();
+        gameSettings.musicVolume = musicVolume;
+        gameSettings.sfxVolume = sfxVolume;
+        string gameSettingsJSONString = JsonUtility.ToJson(gameSettings);
+        PlayerPrefs.SetString(GameSettingsPlayerPrefsKeyName, gameSettingsJSONString);
+        PlayerPrefs.Save();
+        //Not sure if we need to save if it will save on application quit anyways
+        Debug.Log(gameSettingsJSONString);
+    }
 
 
     /// <summary>
@@ -137,21 +224,21 @@ public class GameManager : MonoBehaviour {
         //Now once again JSON serialize that data and then add it to PlayerPrefs
         string saveGameDataJSONString = JsonUtility.ToJson(saveGameData);
 
-        PlayerPrefs.SetString(PlayerPrefsKeyName, saveGameDataJSONString);
+        PlayerPrefs.SetString(SaveDataPlayerPrefsKeyName, saveGameDataJSONString);
         PlayerPrefs.Save();
         Debug.Log(saveGameDataJSONString);
 
     }
 
     private bool previousSaveAvailable() {
-        string result = PlayerPrefs.GetString(PlayerPrefsKeyName, null);
+        string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, null);
         return (result != null);
     }
 
     public void LoadSavedGame() {
         if (previousSaveAvailable()) {
             //Load saved game data
-            string result = PlayerPrefs.GetString(PlayerPrefsKeyName, null);
+            string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, null);
             SaveGameData saveData = JsonUtility.FromJson<SaveGameData>(result);
             //Load XPSystem data
             XPSystem.Instance.LoadSaveData(saveData.XPLevel, saveData.currentXP);
@@ -161,8 +248,12 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void ClearAllGameSettings() {
+        PlayerPrefs.DeleteKey(GameSettingsPlayerPrefsKeyName);
+    }
+
     public void ClearAllSaveData() {
-        PlayerPrefs.DeleteKey(PlayerPrefsKeyName);
+        PlayerPrefs.DeleteKey(SaveDataPlayerPrefsKeyName);
     }
     public void RestartGame() {
         //Start game afresh
