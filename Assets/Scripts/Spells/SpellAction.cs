@@ -61,5 +61,20 @@ public class SpellAction : MonoBehaviour, ISpellAction {
                 Destroy(gameObject);
             }
 		}
+
+        //Add logic to pause sounds and play sounds
+        var allAudioSources = GetComponents<AudioSource>();
+        if (GameManager.Instance.IS_GAME_PAUSED) {
+            //Since the game is paused, we need to pause the music
+            foreach (var audioSource in allAudioSources) {
+                audioSource.Pause();
+            }
+        }
+        else {
+            foreach (var audioSource in allAudioSources) {
+                audioSource.UnPause();
+            }
+        }
+
     }
 }

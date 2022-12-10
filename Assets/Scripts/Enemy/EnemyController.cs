@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 
 public class EnemyController : MonoBehaviour {
 
@@ -100,6 +102,7 @@ public class EnemyController : MonoBehaviour {
         if (isAlive) {
             enemyKilledNoise.outputAudioMixerGroup.audioMixer.GetFloat("EnemyInjuredVolume", out float volume);
             volume = Mathf.Pow(10f, volume / 20); //Convert from Log_10??
+            //TODO: Learn how to pause/play this clipatpoint too (the audiosource that is created is returned by the call)
             AudioSource.PlayClipAtPoint(enemyKilledNoise.clip, Camera.main.transform.position, volume); //Use play clip at point in case this object is destroyed before it can finish playing the sound
             //enemyKilledNoise.PlayOneShot(enemyKilledNoise.clip); 
             isAlive = false;
@@ -148,6 +151,20 @@ public class EnemyController : MonoBehaviour {
             Debug.Log("Target nonexistent");
             SetTarget(findNearestDoor());
         }
+
+        //Add logic to pause sounds and play sounds
+        var allAudioSources = GetComponents<AudioSource>();
+        if (GameManager.Instance.IS_GAME_PAUSED) {
+            //Since the game is paused, we need to pause the music
+            foreach (var audioSource in allAudioSources) {
+                audioSource.Pause();
+            }
+        }
+        else {
+            foreach (var audioSource in allAudioSources) {
+                audioSource.UnPause();
+            }
+        }
     }
     public void changeMovementSpeed(float speed) {
         if (!enemyMotor) {
@@ -162,6 +179,7 @@ public class EnemyController : MonoBehaviour {
         enemyMotor.SetTarget(target);
         this.target = target;
     }
+    
     public Transform findNearestDoor() {
         var doors = GameObject.FindGameObjectsWithTag("MainDoor");
         int minDistanceDoorIndex = 0;

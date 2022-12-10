@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour {
     public GameObject tooltipObjInScene;
 
 
+    [SerializeField]
+    private GameObject pauseMenu;
+
+
     /*Fonts*/
     public TMP_FontAsset CRAFTINGUI_regularTextFont;
     public TMP_FontAsset CRAFTINGUI_costTextFont;
@@ -53,6 +57,33 @@ public class GameManager : MonoBehaviour {
             audioManager = GetComponent<AudioManager>();
 
         }
+    }
+
+    private void Update() {
+        if (Input.GetKeyUp(KeyCode.Escape)) {
+            if (pauseMenu.activeSelf) {
+                //The pause menu is already open, let us resume game
+                ResumeGame();
+            }
+            else {
+                //We need to pause the game
+                PauseGame();
+            }
+        }
+    }
+
+    //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
+    public bool IS_GAME_PAUSED { get; private set; } = false;
+
+    private void PauseGame() {
+        this.IS_GAME_PAUSED = true;
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+    private void ResumeGame() {
+        this.IS_GAME_PAUSED = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
     }
 
 
