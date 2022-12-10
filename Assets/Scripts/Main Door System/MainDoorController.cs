@@ -44,7 +44,7 @@ public class MainDoorController : MonoBehaviour {
 	public int getLevel() {
 	return this.Level;
 	}
-
+	private bool isAlive = true;
 	public void DamageHealth(int dealsDamage, Transform enemyTransform) {
 
 		//Play a door breaking sound
@@ -56,9 +56,12 @@ public class MainDoorController : MonoBehaviour {
 			enemyTransform.GetComponent<EnemyController>().DamageHealth(1/*damageDealt*/);
 		}
 		if (currentHealth <= 0) {
-			//Oops the zombies broke through a door!! game overrrr
-			MainDoorManager.Instance.PlayDoorBreakNoise();
-			GameManager.Instance.GameOver();
+			if (isAlive) {
+				isAlive = false;
+				//Oops the zombies broke through a door!! game overrrr
+				MainDoorManager.Instance.PlayDoorBreakNoise();
+				GameManager.Instance.GameOver();
+			}
 		}
 	}
 

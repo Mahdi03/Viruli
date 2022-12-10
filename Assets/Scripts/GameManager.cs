@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
             instance = this;
             //Now we can instantiate stuff if needed
             audioManager = GetComponent<AudioManager>();
+            //Time.timeScale = 2;
             //ClearAllGameSettings();
 
         }
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour {
             pauseMenuController.SetMusicVolume(musicVolume);
             pauseMenuController.SetSFXVolume(sfxVolume);
         }
+        LoadSavedGame();
     }
 
     private void Update() {
@@ -123,6 +125,7 @@ public class GameManager : MonoBehaviour {
     public void GameOver() {
         if (!gameAlreadyLost) {
             Debug.Log("Game lost");
+
             SceneManager.LoadScene("LoseGame", LoadSceneMode.Additive);
         }
     }
@@ -149,7 +152,6 @@ public class GameManager : MonoBehaviour {
         public int currentXP, XPLevel;
         public int roundsPlayed;
         public string currentInventoryJSONString;
-        //TODO: add all the door info
         public string allDoorInfoJSONString;
     }
 
@@ -241,10 +243,29 @@ public class GameManager : MonoBehaviour {
             string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, null);
             SaveGameData saveData = JsonUtility.FromJson<SaveGameData>(result);
             //Load XPSystem data
-            XPSystem.Instance.LoadSaveData(saveData.XPLevel, saveData.currentXP);
-            //EnemySpawner.Instance.rou
+            XPSystem.Instance.LoadSaveData(saveData.XPLevel, saveData.currentXP); //WORKS
+            //Start off on the right round
+            EnemySpawner.Instance.LoadRound(saveData.roundsPlayed); //WORKS
+            //Refresh inventory from saved data
+            InventoryManager.Instance.LoadInventoryFromJSONString(saveData.currentInventoryJSONString); //WORKS
+            //WORKS
+            MainDoorSaveData[] allDoorSaveData = JsonHelper.FromJson<MainDoorSaveData>(saveData.allDoorInfoJSONString);
+            foreach (var doorSaveData in allDoorSaveData) {
+                //We need to set door current health and door level matching each of the doors
+                //Loop thru the current doors in the game until we find our match and set its data
+                foreach (var door in InGameItemsDatabaseManager.Instance.mainDoors) {
+                    if (door.doorName == doorSaveData.doorName) {
+                        door.InitDoor(doorSaveData.currentLevel, doorSaveData.currentHealth);
+                        break;
+                    }
+                }
+            }
 
 
+        }
+        else {
+            //There is no saved game, start from scratch
+            EnemySpawner.Instance.LoadRound(0);
         }
     }
 

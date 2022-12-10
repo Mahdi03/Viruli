@@ -243,22 +243,12 @@ public class Inventory : IEnumerable {
 			yield return this.at(i);
 		}
 	}
-	public void loadInventoryFromPlayerPrefs() {
-		if (PlayerPrefs.HasKey(PlayerPrefsKeyName)) {
-			string json = PlayerPrefs.GetString(PlayerPrefsKeyName);
-			loadFromJSONString(json);
-		}
-	}
-	private void loadFromJSONString(string json) {
+	public void loadFromJSONString(string json) {
 		InternalInventoryItem[] items = JsonHelper.FromJson<InternalInventoryItem>(json);
 		inventory.Clear();
 		foreach (InternalInventoryItem currentInventoryItem in items) {
 			this.inventory.Add(currentInventoryItem); //Push directly instead of using all that in-game add logic
 		}
-	}
-	public void saveInventoryToPlayerPrefs() {
-		PlayerPrefs.SetString(PlayerPrefsKeyName, saveToJSONString());
-		PlayerPrefs.Save();
 	}
 	public string saveToJSONString() {
 		return JsonHelper.ToJson(inventory.ToArray());

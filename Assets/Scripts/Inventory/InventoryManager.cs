@@ -22,8 +22,8 @@ public class InventoryManager : MonoBehaviour {
 			itemPickupNoise = GetComponent<AudioSource>();
 
 			currentInventory = new Inventory(100); //TODO: Have a dynamically resizing inventory depending on how many items we have
-			//TODO: Have an if resume game catch here
-			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
+			
+			
 			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
 
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
@@ -52,6 +52,10 @@ public class InventoryManager : MonoBehaviour {
 		}
 	}
 
+	public void LoadInventoryFromJSONString(string jsonStr) {
+		currentInventory.loadFromJSONString(jsonStr);
+		this.UpdateInventoryUIToReflectInternalInventoryChanges();
+	}
 	public void removeByID(int itemIDToRemove, int amountToRemove = 1) {
 		currentInventory.removeByID(itemIDToRemove, amountToRemove);
 	}
