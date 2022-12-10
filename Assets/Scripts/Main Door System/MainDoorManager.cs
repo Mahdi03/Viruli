@@ -28,6 +28,8 @@ public class MainDoorManager : MonoBehaviour {
             mainDoors = InGameItemsDatabaseManager.Instance.mainDoors;
             doorAttackedAudioSources = doorAttackedNoises.GetComponents<AudioSource>();
             doorBreakAudioSource = doorBreakNoise.GetComponent<AudioSource>();
+
+            GameManager.Instance.LoadSavedGame(); //This line will start the entire game
         }
     }
     private void Update() {

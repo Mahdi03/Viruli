@@ -22,33 +22,6 @@ public class InventoryManager : MonoBehaviour {
 			itemPickupNoise = GetComponent<AudioSource>();
 
 			currentInventory = new Inventory(100); //TODO: Have a dynamically resizing inventory depending on how many items we have
-			
-			
-			IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
-
-			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
-			
-			myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
-			/*
-			myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
-
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(11);
-
-			myItem.drop2DSprite(new Vector2(20, 40), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(30, 0), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(-15, -10), Quaternion.identity);
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(9);
-			myItem.drop2DSprite(new Vector2(10, 38), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(90, 15), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(-5, -1), Quaternion.identity);
-			myItem = InGameItemsDatabaseManager.Instance.getItemByID(10);
-			myItem.drop2DSprite(new Vector2(20, 0), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(3, 0), Quaternion.identity);
-			myItem.drop2DSprite(new Vector2(-17, 10), Quaternion.identity);
-			*/
 		}
 	}
 

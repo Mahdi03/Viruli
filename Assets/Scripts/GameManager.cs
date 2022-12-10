@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
             pauseMenuController.SetMusicVolume(musicVolume);
             pauseMenuController.SetSFXVolume(sfxVolume);
         }
-        LoadSavedGame();
+        //LoadSavedGame();
     }
 
     private void Update() {
@@ -232,15 +232,15 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    private bool previousSaveAvailable() {
-        string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, null);
-        return (result != null);
+    public static bool previousSaveAvailable() {
+        string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, "");
+        return (result != "");
     }
 
     public void LoadSavedGame() {
         if (previousSaveAvailable()) {
             //Load saved game data
-            string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, null);
+            string result = PlayerPrefs.GetString(SaveDataPlayerPrefsKeyName, "");
             SaveGameData saveData = JsonUtility.FromJson<SaveGameData>(result);
             //Load XPSystem data
             XPSystem.Instance.LoadSaveData(saveData.XPLevel, saveData.currentXP); //WORKS
@@ -266,6 +266,16 @@ public class GameManager : MonoBehaviour {
         else {
             //There is no saved game, start from scratch
             EnemySpawner.Instance.LoadRound(0);
+
+            //Drop some stuff to begin with so that they can use it
+            IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
+
+            myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+
+            myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
         }
     }
 
@@ -273,7 +283,7 @@ public class GameManager : MonoBehaviour {
         PlayerPrefs.DeleteKey(GameSettingsPlayerPrefsKeyName);
     }
 
-    public void ClearAllSaveData() {
+    public static void ClearAllSaveData() {
         PlayerPrefs.DeleteKey(SaveDataPlayerPrefsKeyName);
     }
     public void RestartGame() {
