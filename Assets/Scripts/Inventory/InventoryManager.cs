@@ -171,4 +171,8 @@ public class InventoryManager : MonoBehaviour {
 			}
 		}
 	}
+
+	public string GetCurrentInventoryJSONString() {
+		return currentInventory.saveToJSONString();
+	}
 }

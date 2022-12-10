@@ -20,12 +20,12 @@ public class MainDoorController : MonoBehaviour {
 
 	private GameObject twoDimensionalPrefab;
 
-	public void initStats(bool bigDoor, int level, float attackRange, int maxHealth, int damageDealt, GameObject twoDimensionalPrefab) {
-		this.bigDoor = bigDoor;
+	public void initStats(bool isBigDoor, int level, float attackRange, int currentHealth, int maxHealth, int damageDealt, GameObject twoDimensionalPrefab) {
+		this.bigDoor = isBigDoor;
 		this.Level= level;
 		this.attackRange = attackRange;
 		this.maxHealth = maxHealth;
-		currentHealth = maxHealth;
+		this.currentHealth = currentHealth;
 		this.damageDealt = damageDealt;
 		this.twoDimensionalPrefab = twoDimensionalPrefab;
 

@@ -13,6 +13,8 @@ public class XPSystem : MonoBehaviour {
     public int XP { get; private set; }
     public int MaxXP { get; private set; }
 
+    private bool alreadyInstantiatedData = false;
+
     //Stored as index
     private List<int> xpThresholds = new List<int>()
     {
@@ -35,8 +37,11 @@ public class XPSystem : MonoBehaviour {
         else {
             instance = this;
             //Now we can initialize stuff
-            this.Level = 0; //TODO: Load from PlayerPrefs
-            this.XP = 0; //TODO: Load from PlayerPrefs
+            if (!alreadyInstantiatedData) {
+                this.Level = 0;
+                this.XP = 0;
+                alreadyInstantiatedData = true;
+            }
             this.MaxXP = this.xpThresholds[this.Level];
 
             //TODO: Initialize the level xp thresholds using a recursively-defined function
@@ -44,6 +49,15 @@ public class XPSystem : MonoBehaviour {
             //Update UI immediately to get started
             this.updateXPUI();
         }
+    }
+
+    public void LoadSaveData(int level, int currentXP) {
+        this.Level = level;
+        this.XP = currentXP;
+        alreadyInstantiatedData = true; //Set flag as to not override loaded data if initialization is delayed
+
+        this.MaxXP = this.xpThresholds[this.Level];
+        this.updateXPUI();
     }
 
     public void increaseXP(int xp) {
