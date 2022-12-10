@@ -75,12 +75,12 @@ public class GameManager : MonoBehaviour {
     //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
     public bool IS_GAME_PAUSED { get; private set; } = false;
 
-    private void PauseGame() {
+    public void PauseGame() { //Set as public so that the pause button can use it
         this.IS_GAME_PAUSED = true;
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
     }
-    private void ResumeGame() {
+    public void ResumeGame() { //Set as public so that the pause menu can use it
         this.IS_GAME_PAUSED = false;
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
