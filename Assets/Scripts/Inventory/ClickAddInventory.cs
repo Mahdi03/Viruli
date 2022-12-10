@@ -60,6 +60,8 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
         //We were clicked on, now add this item to inventory
         int itemID = GetComponent<ItemInstance>().itemID;
         if (InventoryManager.Instance.pickupItem(itemID)) {
+            //Play the pickup item noise
+            //InventoryManager.Instance.
             //Now remove this object from the game altogether
             Destroy(gameObject);
         }

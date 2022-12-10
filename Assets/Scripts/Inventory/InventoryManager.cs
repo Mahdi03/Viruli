@@ -9,6 +9,8 @@ public class InventoryManager : MonoBehaviour {
 
 	private Inventory currentInventory;
 
+	private AudioSource itemPickupNoise;
+
 	private void Start() { //This relies on another component to already be initialized so we do that component in Awake and this one in Start
 		if (instance != this && instance != null) {
 			Destroy(gameObject);
@@ -16,6 +18,9 @@ public class InventoryManager : MonoBehaviour {
 		else {
 			instance = this;
 			//Now we can instantiate stuff
+
+			itemPickupNoise = GetComponent<AudioSource>();
+
 			currentInventory = new Inventory(100); //TODO: Have a dynamically resizing inventory depending on how many items we have
 			//TODO: Have an if resume game catch here
 			currentInventory.loadInventoryFromPlayerPrefs(); //Load in inventory that is already saved on device if exists
@@ -24,9 +29,10 @@ public class InventoryManager : MonoBehaviour {
 			myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
-			/*
+			
 			myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
 			myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+			/*
 			myItem.drop2DSprite(new Vector2(60, -15), Quaternion.identity);
 
 			myItem = InGameItemsDatabaseManager.Instance.getItemByID(11);
@@ -90,6 +96,7 @@ public class InventoryManager : MonoBehaviour {
             }
         }
         currentInventory.Add(itemID); //This will take care of putting it in the right place whether or not it is stackable
+		itemPickupNoise.Play();
 		if (!disableXPIncrease) {
 			//Add +2*level+3 XP for picking up something
 			XPSystem.Instance.increaseXP(2 * XPSystem.Instance.Level + 3); //The amount of XP earned from a pick up will change based on what level you are on
