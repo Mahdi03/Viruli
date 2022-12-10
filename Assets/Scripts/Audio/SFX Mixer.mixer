@@ -99,6 +99,7 @@ AudioMixerController:
     - e60451784a0eb604d8979a5ccbc8308d
     - 8158eead3b5a230498d930c06d3f6644
     - 83f0764d206a1a34fb74321c2f5993b7
+    - 6c99ebe6532108849894d0bece9e2ea8
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -114,6 +115,7 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: -1255631041349357907}
   - {fileID: -7437910320582274765}
+  - {fileID: 3528778769929807856}
   m_Volume: 6d3f880db17ba0d48816a5ead7df5118
   m_Pitch: e22bc3d9afb08054f9bb91ec6c28412b
   m_Send: 00000000000000000000000000000000
@@ -149,6 +151,7 @@ AudioMixerSnapshotController:
   m_FloatValues:
     e7f268f159a48c145a8c3ad5260c21fb: -19.928473
     e26a6942350fd4d4b945050ba07b385f: -11.944499
+    0ef7b1839e086c74ab7f1998e5f2c95b: -4.560346
     adaeeedc876d2ac4fb90b460f788839b: 0
   m_TransitionOverrides: {}
 --- !u!244 &1555930528887059026
@@ -165,6 +168,39 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &2036488496147929802
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 15dcaa585eb646e47ad4947afbd7488a
+  m_EffectName: Attenuation
+  m_MixLevel: a880c47f9e0abdd4d92f64543b6a2750
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!243 &3528778769929807856
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Potion Sounds
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 6c99ebe6532108849894d0bece9e2ea8
+  m_Children: []
+  m_Volume: 0ef7b1839e086c74ab7f1998e5f2c95b
+  m_Pitch: 650670bcd1c32b74fa0bd27bbf7b88cc
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 2036488496147929802}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &5717100494063168917
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

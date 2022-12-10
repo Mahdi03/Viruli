@@ -20,6 +20,8 @@ public class SpellAction : MonoBehaviour, ISpellAction {
 	protected float timeout;
 	protected float timeRemaining;
 	private bool isActive = false;
+	private AudioSource spellSoundEffect;
+
 
 	/*Use gizmos to visualize the Physics.OverlapSphere in the editor to see if it matches with the ring prefab - won't be called in the actual build*/
 	protected virtual void OnDrawGizmos() {
@@ -34,9 +36,14 @@ public class SpellAction : MonoBehaviour, ISpellAction {
 		timeRemaining = timeout;
 		potionTimeoutController = transform.GetChild(0).GetComponent<HealthBarBehavior>(); //The first child will be the health bar controller prefab with changed public booleans
 
+		spellSoundEffect = GetComponent<AudioSource>(); //There should be one attached to this prefab
+
     }
 	public virtual void EnableSpell() {
 		isActive = true;
+		//Play spell's sound effect
+		spellSoundEffect.Play();
+		spellSoundEffect.loop = true;
 		//StartCoroutine(destroySpell());
 	}
 	protected virtual void EndSpellEffects() { }
