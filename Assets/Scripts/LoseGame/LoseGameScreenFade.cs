@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoseGameScreenFade : MonoBehaviour {
@@ -29,6 +30,10 @@ public class LoseGameScreenFade : MonoBehaviour {
 
     public void RestartGame() {
         GameManager.Instance.RestartGame();
+    }
+
+    public void ShowCredits() {
+        SceneManager.LoadScene("Credits Scene");
     }
 
     public void QuitGame() {
