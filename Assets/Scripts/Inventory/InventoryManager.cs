@@ -76,7 +76,7 @@ public class InventoryManager : MonoBehaviour {
 		itemPickupNoise.Play();
 		if (!disableXPIncrease) {
 			//Add +2*level+3 XP for picking up something
-			XPSystem.Instance.increaseXP(2 * XPSystem.Instance.Level + 3); //The amount of XP earned from a pick up will change based on what level you are on
+			XPSystem.Instance.increaseXP(XPSystem.Instance.Level + 2); //The amount of XP earned from a pick up will change based on what level you are on
 		}
 		//Update inventory UI to reflect inventory array changes
 		UpdateInventoryUIToReflectInternalInventoryChanges();
