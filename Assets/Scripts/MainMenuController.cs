@@ -19,7 +19,7 @@ public class MainMenuController : MonoBehaviour {
 
     public void NewGame() {
         GameManager.ClearAllSaveData();
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("StorylineScene");
     }
 
     public void QuitGame() {
