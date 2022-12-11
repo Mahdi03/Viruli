@@ -18,9 +18,9 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: d8f9b2fe30fc9bb4cb969f0779d82f9f, type: 2}
     countRequired: 1
   - item: {fileID: 11400000, guid: 6fdedf7ad22a9c34f880e451a3e3ac38, type: 2}
-    countRequired: 0
+    countRequired: 3
   - item: {fileID: 11400000, guid: d1bf9436ecdc0d048951a23261186f0b, type: 2}
-    countRequired: 0
+    countRequired: 5
   xpValue: 0
   weightedDropProbability: 3
   twoDimensionalPrefab: {fileID: 7336456791080179910, guid: a5c74bc565d93654da514a1590f54fc7,
@@ -30,6 +30,6 @@ MonoBehaviour:
   itemDescription: Use this spell to lure the enemies away from your doors. You can
     bring them into rooms and group them together to extinguish them all at once.
     Works well with the Instant Kill Potion.
-  xpCost: 0
+  xpCost: 45
   effectRadius: 4
   timeout: 12

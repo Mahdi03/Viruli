@@ -15,6 +15,8 @@ MonoBehaviour:
   stackable: 1
   craftable: 1
   myrecipe:
+  - item: {fileID: 11400000, guid: d8f9b2fe30fc9bb4cb969f0779d82f9f, type: 2}
+    countRequired: 1
   - item: {fileID: 11400000, guid: d1bf9436ecdc0d048951a23261186f0b, type: 2}
     countRequired: 2
   xpValue: 0
@@ -25,6 +27,6 @@ MonoBehaviour:
     type: 3}
   itemDescription: This potion will stun your enemies for 3 seconds. Use carefully
     as it only lasts for a couple seconds!
-  xpCost: 0
+  xpCost: 7
   effectRadius: 5
   timeout: 3
