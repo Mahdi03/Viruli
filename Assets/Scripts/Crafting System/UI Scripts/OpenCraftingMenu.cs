@@ -25,7 +25,10 @@ public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
 	}
 
 	public void showCraftingMenu() {
-		Time.timeScale = 0f; //Pause game altogether in the background so that the user can focus more on the crafting UI
+		if (!EnemySpawner.Instance.currentlyInRoundBreak) {
+			Time.timeScale = 0f; //Pause game altogether in the background so that the user can focus more on the crafting UI
+		}
+		
 		craftingMenu.SetActive(true);
 		CraftingUIDoorsManager.Instance.resumeCoroutines();
 	}
