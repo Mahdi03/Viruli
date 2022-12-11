@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainDoorManager : MonoBehaviour {
@@ -27,9 +28,29 @@ public class MainDoorManager : MonoBehaviour {
             mainDoors = InGameItemsDatabaseManager.Instance.mainDoors;
             doorAttackedAudioSources = doorAttackedNoises.GetComponents<AudioSource>();
             doorBreakAudioSource = doorBreakNoise.GetComponent<AudioSource>();
+
+            GameManager.Instance.LoadSavedGame(); //This line will start the entire game
         }
     }
+    private void Update() {
+        //Add logic to pause sounds and play sounds
+        //Compile all audio sources to be pause-checked at once
+        var allAudioSources = Enumerable.ToList(GetComponents<AudioSource>());
+        allAudioSources.AddRange(doorAttackedAudioSources.ToList());
+        allAudioSources.Add(doorBreakAudioSource);
 
+        if (GameManager.Instance.IS_GAME_PAUSED) {
+            //Since the game is paused, we need to pause the music
+            foreach (var audioSource in allAudioSources) {
+                audioSource.Pause();
+            }
+        }
+        else {
+            foreach (var audioSource in allAudioSources) {
+                audioSource.UnPause();
+            }
+        }
+    }
     public void PlayDoorBreakNoise() {
         doorBreakAudioSource.Play();
     }

@@ -62,10 +62,10 @@ public class MainDoor : ScriptableObject {
             new DoorStats(currentLevel: 3, 100 + 100 + 200, 4)
         }; //Index of list designates level
 
-    public void InitDoor() {
+    public void InitDoor(int level = 1, int currentDoorHealth = -1) {
         //Set the parent transform that we will use throughout the game to access the physical door within the scene
         parentTransform = GameObject.FindGameObjectWithTag(parentTransformTagName).transform;
-        spawnDoor();
+        spawnDoor(level, currentDoorHealth);
         //Debug.Log("We spawned");
     }
     private void spawnDoor(int level = 1, int currentDoorHealth = -1) {

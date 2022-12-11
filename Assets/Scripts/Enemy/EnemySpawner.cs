@@ -32,7 +32,7 @@ public class EnemySpawner : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        stopRoundBreak(); //We can use this to kickstart the game too
+        
     }
 
     private float spawnDelay;
@@ -190,6 +190,11 @@ public class EnemySpawner : MonoBehaviour {
             //Reset values
             
         }
+    }
+
+    public void LoadRound(int roundNumber) {
+        this.roundNumber = roundNumber;
+        stopRoundBreak(); //We can use this to kickstart the game too
     }
 
 }
