@@ -21,5 +21,5 @@ MonoBehaviour:
   attackRadius: 1
   xpValue: 10
   minItemDropCount: 1
-  maxItemDropCount: 3
-  spawnProbability: 1
+  maxItemDropCount: 5
+  spawnProbability: 500
