@@ -17,9 +17,9 @@ MonoBehaviour:
     type: 3}
   speed: 3
   maxHealth: 40
-  dealsDamage: 3
+  dealsDamage: 2
   attackRadius: 2
   xpValue: 25
   minItemDropCount: 5
   maxItemDropCount: 15
-  spawnProbability: 5
+  spawnProbability: 20

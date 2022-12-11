@@ -16,9 +16,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 156312, guid: 1ad753987db44bf43857b2e8a342cf37, type: 3}
   speed: 2
   maxHealth: 20
-  dealsDamage: 5
+  dealsDamage: 3
   attackRadius: 1
   xpValue: 20
-  minItemDropCount: 3
-  maxItemDropCount: 7
-  spawnProbability: 40
+  minItemDropCount: 5
+  maxItemDropCount: 9
+  spawnProbability: 80
