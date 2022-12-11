@@ -184,7 +184,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         var doorRepairArrRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
 
-        int repairCostScaleFactor = 15;
+        int repairCostScaleFactor = 25;
         //Scale the repair cost but always ensure a minimum cost
         this.doorRepairCostScale = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorRepairRecipeTable, doorRepairArrRecipeItems, this.doorRepairCostScale);
