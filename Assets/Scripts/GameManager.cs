@@ -102,6 +102,14 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 1;
     }
 
+    private void OnApplicationFocus(bool applicationCurrentlyHasFocus) {
+        if (!applicationCurrentlyHasFocus) {
+            //Application lost focus
+            PauseGame();
+        }
+        //Do not provide another method to unpause game when application re-entered since we want them to see that it was paused as soon as they come back
+    }
+
 
     /*Audio Controls*/
 
