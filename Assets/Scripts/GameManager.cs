@@ -100,7 +100,10 @@ public class GameManager : MonoBehaviour {
         this.IS_GAME_PAUSED = false;
         pauseMenu.SetActive(false);
         AudioManager.Instance.UnPauseAllOneShotAudios();
-        Time.timeScale = 1;
+        if (!CraftingUITabsManager.Instance.gameObject.activeSelf) {
+            //Make sure to only unpause the gameplay when the crafting menu is closed
+            Time.timeScale = 1;
+        }
     }
 
     private void OnApplicationFocus(bool applicationCurrentlyHasFocus) {
