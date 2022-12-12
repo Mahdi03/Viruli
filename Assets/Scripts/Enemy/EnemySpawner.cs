@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour {
     private Transform enemiesContainer;
 
     private float spawnRadius = 7f;
-
+    private const int finalRound = 10;
 
     // Start is called before the first frame update
     void Start() {
@@ -107,9 +107,9 @@ public class EnemySpawner : MonoBehaviour {
         currentlyInRoundBreak = false;
         //Set all the correct values
         roundNumber++;
-        if (!(roundNumber > 10)) {
+        if (!(roundNumber > finalRound)) {
             roundCounterTextbox.text = "Round " + roundNumber;
-            enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
+            enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
             //enemiesToSpawnThisRound = roundNumber;
@@ -190,10 +190,16 @@ public class EnemySpawner : MonoBehaviour {
         Debug.Log("enemyKillCounter: " + enemyKillCounter);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
-            //The last enemy was just killed, we can start the round break now
-            startRoundBreak();
-            //Reset values
             
+            if (finalRound - 1 == roundNumber) {
+                //We are currently in the n-1 round
+                stopRoundBreak(); //Stop round break has the logic to end the game right there and then
+                
+            }
+            else {
+                //The last enemy was just killed, we can start the round break now
+                startRoundBreak();
+            }            
         }
     }
 
