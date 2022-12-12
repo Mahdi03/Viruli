@@ -509,17 +509,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'A scientist was working on the airborne cure for cancer but something
-    went terribly wrong and now it''s mutating all of their coworkers!!! They locked
-    themselves in the lab and barricaded the doors but they won''t hold for long.
+    went terribly wrong and now it''s mutated all of her coworkers!!! She locked
+    herself in the lab and barricaded the doors but they won''t hold for long.
 
 
     Your
-    job is to keep the mutants away until help arrives. Survive 10 rounds by crafting
-    potions and dragging them onto the layout to attack zombies. You can also fortify
-    and repair the doors in the crafting menu.
+    job is protect the scientist by keeping the mutants away until help arrives.
+    Survive 10 rounds by crafting potions and dragging them onto the layout to attack
+    zombies. You can also fortify and repair the doors in your crafting menu.
 
 
-    Can you protect them?'
+    Can
+    you protect them?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b79b2331349910e44bd1dc71695ffb3a, type: 2}
   m_sharedMaterial: {fileID: -4953579331277144065, guid: b79b2331349910e44bd1dc71695ffb3a,
