@@ -10,7 +10,7 @@ public class LoseGameScreenFade : MonoBehaviour {
     
     private void Awake() {
         image = GetComponent<Image>();
-        GameManager.Instance.SetSoundEffectsVolume(0); //Mute game sounds in background for the time being
+        AudioManager.Instance.SetSoundEffectsVolume(0); //Mute game sounds in background for the time being
     }
 
     private Color transparent = Color.clear;

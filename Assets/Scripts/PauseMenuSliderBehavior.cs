@@ -53,11 +53,11 @@ public class PauseMenuSliderBehavior : MonoBehaviour {
     }
 
     public void UpdateSFXVolume() {
-        GameManager.Instance.SetSoundEffectsVolume(AudioManager.ConvertToDecibelVolume(sfxVolumeSliderSlider.value));
+        AudioManager.Instance.SetSoundEffectsVolume(AudioManager.ConvertToDecibelVolume(sfxVolumeSliderSlider.value));
         GameManager.Instance.SaveGameSettings(musicVolumeSliderSlider.value, sfxVolumeSliderSlider.value);
     }
     public void UpdateMusicVolume() {
-        GameManager.Instance.SetMusicVolume(AudioManager.ConvertToDecibelVolume(musicVolumeSliderSlider.value));
+        AudioManager.Instance.SetMusicVolume(AudioManager.ConvertToDecibelVolume(musicVolumeSliderSlider.value));
         GameManager.Instance.SaveGameSettings(musicVolumeSliderSlider.value, sfxVolumeSliderSlider.value);
     }
 }
