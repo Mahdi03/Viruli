@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -94,11 +93,13 @@ public class GameManager : MonoBehaviour {
     public void PauseGame() { //Set as public so that the pause button can use it
         this.IS_GAME_PAUSED = true;
         pauseMenu.SetActive(true);
+        AudioManager.Instance.PauseAllOneShotAudios();
         Time.timeScale = 0;
     }
     public void ResumeGame() { //Set as public so that the pause menu can use it
         this.IS_GAME_PAUSED = false;
         pauseMenu.SetActive(false);
+        AudioManager.Instance.UnPauseAllOneShotAudios();
         Time.timeScale = 1;
     }
 
@@ -113,19 +114,7 @@ public class GameManager : MonoBehaviour {
 
     /*Audio Controls*/
 
-    public void SetMasterVolume(float volume) {
-        audioManager.SetMasterVolume(volume);
-    }
-    public void SetMusicVolume(float volume) {
-        audioManager.SetMusicVolume(volume);
-    }
-    public void SetSoundEffectsVolume(float volume) {
-        audioManager.SetSoundEffectsVolume(volume);
-    }
-
-    private void UpdatePlayerSettingsPreferences() {
-
-    }
+    
 
     public GameObject GetTooltip() { return tooltipObjInScene; }
 
