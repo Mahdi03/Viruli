@@ -67,6 +67,8 @@ public class CraftingUITabsManager : MonoBehaviour {
     public void SelectTab(int tabID) {
         SelectTabButton(tabID);
         ShowTabContent(tabID);
+        //Make sure to update the XP values between the two tabs every time we switch tabs
+        XPSystem.Instance.updateXPUI();
         if (tabID != 1) {
             //If we are selecting another tab than tab #2, then make sure to unglow any of the doors
             MainDoorManager.Instance.UnglowAllDoors();

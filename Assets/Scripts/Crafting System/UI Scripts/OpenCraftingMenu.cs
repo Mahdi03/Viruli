@@ -30,6 +30,7 @@ public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
 		}
 		
 		craftingMenu.SetActive(true);
+		XPSystem.Instance.updateXPUI(); //Remember to update the XP every time we open the crafting menu
 		CraftingUIDoorsManager.Instance.resumeCoroutines();
 	}
 }
