@@ -179,6 +179,7 @@ public class Item : ScriptableObject, IItem {
 		IItem.attachItemInstance(newSprite, ID); //Send it just the ID, we don't need to send it all the details
 		IItem.enableScript<ClickAddInventory>(newSprite);
 		IItem.enableScript<ItemFloat>(newSprite);
+		IItem.enableScript<DroppedItemTimeout>(newSprite);
 		IItem.disableScript<DraggableObject2D>(newSprite);
 		IItem.disableScript<OnHoverTooltip>(newSprite);
 		var newSpriteRectTransform = newSprite.GetComponent<RectTransform>();
