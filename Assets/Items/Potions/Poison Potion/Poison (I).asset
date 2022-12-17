@@ -23,7 +23,7 @@ MonoBehaviour:
     countRequired: 4
   xpValue: 0
   weightedDropProbability: 3
-  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 5afff8dedc95f7844a930eae4704fbfe,
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 530da83410f353c47ac85316c5ae32fb,
     type: 3}
   threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 14591d96c1f7785438572417bc4b6586,
     type: 3}
