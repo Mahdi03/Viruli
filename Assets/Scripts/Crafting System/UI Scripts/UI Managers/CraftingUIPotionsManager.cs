@@ -13,7 +13,8 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     [SerializeField]
     private GameObject CraftingUIActionContainer_BottomRightCorner;
 
-    public int itemID { get; set; }
+    public int itemID { get; set; } = -1;
+    public int amountToCraft { get; private set; } = 1;
     private bool itemCraftable { get; set; } = false; //private variable referring to whether a potion is craftable
 
     /* Global prefabs the rest of the UI might need access to */
@@ -73,6 +74,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     /***********************************************************Potion Action**************************************************************/
 
     public void UpdateCraftingRecipeTable(int amountToCraft) {
+        this.amountToCraft = amountToCraft;
         GameManager.clearAllChildrenOfObj(this.craftableItemRecipeTable);
         var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
         var arrOfRecipeItems = itemToCraft.Recipe;

@@ -21,7 +21,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private GameObject sliderPrefab;
 
 
-    public int doorID { get; set; }
+    public int doorID { get; set; } = -1;
     private bool doorRepairable { get; set; } = false; //private variable referring to whether a door is repairable
     private bool doorUpgradable { get; set; } = false; //private variable referring to whether a door is upgradable
 
@@ -69,12 +69,12 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         //doorID was set from the OnClick Handler of the scrollview element so we can use it here
 
         var container = new GameObject("Vertical Layout Container");
-        
+
         VerticalLayoutGroup verticalLayoutGroup = container.AddComponent<VerticalLayoutGroup>();
         verticalLayoutGroup.childAlignment = TextAnchor.UpperCenter;
         verticalLayoutGroup.childControlWidth = true;
         verticalLayoutGroup.childControlHeight = true; //Keep elements on screen
-        
+
         var containerRectTransform = container.GetComponent<RectTransform>();
 
         //Sets to stretch in all directions
@@ -136,37 +136,39 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         GameObject healthBar;
         TextMeshProUGUI healthTextboxText;
-        if (doorRepairLifeBarContainer == null) {
-            //Then we need to instantiate it
-            doorRepairLifeBarContainer = new GameObject("Life Bar Container");
+        if (doorRepairLifeBarContainer != null) {
+            Destroy(doorRepairLifeBarContainer);
+        }
+        //Then we need to instantiate it
+        doorRepairLifeBarContainer = new GameObject("Life Bar Container");
 
-            var doorRepairLifeBarContainerHorizontalLayout = doorRepairLifeBarContainer.AddComponent<HorizontalLayoutGroup>();
-            doorRepairLifeBarContainerHorizontalLayout.childControlWidth = false;
-            doorRepairLifeBarContainerHorizontalLayout.childControlHeight = false;
-            doorRepairLifeBarContainerHorizontalLayout.childAlignment = TextAnchor.MiddleLeft;
-            doorRepairLifeBarContainerHorizontalLayout.childForceExpandWidth = false;
-            doorRepairLifeBarContainerHorizontalLayout.childForceExpandHeight = false;
-            doorRepairLifeBarContainerHorizontalLayout.childScaleWidth = true;
-            doorRepairLifeBarContainerHorizontalLayout.childScaleHeight = true;
-            doorRepairLifeBarContainerHorizontalLayout.spacing = 5;
+        var doorRepairLifeBarContainerHorizontalLayout = doorRepairLifeBarContainer.AddComponent<HorizontalLayoutGroup>();
+        doorRepairLifeBarContainerHorizontalLayout.childControlWidth = false;
+        doorRepairLifeBarContainerHorizontalLayout.childControlHeight = false;
+        doorRepairLifeBarContainerHorizontalLayout.childAlignment = TextAnchor.MiddleLeft;
+        doorRepairLifeBarContainerHorizontalLayout.childForceExpandWidth = false;
+        doorRepairLifeBarContainerHorizontalLayout.childForceExpandHeight = false;
+        doorRepairLifeBarContainerHorizontalLayout.childScaleWidth = true;
+        doorRepairLifeBarContainerHorizontalLayout.childScaleHeight = true;
+        doorRepairLifeBarContainerHorizontalLayout.spacing = 5;
 
-            var doorRepairLifeBarContainerRectTransform = doorRepairLifeBarContainer.GetComponent<RectTransform>();
-            doorRepairLifeBarContainerRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
-            healthBar = Instantiate(sliderPrefab, doorRepairLifeBarContainerRectTransform);
+        var doorRepairLifeBarContainerRectTransform = doorRepairLifeBarContainer.GetComponent<RectTransform>();
+        doorRepairLifeBarContainerRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
+        healthBar = Instantiate(sliderPrefab, doorRepairLifeBarContainerRectTransform);
 
-            var healthTextbox = new GameObject("Health Text");
-            healthTextboxText = healthTextbox.AddComponent<TextMeshProUGUI>();
+        var healthTextbox = new GameObject("Health Text");
+        healthTextboxText = healthTextbox.AddComponent<TextMeshProUGUI>();
 
-            RectTransform textboxRectTransform = healthTextbox.GetComponent<RectTransform>();
-            textboxRectTransform.SetParent(doorRepairLifeBarContainerRectTransform);
-
+        RectTransform textboxRectTransform = healthTextbox.GetComponent<RectTransform>();
+        textboxRectTransform.SetParent(doorRepairLifeBarContainerRectTransform);
+        /*
         }
         else {
             healthBar = doorRepairLifeBarContainer.transform.GetChild(0).gameObject; //The bar is the first child
             var healthTextbox = doorRepairLifeBarContainer.transform.GetChild(1).gameObject; //The accompanying text is the second child
             healthTextboxText = healthTextbox.GetComponent<TextMeshProUGUI>();
         }
-
+        */
         //Now we set the values
         var slider = healthBar.GetComponent<Slider>();
         slider.maxValue = maxDoorHealth;
@@ -192,22 +194,26 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         //Show XP required
         TextMeshProUGUI xpText;
-        if (doorRepairXPRequiredTextbox == null) {
-            doorRepairXPRequiredTextbox = new GameObject("Required XP");
+        if (doorRepairXPRequiredTextbox != null) {
+            Destroy(doorRepairXPRequiredTextbox);
+        }
+        doorRepairXPRequiredTextbox = new GameObject("Required XP");
 
-            xpText = doorRepairXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
+        xpText = doorRepairXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
 
-            //Set font size to 10
-            xpText.fontSize = 10f;
-            xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
-            xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
+        //Set font size to 10
+        xpText.fontSize = 10f;
+        xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
+        xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
-            var xpTextRectTransform = doorRepairXPRequiredTextbox.GetComponent<RectTransform>();
-            xpTextRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
+        var xpTextRectTransform = doorRepairXPRequiredTextbox.GetComponent<RectTransform>();
+        xpTextRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
+        /*    
         }
         else {
             xpText = doorRepairXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
         }
+        */
         int currentLevel = doorController.getLevel();
         //TODO: Adjust XP cost score
         doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
@@ -218,17 +224,21 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             this.doorRepairable = false;
         }
         //add button that will be enabled or disabled depending on repairable
-        if (this.doorRepairButtonGameObject == null) {
-            doorRepairButtonGameObject = createDefaultButton(parentContainerToSpawnElementsIn, "Repair");
-            Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
-            buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
-            buttonButton.onClick.AddListener(RepairDoor);
+        if (this.doorRepairButtonGameObject != null) {
+            Destroy(this.doorRepairButtonGameObject);
+        }
+
+        doorRepairButtonGameObject = createDefaultButton(parentContainerToSpawnElementsIn, "Repair");
+        Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
+        buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
+        buttonButton.onClick.AddListener(RepairDoor);
+        /*
         }
         else {
             Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
             buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
         }
-
+        */
         yield return new WaitForSeconds(Time.smoothDeltaTime); //Update every frame
         doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
         StartCoroutine(doorRepairTableUpdateCoroutine);

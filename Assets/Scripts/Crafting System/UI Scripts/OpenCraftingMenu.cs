@@ -31,6 +31,27 @@ public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
 		
 		craftingMenu.SetActive(true);
 		XPSystem.Instance.updateXPUI(); //Remember to update the XP every time we open the crafting menu
-		CraftingUIDoorsManager.Instance.resumeCoroutines();
+		//TODO: Update the recipe table UI for both crafting potions and 
+		switch (CraftingUITabsManager.Instance.activeTabID) {
+			case 0: {
+					//We are in the potions UI, deal with the potion UI
+					if (CraftingUIPotionsManager.Instance.itemID != -1) {
+						//Then we have an item that is actively selected, update the UI
+						int amountToCraft = CraftingUIPotionsManager.Instance.amountToCraft;
+                        CraftingUIPotionsManager.Instance.UpdateCraftingRecipeTable(amountToCraft);
+					}
+				}
+				break;
+			case 1: {
+					if (CraftingUIDoorsManager.Instance.doorID != -1) {
+						//Then we have a door actively selected, update the recipe tables
+						CraftingUIDoorsManager.Instance.LoadDoorUI();
+					}
+					//We are in the door repair/upgrade UI, deal with door UI
+                    //CraftingUIDoorsManager.Instance.resumeCoroutines(); //Game is paused when crafting menu is opened, we don't need to have a coroutine
+                }
+                break;
+		}
+		
 	}
 }

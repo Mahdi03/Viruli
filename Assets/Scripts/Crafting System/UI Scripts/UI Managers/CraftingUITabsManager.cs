@@ -11,7 +11,7 @@ public class CraftingUITabsManager : MonoBehaviour {
     [SerializeField]
     private GameObject[] tabContents;
 
-
+    public int activeTabID { get; private set; }
 
     [SerializeField]
     private GameObject scrollViewContent1;
@@ -65,6 +65,7 @@ public class CraftingUITabsManager : MonoBehaviour {
 
 
     public void SelectTab(int tabID) {
+        activeTabID = tabID;
         SelectTabButton(tabID);
         ShowTabContent(tabID);
         //Make sure to update the XP values between the two tabs every time we switch tabs
