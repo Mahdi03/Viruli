@@ -48,19 +48,19 @@ public class EnemySpawner : MonoBehaviour {
                 break;
             case 3:
             case 4:
-                spawnDelay = Random.Range(3f, 5f);
+                spawnDelay = Random.Range(2f, 4f);
                 break;
             case 5:
             case 6:
-                spawnDelay = Random.Range(2f, 4f);
+                spawnDelay = Random.Range(1f, 3f);
                 break;
             case 7:
             case 8:
-                spawnDelay = Random.Range(2f, 3f);
+                spawnDelay = Random.Range(1f, 2f);
                 break;
             case 9:
             case 10:
-                spawnDelay = Random.Range(1f, 2f);
+                spawnDelay = Random.Range(0f, 1f);
                 break;
             default:
                 throw new System.IndexOutOfRangeException("How did we get to round #" + roundNumber);
