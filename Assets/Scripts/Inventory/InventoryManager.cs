@@ -35,6 +35,10 @@ public class InventoryManager : MonoBehaviour {
 	public void removeAtSlotLocation(int indexToRemoveAt, int amountToRemove = 1) {
 		currentInventory.removeAtIndex(indexToRemoveAt, amountToRemove);
 	}
+	public int getItemIDAtSlotLocation(int slotLocation) {
+		(int itemID, int count) = currentInventory.at(slotLocation);
+		return itemID;
+	}
 
 	public int getTotalItemsCount() {
 		return this.currentInventory.length();

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour, IDropHandler {
+public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler {
 	public Image container;
 	public Image item;
 	public GameObject countText;
@@ -105,4 +105,15 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 			}
 		}
 	}
+
+    public void OnPointerClick(PointerEventData eventData) {
+        if (DroppableObject3DHotkeys.Instance.currentlyCarryingItemID == -1) {
+			return; //We've just clicked on an item but we aren't carrying anything so let's not switch
+		}
+		//If we made it this far, we want to swap between the two values
+		InventoryManager.Instance.swapItemsInInventory(DroppableObject3DHotkeys.Instance.currentlySelectedInventoryID, slotID);
+		//Now remove the currently dragging stuff and then refresh the inventory UI
+		DroppableObject3DHotkeys.Instance.ClearHand();
+		InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+    }
 }
