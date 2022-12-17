@@ -76,10 +76,17 @@ public class EnemySpawner : MonoBehaviour {
     }
     private int roundDelay = 30; //30 seconds in between rounds, we can vary this later
     private int timeRemaining;
+    private void Update() {
+        if (currentlyInRoundBreak && Input.GetKeyDown(KeyCode.Space)) {
+            //Let's cancel the round break and move to the next round
+            StopCoroutine("updateTimer");
+            stopRoundBreak();
+        }
+    }
     private void startRoundBreak() {
         currentlyInRoundBreak= true;
         timeRemaining = roundDelay;
-        StartCoroutine(updateTimer());
+        StartCoroutine("updateTimer");
         GameManager.Instance.SaveGame(this.roundNumber); //Save game between rounds
     }
     private IEnumerator updateTimer() {
@@ -97,7 +104,7 @@ public class EnemySpawner : MonoBehaviour {
             stopRoundBreak();
         }
         else {
-            StartCoroutine(updateTimer());
+            StartCoroutine("updateTimer");
         }
     }
 
