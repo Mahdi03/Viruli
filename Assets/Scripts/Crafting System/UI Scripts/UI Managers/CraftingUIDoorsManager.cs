@@ -393,6 +393,8 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         if (this.doorUpgradable) {
             InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
+            //Then we need to refresh the UI again
+            LoadDoorUI();
         }
     }
 
