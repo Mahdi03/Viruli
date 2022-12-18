@@ -68,6 +68,7 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
         for (int i = 0; i < numericKeys.Count; i++) {
             //Here i is technically the index of our inventory slot as well!
             if (Input.GetKeyDown(numericKeys[i])) {
+                //We selected an inventory item, TODO: reflect the changes by highlighting the inventory number
                 if (currentlySelectedInventoryID == i) {
                     //We already selected this, so let's just unselect it and do nothing else
                     ClearHand();
@@ -282,6 +283,8 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
 
     private bool overInventoryUI;
     public void ClearHand() {
+        //TODO: Hide all quick inventory highlights
+        
         Destroy(twoDimensionalPrefab);
         twoDimensionalPrefab = null;
         Destroy(threeDimensionalPrefab);
@@ -290,6 +293,8 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
         currentlySelectedInventoryID = -1;
     }
     private void DropHand() {
+    //TODO: Hide all quick inventory highlights
+        
         Destroy(twoDimensionalPrefab);
         //Destroy(threeDimensionalPrefab);
         currentlyCarryingItemID = -1;
