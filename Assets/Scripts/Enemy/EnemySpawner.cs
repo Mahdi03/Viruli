@@ -116,7 +116,17 @@ public class EnemySpawner : MonoBehaviour {
         roundNumber++;
         if (!(roundNumber > finalRound)) {
             roundCounterTextbox.text = "Round " + roundNumber;
-            enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
+            //For the first 4 rounds use a parabolic growth, but then slow it down so we don't exceed like 200 enemies a round
+            if (roundNumber < 5) {
+                //Use parabolic growth function
+                //(10/3.2)x^2 + 7
+                enemiesToSpawnThisRound = (int)(7 + 10f/3.2f * Mathf.Pow(roundNumber, 2));
+            }
+            else {
+                //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
+                enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
+            }
+            //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
             //enemiesToSpawnThisRound = roundNumber;
