@@ -150,19 +150,21 @@ public class EnemySpawner : MonoBehaviour {
         switch (roundNumber) {
             case 1:
             case 2:
-            case 3:
                 adjustedEnemyHealth = chosenEnemy.maxHealth * 1;
                 break;
+            case 3:
             case 4:
-            case 5:
-            case 6:
                 adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 1.5);
                 break;
+            case 5:
+            case 6:
             case 7:
+                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 2);
+                break;
             case 8:
             case 9:
             case 10:
-                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 2);
+                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 3);
                 break;
         }
 
@@ -214,5 +216,4 @@ public class EnemySpawner : MonoBehaviour {
         this.roundNumber = roundNumber;
         stopRoundBreak(); //We can use this to kickstart the game too
     }
-
 }
