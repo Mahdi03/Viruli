@@ -26,6 +26,7 @@ public interface IItem {
 	public abstract string itemName { get; }
 
 	public abstract int spellLevel { get; }
+	public abstract int spellXPLevelUpgrade { get; }
 	public int WeightedDropProbability { get; }
 	public int XPValue { get; } //Both will have XP Values
 	public abstract int XPCost { get; } //Only potions will have XP Cost

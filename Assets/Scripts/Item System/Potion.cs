@@ -22,6 +22,10 @@ public class Potion : Item {
 			else { return -1; }
 		}
 	}
+	
+	[SerializeField]
+	private int xpLevelToUnlockSpell = 0;
+	public override int spellXPLevelUpgrade { get => xpLevelToUnlockSpell; }
 
 	[SerializeField]
 	private float effectRadius;

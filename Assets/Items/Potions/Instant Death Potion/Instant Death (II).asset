@@ -30,5 +30,6 @@ MonoBehaviour:
   itemDescription: While expensive to brew, this potion is hazardous enough to simply
     wipe any enemies off the map entirely. Be careful as it runs out quickly.
   xpCost: 75
+  xpLevelToUnlockSpell: 4
   effectRadius: 2
   timeout: 3.5

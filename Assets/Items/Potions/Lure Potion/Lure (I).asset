@@ -31,5 +31,6 @@ MonoBehaviour:
     bring them into rooms and group them together to extinguish them all at once.
     Works well with the Instant Kill Potion.
   xpCost: 45
+  xpLevelToUnlockSpell: 0
   effectRadius: 4
   timeout: 12

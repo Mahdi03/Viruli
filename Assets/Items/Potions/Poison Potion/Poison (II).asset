@@ -31,5 +31,6 @@ MonoBehaviour:
     worry the poison is just settling in. Your enemies won't feel it at first but
     it only gets worse.
   xpCost: 90
+  xpLevelToUnlockSpell: 4
   effectRadius: 6
   timeout: 5

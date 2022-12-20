@@ -28,5 +28,6 @@ MonoBehaviour:
   itemDescription: This potion will create a hazardous ring of chemicals that will
     continuously harm any enemy that walks through it. Has no linger effect.
   xpCost: 30
+  xpLevelToUnlockSpell: 7
   effectRadius: 3
   timeout: 15
