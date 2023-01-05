@@ -33,6 +33,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 	}
 
 	public void OnBeginDrag(PointerEventData eventData) {
+		GameManager.Instance.midDrag = true;
 		//Let's instantiate a new 3D spell that we can show and hide depending on where we are dragging
 		if (threeDimensionalPrefab == null) {
 			threeDimensionalPrefab = Instantiate(item.ThreeDimensionalPrefab);
@@ -41,7 +42,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
 
 			//if we are dealing with a potion, resize the effect ring visually to match the radius
-			if (item.itemType == "potion") {
+			Debug.Log(item.itemType);
+			if (item.itemType == "Potion") {
 				float ringRadius = item.EffectRadius;
 				threeDimensionalPrefab.transform.GetChild(2).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
 			}
@@ -69,7 +71,8 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 
 	private bool overInventoryUI;
 	public void OnDrag(PointerEventData eventData) {
-		RectTransform rectTransformOfDraggableObj = eventData.pointerDrag.GetComponent<RectTransform>();
+        GameManager.Instance.midDrag = true;
+        RectTransform rectTransformOfDraggableObj = eventData.pointerDrag.GetComponent<RectTransform>();
 
 		overInventoryUI = false;
 		//Here we need to check whether we are on top of the inventory UI before we decide anything else
@@ -129,6 +132,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			Destroy(threeDimensionalPrefab);
 			//Update the inventory UI to restore changes and then delete this
 			InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+			GameManager.Instance.midDrag = false;
 			Destroy(gameObject);
 			return;
 		}
@@ -173,6 +177,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
             //InventoryManager.Instance.removeByID(itemID);
 			InventoryManager.Instance.removeAtSlotLocation(attachedInventorySlotID);
 			InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges(); //Don't forget to update the inventory UI
+			GameManager.Instance.midDrag = false;
 
 			Destroy(gameObject);
 		}
@@ -182,6 +187,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			Destroy(threeDimensionalPrefab);
 			//Update the inventory UI to restore changes and then delete this
 			InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+			GameManager.Instance.midDrag = false;
 			Destroy(gameObject);
 		}
 	}

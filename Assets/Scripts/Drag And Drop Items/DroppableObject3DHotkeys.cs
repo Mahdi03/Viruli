@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class DroppableObject3DHotkeys : MonoBehaviour {
 
@@ -46,7 +44,7 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
     void Update() {
         try {
             //Only allow this to happen if the crafting menu isn't open
-            if (!CraftingUITabsManager.Instance.gameObject.activeSelf) {
+            if (!CraftingUITabsManager.Instance.gameObject.activeSelf && !GameManager.Instance.midDrag) {
                 OnDragBegin();
                 OnDrag();
                 OnDragEnd();
@@ -55,9 +53,11 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
         }
         catch {
             //If that did not work, that means the crafting menu hasn't opened yet, we can just act regular
-            OnDragBegin();
-            OnDrag();
-            OnDragEnd();
+            if (!GameManager.Instance.midDrag) {
+                OnDragBegin();
+                OnDrag();
+                OnDragEnd();
+            }
         }
         
     }
@@ -103,7 +103,7 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
                 threeDimensionalPrefab.SetActive(false); //Originally hide the 3D prefab
 
                 //if we are dealing with a potion, resize the effect ring visually to match the radius
-                if (carryingItem.itemType == "potion") {
+                if (carryingItem.itemType == "Potion") {
                     float ringRadius = carryingItem.EffectRadius;
                     threeDimensionalPrefab.transform.GetChild(2).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
                 }

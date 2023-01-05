@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject tooltipObjInScene;
 
+    public bool midDrag = false;
 
     [SerializeField]
     private GameObject pauseMenu;
@@ -273,14 +274,16 @@ public class GameManager : MonoBehaviour {
             EnemySpawner.Instance.LoadRound(0);
 
             //Drop some stuff to begin with so that they can use it
-            IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
+            //for (int i = 0; i < 14; i++) {
+                IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
 
-            myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+                myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+                myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
 
-            myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
-            myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+                myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
+                myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+            //}
         }
     }
 
