@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -94,30 +93,36 @@ public class GameManager : MonoBehaviour {
     public void PauseGame() { //Set as public so that the pause button can use it
         this.IS_GAME_PAUSED = true;
         pauseMenu.SetActive(true);
+        AudioManager.Instance.PauseAllOneShotAudios();
         Time.timeScale = 0;
     }
     public void ResumeGame() { //Set as public so that the pause menu can use it
         this.IS_GAME_PAUSED = false;
         pauseMenu.SetActive(false);
-        Time.timeScale = 1;
+        AudioManager.Instance.UnPauseAllOneShotAudios();
+        try {
+            if (!CraftingUITabsManager.Instance.gameObject.activeSelf) {
+                //Make sure to only unpause the gameplay when the crafting menu is closed
+                Time.timeScale = 1;
+            }
+        } catch {
+            //If that did not work, that means the crafting menu hasn't opened yet, we can just resume time to regular
+            Time.timeScale = 1;
+        }
+    }
+
+    private void OnApplicationFocus(bool applicationCurrentlyHasFocus) {
+        if (!applicationCurrentlyHasFocus) {
+            //Application lost focus
+            PauseGame();
+        }
+        //Do not provide another method to unpause game when application re-entered since we want them to see that it was paused as soon as they come back
     }
 
 
     /*Audio Controls*/
 
-    public void SetMasterVolume(float volume) {
-        audioManager.SetMasterVolume(volume);
-    }
-    public void SetMusicVolume(float volume) {
-        audioManager.SetMusicVolume(volume);
-    }
-    public void SetSoundEffectsVolume(float volume) {
-        audioManager.SetSoundEffectsVolume(volume);
-    }
-
-    private void UpdatePlayerSettingsPreferences() {
-
-    }
+    
 
     public GameObject GetTooltip() { return tooltipObjInScene; }
 

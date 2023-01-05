@@ -16,7 +16,7 @@ MonoBehaviour:
   craftable: 0
   myrecipe: []
   xpValue: 0
-  weightedDropProbability: 2
+  weightedDropProbability: 3
   twoDimensionalPrefab: {fileID: 8088875609325279497, guid: 536d0b558e4e7ea4b94f00893ed33420,
     type: 3}
   threeDimensionalPrefab: {fileID: 1663703721864648742, guid: c766385ff317b16438aa41ebcf349d7c,

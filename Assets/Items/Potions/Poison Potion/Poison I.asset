@@ -10,26 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Lure Potion (II)
+  m_Name: Poison (I)
   m_EditorClassIdentifier: 
   stackable: 1
   craftable: 1
   myrecipe:
   - item: {fileID: 11400000, guid: d8f9b2fe30fc9bb4cb969f0779d82f9f, type: 2}
     countRequired: 1
-  - item: {fileID: 11400000, guid: 6fdedf7ad22a9c34f880e451a3e3ac38, type: 2}
-    countRequired: 5
+  - item: {fileID: 11400000, guid: cbed348a678a4074bbe3b7e3d27fff13, type: 2}
+    countRequired: 4
   - item: {fileID: 11400000, guid: d1bf9436ecdc0d048951a23261186f0b, type: 2}
-    countRequired: 7
+    countRequired: 4
   xpValue: 0
-  weightedDropProbability: 2
-  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: a5c74bc565d93654da514a1590f54fc7,
+  weightedDropProbability: 3
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 530da83410f353c47ac85316c5ae32fb,
     type: 3}
-  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 904089e4294e7a4499046a8835444ec6,
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 14591d96c1f7785438572417bc4b6586,
     type: 3}
-  itemDescription: Use this spell to lure the enemies away from your doors. You can
-    bring them into rooms and group them together to extinguish them all at once.
-    Works well with the Instant Kill Potion.
-  xpCost: 65
-  effectRadius: 6
-  timeout: 13
+  itemDescription: While this potion will seem to have no effect at first, don't
+    worry the poison is just settling in. Your enemies won't feel it at first but
+    it only gets worse.
+  xpCost: 50
+  xpLevelToUnlockSpell: 0
+  effectRadius: 5
+  timeout: 4

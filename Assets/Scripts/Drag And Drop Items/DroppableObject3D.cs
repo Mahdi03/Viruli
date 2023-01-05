@@ -40,10 +40,11 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			IItem.enableScript<OnHoverTooltip>(threeDimensionalPrefab);
 			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
 
-
-			IItem potion = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
-			float ringRadius = potion.EffectRadius;
-			threeDimensionalPrefab.transform.GetChild(2).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
+			//if we are dealing with a potion, resize the effect ring visually to match the radius
+			if (item.itemType == "potion") {
+				float ringRadius = item.EffectRadius;
+				threeDimensionalPrefab.transform.GetChild(2).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);
+			}
 			//Debug.Log("resizing successful");
 		}
 		threeDimensionalPrefab.SetActive(false);

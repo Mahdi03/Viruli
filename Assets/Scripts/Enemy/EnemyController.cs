@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.PlayerLoop;
 
 public class EnemyController : MonoBehaviour {
 
@@ -102,8 +100,8 @@ public class EnemyController : MonoBehaviour {
         if (isAlive) {
             enemyKilledNoise.outputAudioMixerGroup.audioMixer.GetFloat("EnemyInjuredVolume", out float volume);
             volume = Mathf.Pow(10f, volume / 20); //Convert from Log_10??
-            //TODO: Learn how to pause/play this clipatpoint too (the audiosource that is created is returned by the call)
-            AudioSource.PlayClipAtPoint(enemyKilledNoise.clip, Camera.main.transform.position, volume); //Use play clip at point in case this object is destroyed before it can finish playing the sound
+            //Using custom playclipatpoint in case this object is destroyed before it can finish playing the sound and we need controls over the sound
+            AudioManager.Instance.PlayClipAtPoint(enemyKilledNoise.clip, Camera.main.transform.position, audioMixerGroup: AudioManager.Instance.enemyInjuredAudioMixerGroup);
             //enemyKilledNoise.PlayOneShot(enemyKilledNoise.clip); 
             isAlive = false;
             //Notify the Enemy Spawner that another enemy has been killed (it is keeping track to know when to start the next round)

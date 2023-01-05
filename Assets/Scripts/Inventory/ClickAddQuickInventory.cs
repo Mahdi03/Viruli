@@ -19,7 +19,7 @@ public class ClickAddQuickInventory : MonoBehaviour, IPointerClickHandler {
             for (int i = 0; i < 10; i++) {
                 //Loop thru only the first 10 inventory items to find whether we have an empty slot
                 var inventorySlot = inventorySlots[i];
-                if (inventorySlot.transform.childCount < 3) {
+                if (inventorySlot.transform.GetChild(0).childCount == 0) {
                     //We found an empty slot of slotID = i (inventory index = i)
 
                     //Now let's swap this empty position for the posiiton of our object

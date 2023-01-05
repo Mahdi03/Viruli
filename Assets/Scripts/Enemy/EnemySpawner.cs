@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour {
     private Transform enemiesContainer;
 
     private float spawnRadius = 7f;
-
+    private const int finalRound = 10;
 
     // Start is called before the first frame update
     void Start() {
@@ -48,19 +48,19 @@ public class EnemySpawner : MonoBehaviour {
                 break;
             case 3:
             case 4:
-                spawnDelay = Random.Range(3f, 5f);
+                spawnDelay = Random.Range(2f, 4f);
                 break;
             case 5:
             case 6:
-                spawnDelay = Random.Range(2f, 4f);
+                spawnDelay = Random.Range(1f, 3f);
                 break;
             case 7:
             case 8:
-                spawnDelay = Random.Range(2f, 3f);
+                spawnDelay = Random.Range(1f, 2f);
                 break;
             case 9:
             case 10:
-                spawnDelay = Random.Range(1f, 2f);
+                spawnDelay = Random.Range(0f, 1f);
                 break;
             default:
                 throw new System.IndexOutOfRangeException("How did we get to round #" + roundNumber);
@@ -76,9 +76,17 @@ public class EnemySpawner : MonoBehaviour {
     }
     private int roundDelay = 30; //30 seconds in between rounds, we can vary this later
     private int timeRemaining;
+    private void Update() {
+        if (currentlyInRoundBreak && Input.GetKeyDown(KeyCode.Space)) {
+            //Let's cancel the round break and move to the next round
+            StopCoroutine("updateTimer");
+            stopRoundBreak();
+        }
+    }
     private void startRoundBreak() {
+        currentlyInRoundBreak= true;
         timeRemaining = roundDelay;
-        StartCoroutine(updateTimer());
+        StartCoroutine("updateTimer");
         GameManager.Instance.SaveGame(this.roundNumber); //Save game between rounds
     }
     private IEnumerator updateTimer() {
@@ -96,15 +104,29 @@ public class EnemySpawner : MonoBehaviour {
             stopRoundBreak();
         }
         else {
-            StartCoroutine(updateTimer());
+            StartCoroutine("updateTimer");
         }
     }
+
+    public bool currentlyInRoundBreak { get; private set; } = false;
+
     private void stopRoundBreak() {
+        currentlyInRoundBreak = false;
         //Set all the correct values
         roundNumber++;
-        if (!(roundNumber > 10)) {
+        if (!(roundNumber > finalRound)) {
             roundCounterTextbox.text = "Round " + roundNumber;
-            enemiesToSpawnThisRound = 10 + 5 * (roundNumber);
+            //For the first 4 rounds use a parabolic growth, but then slow it down so we don't exceed like 200 enemies a round
+            if (roundNumber < 5) {
+                //Use parabolic growth function
+                //(10/3.2)x^2 + 7
+                enemiesToSpawnThisRound = (int)(7 + 10f/3.2f * Mathf.Pow(roundNumber, 2));
+            }
+            else {
+                //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
+                enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
+            }
+            //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
             //enemiesToSpawnThisRound = roundNumber;
@@ -138,19 +160,21 @@ public class EnemySpawner : MonoBehaviour {
         switch (roundNumber) {
             case 1:
             case 2:
-            case 3:
                 adjustedEnemyHealth = chosenEnemy.maxHealth * 1;
                 break;
+            case 3:
             case 4:
-            case 5:
-            case 6:
                 adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 1.5);
                 break;
+            case 5:
+            case 6:
             case 7:
+                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 2);
+                break;
             case 8:
             case 9:
             case 10:
-                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 2);
+                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 3);
                 break;
         }
 
@@ -185,10 +209,16 @@ public class EnemySpawner : MonoBehaviour {
         Debug.Log("enemyKillCounter: " + enemyKillCounter);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
-            //The last enemy was just killed, we can start the round break now
-            startRoundBreak();
-            //Reset values
             
+            if (finalRound - 1 == roundNumber) {
+                //We are currently in the n-1 round
+                stopRoundBreak(); //Stop round break has the logic to end the game right there and then
+                
+            }
+            else {
+                //The last enemy was just killed, we can start the round break now
+                startRoundBreak();
+            }            
         }
     }
 
@@ -196,5 +226,4 @@ public class EnemySpawner : MonoBehaviour {
         this.roundNumber = roundNumber;
         stopRoundBreak(); //We can use this to kickstart the game too
     }
-
 }
