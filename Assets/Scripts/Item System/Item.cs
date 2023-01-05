@@ -125,6 +125,8 @@ public class Item : ScriptableObject, IItem {
 
 	virtual public int spellLevel { get; }
 
+	virtual public int spellXPLevelUpgrade { get; }
+
 	//[SerializeField] - We don't set this ourselves because it is set by the DatabaseManager
 	private int itemID;
 	public int ID {

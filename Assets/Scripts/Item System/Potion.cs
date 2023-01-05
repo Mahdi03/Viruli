@@ -10,13 +10,13 @@ public class Potion : Item {
 
 	public override int spellLevel {
 		get {
-			if (itemName.Contains("(III)")) {
+			if (itemName.Contains(" III")) {
 				return 3;
 			}
-			else if (itemName.Contains("(II)")) {
+			else if (itemName.Contains(" II")) {
 				return 2;
 			}
-			else if (itemName.Contains("(I)")) {
+			else if (itemName.Contains(" I")) {
 				return 1;
 			}
 			else { return -1; }
