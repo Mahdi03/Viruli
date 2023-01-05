@@ -14,13 +14,13 @@ public class AttackSpell : SpellAction {
 		//First set stats based on what level spell we are
 		int level = InGameItemsDatabaseManager.Instance.getItemByID(itemID).spellLevel;
 		if (level == 1) {
-			dealsDamage = 5;
+			dealsDamage = 3;
 		}
 		else if (level == 2) {
-			dealsDamage = 10;
+			dealsDamage = 5;
 		}
 		else if (level == 3) {
-			dealsDamage = 20;
+			dealsDamage = 15;
 		}
 		else {
 			Debug.Log("OOPS how did we make it here?!?!?");

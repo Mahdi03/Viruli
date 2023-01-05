@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoisonSpell : SpellAction {
 	/**
-	 * Level 1: 2 sec delay per hit
+	 * Level 1: 3 sec delay per hit
 	 * Level 2: 1 sec delay per hit
 	 * Level 3: 0.25 sec delay per hit
 	 */
@@ -15,7 +15,7 @@ public class PoisonSpell : SpellAction {
 		//First set stats based on what level spell we are
 		int level = InGameItemsDatabaseManager.Instance.getItemByID(itemID).spellLevel;
 		if (level == 1) {
-			delay = 2f;
+			delay = 3f;
 		}
 		else if (level == 2) {
 			delay = 1f;
