@@ -22,6 +22,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 	/// The set function for this property takes care of the background color of the UI element as well
 	/// </summary>
 	/// 
+	public bool disabled = false;
 	protected bool selected = false;
 	public bool Selected {
 		get { return this.selected; }
@@ -88,14 +89,14 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 	//On hover enter highlight white background but on hover exit remove highlight
 	public void OnPointerEnter(PointerEventData eventData) {
 		//Use this little catch to prevent the 
-		if (!this.selected) {
+		if (!this.disabled && !this.selected) {
 			backgroundImage.color = backgroundHoverColor; //On Hover enter, add transparent background
 		}
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {
 		//Use this little catch to keep the background color from changing when we hover on something else
-		if (!this.selected) {
+		if (!this.disabled && !this.selected) {
 			removeAllBackgroundColor(); //On hover exit, remove transparent background
 		}
 
@@ -106,6 +107,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 
 	
 	public virtual void OnPointerClick(PointerEventData eventData) {
+	    if (!disabled) {
         //var k = typeof(ScrollViewElementController);
         //When we click on our element, the rest of the other elements will be unselected, this one will be selected, and then we will load it
         //Loop through all the elements in our parent and for each one, unselect it
@@ -120,6 +122,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 		this.Selected = true;
 
 		
+	}
 	}
 
 }

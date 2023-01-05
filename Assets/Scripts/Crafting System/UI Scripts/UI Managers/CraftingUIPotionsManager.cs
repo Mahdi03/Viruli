@@ -67,7 +67,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableUIInfoGroupContainerController.SetIcon(item.TwoDimensionalPrefab);
         craftableUIInfoGroupContainerController.SetItemName(item.itemName);
         craftableUIInfoGroupContainerController.SetItemDescription(item.ItemDescription);
-        craftableUIInfoGroupContainerController.SetItemStatsText("    Effect Radius: " + item.EffectRadius + " ft\n    Effect Timeout: " + item.EffectTimeout + " sec");
+        craftableUIInfoGroupContainerController.SetItemStatsText("    Effect Radius: " + item.EffectRadius + "\n    Effect Timeout: " + item.EffectTimeout + " sec");
     }
 
 
@@ -95,6 +95,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
 
             var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
             xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
+            //TODO: Try setting the parent transform of the input action group again, maybe that will stop it from changing order
             xpTextRectTransform.sizeDelta = new Vector2(xpTextRectTransform.sizeDelta.x, 30);
 
         

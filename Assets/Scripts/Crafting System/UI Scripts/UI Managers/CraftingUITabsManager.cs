@@ -70,6 +70,10 @@ public class CraftingUITabsManager : MonoBehaviour {
         ShowTabContent(tabID);
         //Make sure to update the XP values between the two tabs every time we switch tabs
         XPSystem.Instance.updateXPUI();
+        if (tabID == 0) {
+            //We are selecting Tab #1, the potions tab, update which spell levels are craftable
+            populateScrollViewWithSpells(scrollViewContent1);
+        }
         if (tabID != 1) {
             //If we are selecting another tab than tab #2, then make sure to unglow any of the doors
             MainDoorManager.Instance.UnglowAllDoors();
@@ -99,9 +103,13 @@ public class CraftingUITabsManager : MonoBehaviour {
             ScrollViewElementController newScrollViewElementController = newScrollViewElement.GetComponent<ScrollViewElementController>();
             PotionScrollViewElement newPotionScrollViewElementController = IItem.enableScript<PotionScrollViewElement>(newScrollViewElement); //Add the potion click callback
             IItem.disableScript<ScrollViewElementController>(newScrollViewElement);
-            newPotionScrollViewElementController.setIcon(keyValuePair.Value.TwoDimensionalPrefab);
-            newPotionScrollViewElementController.setText(keyValuePair.Value.itemName);
-            newPotionScrollViewElementController.setItemID(keyValuePair.Value.ID);
+            
+            IItem item = keyValuePair.Value;
+            newPotionScrollViewElementController.setIcon(item.TwoDimensionalPrefab);
+            newPotionScrollViewElementController.setText(item.itemName);
+            newPotionScrollViewElementController.setItemID(item.ID);
+            
+            newPotionScrollViewElementController.disabled = XPSystem.Instance.Level < item.spellXPLevelUpgrade;
         }
     }
     /// <summary>

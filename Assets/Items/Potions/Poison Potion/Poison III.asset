@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b43dadd8d2d42804881a48676c77c234, type: 3}
-  m_Name: Instant Death (III)
+  m_Name: Poison (III)
   m_EditorClassIdentifier: 
   stackable: 1
   craftable: 1
@@ -18,17 +18,19 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: d8f9b2fe30fc9bb4cb969f0779d82f9f, type: 2}
     countRequired: 1
   - item: {fileID: 11400000, guid: cbed348a678a4074bbe3b7e3d27fff13, type: 2}
-    countRequired: 7
-  - item: {fileID: 11400000, guid: 6fdedf7ad22a9c34f880e451a3e3ac38, type: 2}
-    countRequired: 7
+    countRequired: 9
+  - item: {fileID: 11400000, guid: d1bf9436ecdc0d048951a23261186f0b, type: 2}
+    countRequired: 9
   xpValue: 0
   weightedDropProbability: 1
-  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: cebe8c3b59e909f4bb15995f26881304,
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 29529904445e76d48955be7f29a9254b,
     type: 3}
-  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 598d0fe301a090f43b24f2144ed44877,
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 14591d96c1f7785438572417bc4b6586,
     type: 3}
-  itemDescription: While expensive to brew, this potion is hazardous enough to simply
-    wipe any enemies off the map entirely. Be careful as it runs out quickly.
-  xpCost: 100
-  effectRadius: 2.25
-  timeout: 5
+  itemDescription: While this potion will seem to have no effect at first, don't
+    worry the poison is just settling in. Your enemies won't feel it at first but
+    it only gets worse.
+  xpCost: 150
+  xpLevelToUnlockSpell: 7
+  effectRadius: 7.5
+  timeout: 6

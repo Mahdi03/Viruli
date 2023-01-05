@@ -36,11 +36,23 @@ public class Tooltip : MonoBehaviour {
 		m_TextMeshProUGUI.text = tooltipString;
 		float extraTextPadding = 16f; //We set the offset to 4 in the editor but we can change it here and there to something else
 		
-		//TODO: Fix resizing of textbox height when we go from small text to big text
-		//Get size of background image from size of text plus padding on both sides
-		Vector2 tooltipBackgroundSize = new Vector2(m_TextMeshProUGUI.preferredWidth + extraTextPadding * 2f, m_TextMeshProUGUI.preferredHeight + extraTextPadding * 2f);
-		m_BackgroundImageRectTransform.sizeDelta = tooltipBackgroundSize;
-		m_TextRectTransform.sizeDelta = new Vector2(m_TextMeshProUGUI.preferredWidth, m_TextMeshProUGUI.preferredHeight);
+		//Fix resizing of textbox height when we go from small text to big text
+		/*
+		    Height is calculated based on the current width,
+		    so when we go to a bigger text, the text would
+		    need to be wrapped on multiple lines keeping with
+		    the current width. Changing the width and then
+		    recalculating the height with the current width
+		    would be smarter
+		    
+		    So try calculating the same size values twice
+		*/
+		for (int i = 0; i < 2; i++) {
+		    //Get size of background image from size of text plus padding on both sides
+		    Vector2 tooltipBackgroundSize = new Vector2(m_TextMeshProUGUI.preferredWidth + extraTextPadding * 2f, m_TextMeshProUGUI.preferredHeight + extraTextPadding * 2f);
+		    m_BackgroundImageRectTransform.sizeDelta = tooltipBackgroundSize;
+	    	m_TextRectTransform.sizeDelta = new Vector2(m_TextMeshProUGUI.preferredWidth, m_TextMeshProUGUI.preferredHeight);
+		}
 	}
 	public void HideTooltip() {
 		gameObject.SetActive(false);
