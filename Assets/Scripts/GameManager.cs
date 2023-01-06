@@ -106,7 +106,8 @@ public class GameManager : MonoBehaviour {
                 //Make sure to only unpause the gameplay when the crafting menu is closed
                 Time.timeScale = 1;
             }
-        } catch {
+        }
+        catch {
             //If that did not work, that means the crafting menu hasn't opened yet, we can just resume time to regular
             Time.timeScale = 1;
         }
@@ -123,7 +124,7 @@ public class GameManager : MonoBehaviour {
 
     /*Audio Controls*/
 
-    
+
 
     public GameObject GetTooltip() { return tooltipObjInScene; }
 
@@ -266,24 +267,20 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
-
-
         }
         else {
             //There is no saved game, start from scratch
             EnemySpawner.Instance.LoadRound(0);
 
             //Drop some stuff to begin with so that they can use it
-            //for (int i = 0; i < 14; i++) {
-                IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
-
-                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-                myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
-                myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
-
-                myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
-                myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
-            //}
+            IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
+            
+            myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+            
         }
     }
 
