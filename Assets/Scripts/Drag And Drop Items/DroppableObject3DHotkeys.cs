@@ -68,7 +68,8 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
         for (int i = 0; i < numericKeys.Count; i++) {
             //Here i is technically the index of our inventory slot as well!
             if (Input.GetKeyDown(numericKeys[i])) {
-                //We selected an inventory item, TODO: reflect the changes by highlighting the inventory number
+                //We selected an inventory item
+                
                 if (currentlySelectedInventoryID == i) {
                     //We already selected this, so let's just unselect it and do nothing else
                     ClearHand();
@@ -86,6 +87,8 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
                     ClearHand(); //It's as if our hand is empty anyways
                     return;
                 }
+                //TODO: reflect the changes by highlighting the inventory number
+                InventoryManager.Instance.highlightInventorySlotAtSlotLocation(i);
                 //If we made it this far, let's instantiate the prefabs
                 carryingItem = InGameItemsDatabaseManager.Instance.getItemByID(currentlyCarryingItemID);
 
@@ -113,7 +116,7 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
 
 
                 //A key was clicked and the slot of the item we need to grab is in slot i
-                //TODO: add item in slot i to hand
+                //add item in slot i to hand
                 /*
                  * 
                  * Get item ID at slot id i
@@ -283,7 +286,7 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
 
     private bool overInventoryUI;
     public void ClearHand() {
-        //TODO: Hide all quick inventory highlights
+        InventoryManager.Instance.clearAllInventorySlotHighlights();
         
         Destroy(twoDimensionalPrefab);
         twoDimensionalPrefab = null;
@@ -293,8 +296,8 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
         currentlySelectedInventoryID = -1;
     }
     private void DropHand() {
-    //TODO: Hide all quick inventory highlights
-        
+        InventoryManager.Instance.clearAllInventorySlotHighlights();
+
         Destroy(twoDimensionalPrefab);
         //Destroy(threeDimensionalPrefab);
         currentlyCarryingItemID = -1;

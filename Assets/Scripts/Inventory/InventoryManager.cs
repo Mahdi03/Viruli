@@ -40,6 +40,17 @@ public class InventoryManager : MonoBehaviour {
 		return itemID;
 	}
 
+	public void highlightInventorySlotAtSlotLocation(int slotLocation) {
+        GameObject[] inventorySlots = GameObject.FindGameObjectsWithTag("inventorySlot"); //Find all GameObjects that are inventorySlots
+		inventorySlots[slotLocation].GetComponent<InventorySlot>().HighlightSlot();
+    }
+	public void clearAllInventorySlotHighlights() {
+        GameObject[] inventorySlots = GameObject.FindGameObjectsWithTag("inventorySlot"); //Find all GameObjects that are inventorySlots
+		foreach (var inventorySlot in inventorySlots) {
+			inventorySlot.GetComponent<InventorySlot>().ClearSlotHighlight();
+		}
+    }
+
 	public int getTotalItemsCount() {
 		return this.currentInventory.length();
 	}
