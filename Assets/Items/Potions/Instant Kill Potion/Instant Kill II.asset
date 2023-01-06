@@ -23,9 +23,9 @@ MonoBehaviour:
     countRequired: 5
   xpValue: 0
   weightedDropProbability: 2
-  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: 0dc5ec497203be744b3bdb018e6a34ec,
+  twoDimensionalPrefab: {fileID: 7336456791080179910, guid: be598cfe92c764e41854046e97563a05,
     type: 3}
-  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 598d0fe301a090f43b24f2144ed44877,
+  threeDimensionalPrefab: {fileID: 1259192748093400595, guid: 1b3092d7235aef143b47c3c557bd3243,
     type: 3}
   itemDescription: While expensive to brew, this potion is hazardous enough to simply
     wipe any enemies off the map entirely. Be careful as it runs out quickly.
