@@ -10605,7 +10605,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Resume Game
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 931714a183c12914d9da1af0299d5a49, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bbfaf4b4fa97a3348829e588f4ba2275, type: 2}
   m_sharedMaterial: {fileID: -6737396337848262954, guid: 931714a183c12914d9da1af0299d5a49,
     type: 2}
   m_fontSharedMaterials: []
@@ -10670,7 +10670,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &409109046
@@ -19039,7 +19039,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit Game
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 931714a183c12914d9da1af0299d5a49, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bbfaf4b4fa97a3348829e588f4ba2275, type: 2}
   m_sharedMaterial: {fileID: -6737396337848262954, guid: 931714a183c12914d9da1af0299d5a49,
     type: 2}
   m_fontSharedMaterials: []
@@ -19071,7 +19071,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 15
   m_fontSizeMax: 30
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -19104,7 +19104,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &673592754
@@ -35310,6 +35310,7 @@ GameObject:
   - component: {fileID: 1283569835}
   - component: {fileID: 1283569833}
   - component: {fileID: 1283569837}
+  - component: {fileID: 1283569849}
   - component: {fileID: 1283569838}
   - component: {fileID: 1283569839}
   - component: {fileID: 1283569848}
@@ -35546,6 +35547,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60c97d4916cebfe4b8aafa779e2fb821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1283569849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283569832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9877d2e426bfd094580633bd0f9e0bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1283747187
