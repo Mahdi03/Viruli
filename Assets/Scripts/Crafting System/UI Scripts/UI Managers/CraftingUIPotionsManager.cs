@@ -138,7 +138,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     private GameObject craftableItemXPRequiredTextbox;
     CraftingUIPotionCraftingInputGroupController inputGroupController;
     private void ShowCraftableItemAction(int amountToCraft = 1) {
-        //TODO: Show "Reach Level _ to unlock this spell first"
+        
 
         craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), 220, 100);
         craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding

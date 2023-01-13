@@ -65,6 +65,13 @@ public class XPSystem : MonoBehaviour {
         if (this.XP >= this.xpThresholds[this.Level]) { //Make it so that they never reach a full 100%
             if (this.Level + 1 < this.xpThresholds.Count) { //Only increase the level if we have another level to go
                 this.Level++; //Increase the level
+                MessageSystem.Instance.PostMessage("Congrats! You have now leveled up to XP Level " + this.Level + ".");
+                if (this.Level == 4) {
+                    MessageSystem.Instance.PostMessage("You have now unlocked Level 2 spells!", alert: true);
+                }
+                else if (this.Level == 7) {
+                    MessageSystem.Instance.PostMessage("You have now unlocked Level 3 spells!", alert: true);
+                }
             }
 
             this.MaxXP = this.xpThresholds[this.Level]; //Update the new XP max

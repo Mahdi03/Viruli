@@ -207,6 +207,7 @@ public class EnemySpawner : MonoBehaviour {
     public void EnemyKilled() {
         enemyKillCounter++;
         Debug.Log("enemyKillCounter: " + enemyKillCounter);
+        MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             
