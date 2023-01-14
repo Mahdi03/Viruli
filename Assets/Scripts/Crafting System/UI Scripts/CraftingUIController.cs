@@ -15,6 +15,14 @@ public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
     [SerializeField]
     private static readonly Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
 
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.C) && !GameManager.Instance.IS_GAME_PAUSED) {
+            if (gameObject.activeSelf) {
+                CloseCraftingMenu();
+            }
+        }
+    }
+
     public void OnPointerClick(PointerEventData eventData) {
         if (eventData.rawPointerPress.name.Contains("Overlay")) {
             CloseCraftingMenu();
