@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20fa6d22cbd646345924c0aa9de8fccb, type: 3}
-  m_Name: West Door
+  m_Name: South Door
   m_EditorClassIdentifier: 
   bigDoor: 0
-  parentTransformTagName: WestDoor
+  parentTransformTagName: SouthDoor
   twoDimensionalPrefab: {fileID: 1540417213109976106, guid: 012e19329de59c946b4ee4ea2b05b750,
     type: 3}
   repairRecipeDirty:
@@ -32,7 +32,7 @@ MonoBehaviour:
     countRequired: 20
   - item: {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
     countRequired: 18
-  - item: {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
+  - item: {fileID: 11400000, guid: 71994e6d718da3b4cb8da2e32370ca1f, type: 2}
     countRequired: 5
   xpToUpgradeToLevel3: 1000
   doorStatsAtDifferentUpgradeLevels:
