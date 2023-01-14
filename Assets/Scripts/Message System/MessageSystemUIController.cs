@@ -49,7 +49,7 @@ public class MessageSystemUIController : MonoBehaviour {
         var newMessageBoardScrollViewElement = Instantiate(messageBoardScrollViewElementPrefab, messageBoardUI.transform.GetChild(0).GetChild(0));
         MessageSystemScrollViewElementController newMessageBoardScrollViewElementController = newMessageBoardScrollViewElement.GetComponent<MessageSystemScrollViewElementController>();
         newMessageBoardScrollViewElementController.SetMessageText(message.message);
-        newMessageBoardScrollViewElementController.SetTimestampText(message.timestamp.ToShortTimeString());
+        newMessageBoardScrollViewElementController.SetTimestampText(message.timestamp);
 
         //Debug.Log($"Message: {message.message}\n Timestamp: {message.timestamp}");
 
@@ -75,6 +75,9 @@ public class MessageSystemUIController : MonoBehaviour {
     }
 
     private void scrollToBottomOfMessageBoardUI() {
+        if (messageBoardUIScrollRect == null) {
+            Start();
+        }
         messageBoardUIScrollRect.normalizedPosition = new Vector2(0, 0); //Scrolls to bottom
     }
 

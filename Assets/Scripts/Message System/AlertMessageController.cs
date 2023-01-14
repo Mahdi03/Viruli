@@ -34,7 +34,7 @@ public class AlertMessageController : MonoBehaviour {
             StartCoroutine(fadeIn());
         }
         else {
-            Debug.Log("uhm2");
+            //Debug.Log("uhm2");
             yield return new WaitForSecondsRealtime(5f);
             HideAlert();
         }

@@ -24,7 +24,7 @@ public class MessageSystem : MonoBehaviour {
     }
 
 
-    private Queue<Message> messages = new Queue<Message>();
+    private List<Message> messages = new List<Message>();
 
     // Start is called before the first frame update
     void Start() {
@@ -35,13 +35,14 @@ public class MessageSystem : MonoBehaviour {
         messageSystemUIController.alert(message); //Pass it on to the UI logic
     }
 
-    public void PostMessage(string message, bool muted = false, bool alert = false) {
-        Message newMessage = new Message(message, muted, alert);
+    public void PostMessage(string message, bool muted = false, bool alert = false, string timestamp = "") {
+        Message newMessage = new Message(message, muted, alert, timestamp);
         if (alert) {
             Debug.Log(message);
             alertMessage(message);
         }
-        messages.Enqueue(newMessage); //We technically don't even need to store the messages in a queue
+        messages.Add(newMessage);
+        Debug.Log(messages);
         messageSystemUIController.PostMessage(newMessage);
     }
 
@@ -49,15 +50,31 @@ public class MessageSystem : MonoBehaviour {
         messageSystemUIController.ToggleMessageBoardVisibility();
     }
 
+    public string SaveMessages() {
+        Debug.Log(messages.ToArray());
+        return JsonHelper.ToJson(messages.ToArray());
+    }
+
+    public void LoadMessages(string allMessagesJSONString) {
+        Start(); //Make sure that messageSystemUIController is defined since we are calling this function directly from game manager on game start
+        Message[] messagesArr = JsonHelper.FromJson<Message>(allMessagesJSONString);
+        foreach (Message msg in messagesArr) {
+            //Debug.Log(msg.timestamp.ToShortTimeString());
+            PostMessage(msg.message, true, false, msg.timestamp);
+        }
+    }
+
 }
 
+[Serializable]
 public struct Message {
     public string message;
-    public DateTime timestamp;
+    public string timestamp;
     public bool muted, alert;
-    public Message(string message, bool muted = false, bool alert = false) {
+    public Message(string message, bool muted = false, bool alert = false, string timestamp = "") {
         this.message = message;
-        timestamp = DateTime.Now;
+        if (timestamp == "") { this.timestamp = DateTime.Now.ToShortTimeString(); }
+        else { this.timestamp = timestamp; }
         this.muted = muted;
         this.alert = alert;
     }
