@@ -13,7 +13,13 @@ public class MessageSystemUIController : MonoBehaviour {
     private GameObject messageBoardUI;
     private ScrollRect messageBoardUIScrollRect;
 
-    [SerializeField] private GameObject messageBoardScrollViewElementPrefab;
+    [SerializeField]
+    private GameObject messageBoardScrollViewElementPrefab;
+
+    [SerializeField]
+    private Transform alertQueueGameObjectTransform;
+    [SerializeField]
+    private GameObject alertMessageTextboxPrefab;
 
     // Start is called before the first frame update
     void Start() {
@@ -45,10 +51,18 @@ public class MessageSystemUIController : MonoBehaviour {
         newMessageBoardScrollViewElementController.SetMessageText(message.message);
         newMessageBoardScrollViewElementController.SetTimestampText(message.timestamp.ToShortTimeString());
 
-        Debug.Log($"Message: {message.message}\n Timestamp: {message.timestamp}");
+        //Debug.Log($"Message: {message.message}\n Timestamp: {message.timestamp}");
 
         //scroll all the way to the bottom        
         scrollToBottomOfMessageBoardUI();
+    }
+
+    public void alert(string message) {
+        //Alert the message on the screen
+        var newAlertMessage = Instantiate(alertMessageTextboxPrefab, alertQueueGameObjectTransform);
+        AlertMessageController newAlertMessageController = newAlertMessage.GetComponent<AlertMessageController>();
+        newAlertMessageController.SetAlertText(message);
+        newAlertMessageController.ShowAlert();
     }
 
     public void ToggleMessageBoardVisibility() {

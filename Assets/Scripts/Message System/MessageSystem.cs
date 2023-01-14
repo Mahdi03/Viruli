@@ -31,8 +31,16 @@ public class MessageSystem : MonoBehaviour {
         messageSystemUIController = messageSystemUI.GetComponent<MessageSystemUIController>();
     }
 
+    private void alertMessage(string message) {
+        messageSystemUIController.alert(message); //Pass it on to the UI logic
+    }
+
     public void PostMessage(string message, bool muted = false, bool alert = false) {
         Message newMessage = new Message(message, muted, alert);
+        if (alert) {
+            Debug.Log(message);
+            alertMessage(message);
+        }
         messages.Enqueue(newMessage); //We technically don't even need to store the messages in a queue
         messageSystemUIController.PostMessage(newMessage);
     }
