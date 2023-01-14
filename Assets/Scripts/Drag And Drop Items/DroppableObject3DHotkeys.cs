@@ -67,7 +67,7 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
         //These are all the OnDragBegin loops - loop through each key and set it to connect with a quick inventory slot
         for (int i = 0; i < numericKeys.Count; i++) {
             //Here i is technically the index of our inventory slot as well!
-            if (Input.GetKeyDown(numericKeys[i])) {
+            if (Input.GetKeyDown(numericKeys[i]) && !GameManager.Instance.IS_GAME_PAUSED) {
                 //We selected an inventory item
                 
                 if (currentlySelectedInventoryID == i) {

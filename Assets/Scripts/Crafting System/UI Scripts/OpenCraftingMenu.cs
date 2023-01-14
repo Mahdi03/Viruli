@@ -25,7 +25,7 @@ public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
 	}
 
 	private void Update() {
-		if (Input.GetKeyDown(KeyCode.C)) {
+		if (Input.GetKeyDown(KeyCode.C) && !GameManager.Instance.IS_GAME_PAUSED) {
 			showCraftingMenu();
 		}
 	}
