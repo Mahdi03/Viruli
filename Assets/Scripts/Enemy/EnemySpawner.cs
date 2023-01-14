@@ -77,7 +77,7 @@ public class EnemySpawner : MonoBehaviour {
     private int roundDelay = 30; //30 seconds in between rounds, we can vary this later
     private int timeRemaining;
     private void Update() {
-        if (currentlyInRoundBreak && Input.GetKeyDown(KeyCode.Space)) {
+        if (currentlyInRoundBreak && Input.GetKeyDown(KeyCode.Space) && !GameManager.Instance.IS_GAME_PAUSED) {
             //Let's cancel the round break and move to the next round
             StopCoroutine("updateTimer");
             stopRoundBreak();
@@ -207,6 +207,7 @@ public class EnemySpawner : MonoBehaviour {
     public void EnemyKilled() {
         enemyKillCounter++;
         Debug.Log("enemyKillCounter: " + enemyKillCounter);
+        MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             

@@ -86,6 +86,9 @@ public class GameManager : MonoBehaviour {
                 PauseGame();
             }
         }
+        else if (Input.GetKeyUp(KeyCode.M)) {
+            MessageSystem.Instance.ToggleMessageBoardVisibility();
+        }
     }
 
     //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
@@ -160,6 +163,7 @@ public class GameManager : MonoBehaviour {
         public int roundsPlayed;
         public string currentInventoryJSONString;
         public string allDoorInfoJSONString;
+        public string allMessagesJSONString;
     }
 
     [Serializable]
@@ -207,6 +211,8 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public void SaveGame(int roundsPlayed = 0) {
 
+        MessageSystem.Instance.PostMessage("Saving game...", alert: true);
+
         SaveGameData saveGameData = new SaveGameData();
 
         saveGameData.currentXP = XPSystem.Instance.XP;
@@ -229,6 +235,8 @@ public class GameManager : MonoBehaviour {
         string doorDataJSON = JsonHelper.ToJson(doorSaveDatas.ToArray()); //Make sure to unpack with the MainDoorSaveData struct type
         saveGameData.allDoorInfoJSONString = doorDataJSON;
 
+        saveGameData.allMessagesJSONString = MessageSystem.Instance.SaveMessages();
+        Debug.Log(saveGameData.allMessagesJSONString);
 
         //Now once again JSON serialize that data and then add it to PlayerPrefs
         string saveGameDataJSONString = JsonUtility.ToJson(saveGameData);
@@ -236,7 +244,7 @@ public class GameManager : MonoBehaviour {
         PlayerPrefs.SetString(SaveDataPlayerPrefsKeyName, saveGameDataJSONString);
         PlayerPrefs.Save();
         Debug.Log(saveGameDataJSONString);
-
+        MessageSystem.Instance.PostMessage("Game progress saved!", alert: true);
     }
 
     public static bool previousSaveAvailable() {
@@ -267,6 +275,7 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
+            MessageSystem.Instance.LoadMessages(saveData.allMessagesJSONString);
         }
         else {
             //There is no saved game, start from scratch
@@ -302,7 +311,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public void QuitGame() {
-        Application.Quit();
+        //Application.Quit();
+        SceneManager.LoadScene("StartMenu");
     }
 
 }
