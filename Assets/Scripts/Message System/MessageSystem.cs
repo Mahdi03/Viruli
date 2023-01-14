@@ -8,8 +8,9 @@ public class MessageSystem : MonoBehaviour {
     private static MessageSystem instance;
     public static MessageSystem Instance { get { return instance; } }
 
-    public GameObject messageBox;
-    private MessageSystemUIController messageBoxController;
+    [SerializeField]
+    private GameObject messageSystemUI;
+    private MessageSystemUIController messageSystemUIController;
 
     private void Awake() {
         //Singleton initialization code
@@ -27,13 +28,17 @@ public class MessageSystem : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        messageBoxController = messageBox.GetComponent<MessageSystemUIController>();
+        messageSystemUIController = messageSystemUI.GetComponent<MessageSystemUIController>();
     }
 
     public void PostMessage(string message, bool muted = false, bool alert = false) {
         Message newMessage = new Message(message, muted, alert);
         messages.Enqueue(newMessage); //We technically don't even need to store the messages in a queue
-        messageBoxController.PostMessage(newMessage);
+        messageSystemUIController.PostMessage(newMessage);
+    }
+
+    public void ToggleMessageBoardVisibility() {
+        messageSystemUIController.ToggleMessageBoardVisibility();
     }
 
 }

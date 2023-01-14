@@ -1,63 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MessageSystemUIController : MonoBehaviour {
     [SerializeField]
     private GameObject messageButton;
     [SerializeField]
+    private GameObject messageButtonUnreadMessagesHighlight; //add a orange circle over the chat button
+
+    [SerializeField]
     private GameObject messageBoardUI;
-    [SerializeField]
-    private GameObject messageBoardButton;
-    [SerializeField]
-    private GameObject messageBoardButtonUnreadMessagesHighlight; //TODO: add a orange circle over the chat button
+    private ScrollRect messageBoardUIScrollRect;
+
+    [SerializeField] private GameObject messageBoardScrollViewElementPrefab;
+
+    // Start is called before the first frame update
+    void Start() {
+        messageBoardUIScrollRect = messageBoardUI.GetComponent<ScrollRect>();
+    }
 
     public void PostMessage(Message message) {
         //All messages are added to the message board
         AddNewMessageToMessageBoardUI(message);
         if (!messageBoardUI.activeSelf && !message.muted) {
-            //TODO: IF message board is inactive and we are not dealing with a muted message, show orange highlight on view messages button
+            //IF message board is inactive and we are not dealing with a muted message, show orange highlight on view messages button
             newUnreadMessages();
         }
     }
 
     private void newUnreadMessages() {
-        //TODO: Switch chat logo to have orange highlight
-        messageBoardButtonUnreadMessagesHighlight.SetActive(true);
+        //Switch chat logo to have orange highlight
+        messageButtonUnreadMessagesHighlight.SetActive(true);
     }
     private void readAllMessages() {
-        //TODO: Switch chat logo to have no orange highlight
-        messageBoardButtonUnreadMessagesHighlight.SetActive(false);
+        //Switch chat logo to have no orange highlight
+        messageButtonUnreadMessagesHighlight.SetActive(false);
     }
 
     public void AddNewMessageToMessageBoardUI(Message message) {
         //TODO: append a new message to the bottom of the message board - UI work
+        var newMessageBoardScrollViewElement = Instantiate(messageBoardScrollViewElementPrefab, messageBoardUI.transform.GetChild(0).GetChild(0));
+        MessageSystemScrollViewElementController newMessageBoardScrollViewElementController = newMessageBoardScrollViewElement.GetComponent<MessageSystemScrollViewElementController>();
+        newMessageBoardScrollViewElementController.SetMessageText(message.message);
+        newMessageBoardScrollViewElementController.SetTimestampText(message.timestamp.ToShortTimeString());
+
         Debug.Log($"Message: {message.message}\n Timestamp: {message.timestamp}");
-        //TODO: scroll all the way to the bottom        
+
+        //scroll all the way to the bottom        
+        scrollToBottomOfMessageBoardUI();
     }
 
-    public void MinimizeMessageBoardUI() {
-        //TODO: Hide message board and show message button
-        messageButton.SetActive(true);
-        messageBoardUI.SetActive(false);
-        messageBoardButton.SetActive(false);
-    }
-    public void OpenMessageBoardUI() {
-        //Remove message button highlight
-        readAllMessages();
-        //TODO: Show message board and hide message button
-        messageButton.SetActive(false);
-        messageBoardUI.SetActive(true);
-        messageBoardButton.SetActive(true);
+    public void ToggleMessageBoardVisibility() {
+        messageBoardUI.SetActive(!messageBoardUI.activeSelf);
+        if (messageBoardUI.activeSelf) {
+            //Remove message button highlight
+            readAllMessages();
+            scrollToBottomOfMessageBoardUI();
+        }
     }
 
-    // Start is called before the first frame update
-    void Start() {
-
+    private void scrollToBottomOfMessageBoardUI() {
+        messageBoardUIScrollRect.normalizedPosition = new Vector2(0, 0); //Scrolls to bottom
     }
 
-    // Update is called once per frame
-    void Update() {
 
-    }
+    
 }

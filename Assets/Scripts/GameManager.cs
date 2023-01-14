@@ -86,6 +86,9 @@ public class GameManager : MonoBehaviour {
                 PauseGame();
             }
         }
+        else if (Input.GetKeyUp(KeyCode.M)) {
+            MessageSystem.Instance.ToggleMessageBoardVisibility();
+        }
     }
 
     //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
