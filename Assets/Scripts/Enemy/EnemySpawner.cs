@@ -93,6 +93,9 @@ public class EnemySpawner : MonoBehaviour {
         }
 
     }
+
+    WaitForSeconds oneSecondDelay = new WaitForSeconds(1);
+
     private IEnumerator updateTimer() {
         timeRemaining--;
         string timeToPrint = "00:";
@@ -103,7 +106,7 @@ public class EnemySpawner : MonoBehaviour {
             timeToPrint += "0" + timeRemaining;
         }
         roundCounterTextbox.text = timeToPrint;
-        yield return new WaitForSeconds(1);
+        yield return oneSecondDelay;
         if (timeRemaining <= 0) {
             stopRoundBreak();
         }

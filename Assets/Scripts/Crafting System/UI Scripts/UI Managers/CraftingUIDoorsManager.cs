@@ -215,7 +215,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         }
         */
         int currentLevel = doorController.getLevel();
-        //TODO: Adjust XP cost score
+        //Adjust XP cost score
         doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < doorRepairXPCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + doorRepairXPCost;
