@@ -84,10 +84,14 @@ public class EnemySpawner : MonoBehaviour {
         }
     }
     private void startRoundBreak() {
-        currentlyInRoundBreak= true;
+        currentlyInRoundBreak = true;
         timeRemaining = roundDelay;
         StartCoroutine("updateTimer");
         GameManager.Instance.SaveGame(this.roundNumber); //Save game between rounds
+        if (this.roundNumber == 1) {
+            MessageSystem.Instance.PostMessage("You can press \"Space\" to skip round breaks", alert: true);
+        }
+
     }
     private IEnumerator updateTimer() {
         timeRemaining--;

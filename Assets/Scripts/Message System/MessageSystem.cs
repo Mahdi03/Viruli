@@ -32,6 +32,9 @@ public class MessageSystem : MonoBehaviour {
     }
 
     private void alertMessage(string message) {
+        if (messageSystemUIController == null) {
+            Start();
+        }
         messageSystemUIController.alert(message); //Pass it on to the UI logic
     }
 

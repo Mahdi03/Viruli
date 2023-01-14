@@ -280,17 +280,34 @@ public class GameManager : MonoBehaviour {
         else {
             //There is no saved game, start from scratch
             EnemySpawner.Instance.LoadRound(0);
+            StartCoroutine(instructions());
 
             //Drop some stuff to begin with so that they can use it
             IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
-            
+
             myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
-            
+
         }
+    }
+
+    IEnumerator instructions() {
+        alert("Click on the potions to pick them up.");
+        yield return new WaitForSeconds(5f);
+        alert("Drag the potions from the inventory onto your enemies.");
+        yield return new WaitForSeconds(35f);
+        alert("You can also press hotkeys 1-9 to select items in the inventory to drop onto the scene.");
+        yield return new WaitForSeconds(15f);
+        alert("Press 'c' to toggle the crafting menu.");
+        yield return new WaitForSeconds(7f);
+        alert("Use 'm' to toggle your message board.");
+    }
+
+    private void alert(string message) {
+        MessageSystem.Instance.PostMessage(message, alert: true);
     }
 
     public void ClearAllGameSettings() {
