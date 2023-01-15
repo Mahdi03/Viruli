@@ -134,7 +134,9 @@ public class EnemySpawner : MonoBehaviour {
             }
             else {
                 //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
-                enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
+                //enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
+                //1/7 e^(x-2) + 85
+                enemiesToSpawnThisRound = (int)(85 + Mathf.Exp(roundNumber - 2) / 7);
             }
             enemyKillCounterTextbox.text = "Enemies Killed: 0/" + enemiesToSpawnThisRound;
             //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
