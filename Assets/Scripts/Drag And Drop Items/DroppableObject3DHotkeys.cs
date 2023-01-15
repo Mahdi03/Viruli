@@ -84,10 +84,10 @@ public class DroppableObject3DHotkeys : MonoBehaviour {
                 currentlyCarryingItemID = InventoryManager.Instance.getItemIDAtSlotLocation(currentlySelectedInventoryID);
                 if (currentlyCarryingItemID < 0) {
                     //We selected an empty object, so do nothing and just return
-                    ClearHand(); //It's as if our hand is empty anyways
+                    DropHand(); //It's as if our hand is empty anyways
                     return;
                 }
-                //TODO: reflect the changes by highlighting the inventory number
+                //reflect the changes by highlighting the inventory number
                 InventoryManager.Instance.highlightInventorySlotAtSlotLocation(i);
                 //If we made it this far, let's instantiate the prefabs
                 carryingItem = InGameItemsDatabaseManager.Instance.getItemByID(currentlyCarryingItemID);
