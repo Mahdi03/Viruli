@@ -26,14 +26,16 @@ public class AttackSpell : SpellAction {
 			Debug.Log("OOPS how did we make it here?!?!?");
 		}
 
-		//Now actually define what happens with the spell
-		StartCoroutine(DealDamage());
+         attackDelay = new WaitForSeconds(delay);
+        //Now actually define what happens with the spell
+        StartCoroutine(DealDamage());
 		//Now set the destroy timer
 		base.EnableSpell();
 	}
 	private float delay = 0.75f;
+	WaitForSeconds attackDelay;
 	private IEnumerator DealDamage() {
-		yield return new WaitForSeconds(delay);
+		yield return attackDelay;
 
 		//Get all enemies in current space and for each enemy deal damage
 		Collider[] colliders = Physics.OverlapSphere(transform.position, attackRadius, GameManager.LAYER_Enemy);
