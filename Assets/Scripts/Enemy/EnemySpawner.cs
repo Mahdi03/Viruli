@@ -202,6 +202,27 @@ public class EnemySpawner : MonoBehaviour {
             //Try spawning them in hordes
             int numZombiesToSpawn = Random.Range(1, 3);
             for (int i = 0; i < numZombiesToSpawn; i++) {
+                if (enemiesSpawned < enemiesToSpawnThisRound) {
+                    //Step #3: Spawn at location inside hierarchy parent
+                    var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
+                    //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
+                    var enemyController = newEnemy.GetComponent<EnemyController>();
+                    enemyController.initStats(
+                        enemyName: chosenEnemy.name,
+                        speed: chosenEnemy.speed,
+                        maxHealth: adjustedEnemyHealth,
+                        dealsDamage: chosenEnemy.dealsDamage,
+                        attackRadius: chosenEnemy.attackRadius,
+                        xpValue: chosenEnemy.xpValue,
+                        minItemDropCount: chosenEnemy.minItemDropCount,
+                        maxItemDropCount: chosenEnemy.maxItemDropCount);
+                    enemiesSpawned++;
+                    Debug.Log(chosenEnemy.name);
+                }
+            }
+        }
+        else {
+            if (enemiesSpawned < enemiesToSpawnThisRound) {
                 //Step #3: Spawn at location inside hierarchy parent
                 var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
                 //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
@@ -218,23 +239,6 @@ public class EnemySpawner : MonoBehaviour {
                 enemiesSpawned++;
                 Debug.Log(chosenEnemy.name);
             }
-        }
-        else {
-            //Step #3: Spawn at location inside hierarchy parent
-            var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
-            //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
-            var enemyController = newEnemy.GetComponent<EnemyController>();
-            enemyController.initStats(
-                enemyName: chosenEnemy.name,
-                speed: chosenEnemy.speed,
-                maxHealth: adjustedEnemyHealth,
-                dealsDamage: chosenEnemy.dealsDamage,
-                attackRadius: chosenEnemy.attackRadius,
-                xpValue: chosenEnemy.xpValue,
-                minItemDropCount: chosenEnemy.minItemDropCount,
-                maxItemDropCount: chosenEnemy.maxItemDropCount);
-            enemiesSpawned++;
-            Debug.Log(chosenEnemy.name);
         }
         
     }
