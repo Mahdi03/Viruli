@@ -69,7 +69,7 @@ public class XPSystem : MonoBehaviour {
                 if (this.Level == 4) {
                     MessageSystem.Instance.PostMessage("You have now unlocked Level 2 spells!", alert: true);
                 }
-                else if (this.Level == 7) {
+                else if (this.Level == 9) {
                     MessageSystem.Instance.PostMessage("You have now unlocked Level 3 spells!", alert: true);
                 }
             }
