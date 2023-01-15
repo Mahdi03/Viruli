@@ -35,6 +35,7 @@ public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
         Time.timeScale = 1;
         gameObject.SetActive(false);
         MainDoorManager.Instance.UnglowAllDoors(); //Since we are closing out of it, stop the door selection
+        GameManager.Instance.tooltipObjInScene.SetActive(false);
     }
 
     public static bool fillOutRecipeTable(GameObject recipeTable, List<(int, int)> recipeArr, int amountToCraft = 1) {
