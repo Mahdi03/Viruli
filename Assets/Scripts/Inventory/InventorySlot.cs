@@ -50,7 +50,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler {
 	}
 
 	public void OnDrop(PointerEventData eventData) {
-		GameObject itemDroppedIntoSlot = eventData.pointerDrag; //Get actual object that was dropped on this current object
+        //GameManager.Instance.midDrag = false;
+        GameObject itemDroppedIntoSlot = eventData.pointerDrag; //Get actual object that was dropped on this current object
 		if (itemDroppedIntoSlot != null) {
 			//Ok we need to check whether we can drop the current object into this slot
 			if (transform.childCount > 2) {
@@ -103,7 +104,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler {
 				//This slot is empty, if we wanna move it here we should swap this empty slot with the slot where this item is coming from
 				ItemInstance itemDroppedIntoSlotInstance = itemDroppedIntoSlot.GetComponent<ItemInstance>();
 				InventoryManager.Instance.swapItemsInInventory(slotID, itemDroppedIntoSlotInstance.attachedInventorySlotID);
-				Destroy(itemDroppedIntoSlot); //We instantiate a new one inside InventoryManager that is set to the correct position
+                GameManager.Instance.midDrag = false;
+                Destroy(itemDroppedIntoSlot); //We instantiate a new one inside InventoryManager that is set to the correct position
 			}
 		}
 	}
