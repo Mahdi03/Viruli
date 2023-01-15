@@ -10,6 +10,9 @@ public class EnemySpawner : MonoBehaviour {
     public static EnemySpawner Instance { get { return instance; } }
 
     [SerializeField]
+    private TextMeshProUGUI enemyKillCounterTextbox;
+
+    [SerializeField]
     private TextMeshProUGUI roundCounterTextbox; //Double use, make it a timer or display the round
 
     private void Awake() {
@@ -133,6 +136,7 @@ public class EnemySpawner : MonoBehaviour {
                 //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
                 enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
             }
+            enemyKillCounterTextbox.text = "Enemies Killed: 0/" + enemiesToSpawnThisRound;
             //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
@@ -237,8 +241,9 @@ public class EnemySpawner : MonoBehaviour {
     private int enemyKillCounter = 0;
     public void EnemyKilled() {
         enemyKillCounter++;
-        Debug.Log("enemyKillCounter: " + enemyKillCounter);
-        MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
+        enemyKillCounterTextbox.text = "Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound;
+        //Debug.Log("enemyKillCounter: " + enemyKillCounter);
+        //MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             
