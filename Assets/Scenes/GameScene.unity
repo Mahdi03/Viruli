@@ -60984,6 +60984,8 @@ MonoBehaviour:
   DoorUpgradeCenterContainer_BottomRightCorner: {fileID: 2123246223}
   sliderPrefab: {fileID: 6507314239030738812, guid: 02e4af33cc1ee7a4ea35bedffba1c1b5,
     type: 3}
+  actionButtonPrefab: {fileID: 3280637616522509144, guid: 23055c3cc7603074697106941e426022,
+    type: 3}
 --- !u!114 &2120541829
 MonoBehaviour:
   m_ObjectHideFlags: 0

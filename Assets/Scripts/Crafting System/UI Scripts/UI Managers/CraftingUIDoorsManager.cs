@@ -20,6 +20,9 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     [SerializeField]
     private GameObject sliderPrefab;
 
+    [SerializeField]
+    private GameObject actionButtonPrefab;
+
 
     public int doorID { get; set; } = -1;
     private bool doorRepairable { get; set; } = false; //private variable referring to whether a door is repairable
@@ -228,9 +231,14 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             Destroy(this.doorRepairButtonGameObject);
         }
 
-        doorRepairButtonGameObject = createDefaultButton(parentContainerToSpawnElementsIn, "Repair");
+        GameObject buttonParent = new GameObject("ActionButton");
+        RectTransform buttonParentRectTransform = buttonParent.AddComponent<RectTransform>();
+        buttonParentRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
+        
+
+        doorRepairButtonGameObject = createActionButton(buttonParentRectTransform, "Repair");
         Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
-        buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
+        buttonButton.interactable = this.doorRepairable; //Enable button depending on whether we can repair
         buttonButton.onClick.AddListener(RepairDoor);
         /*
         }
@@ -348,10 +356,17 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             if (xpCost > XPSystem.Instance.XP) {
                 this.doorUpgradable = false;
             }
+
+
+            GameObject buttonParent = new GameObject("ActionButton");
+            RectTransform buttonParentRectTransform = buttonParent.AddComponent<RectTransform>();
+            buttonParentRectTransform.SetParent(containerRectTransform, false);
+
+
             //Upgrade button (disabled if not upgradable or max level)
-            var buttonGameObject = createDefaultButton(containerRectTransform, "Upgrade");
+            var buttonGameObject = createActionButton(buttonParentRectTransform, "Upgrade");
             Button buttonButton = buttonGameObject.GetComponent<Button>();
-            buttonButton.enabled = this.doorUpgradable; //Enable button depending on whether we can repair
+            buttonButton.interactable = this.doorUpgradable; //Enable button depending on whether we can repair
             buttonButton.onClick.AddListener(UpgradeDoor);
         }
 
@@ -407,6 +422,13 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         buttonRectTransform.SetParent(parent, false);
         buttonRectTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = setText;
         return button;
+    }
+
+    private GameObject createActionButton(Transform parent, string setText = "Button") {
+        GameObject newButton = Instantiate(actionButtonPrefab, parent);
+        RectTransform newButtonRectTransform = newButton.GetComponent<RectTransform>();
+        newButtonRectTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = setText;
+        return newButton;
     }
 
 
