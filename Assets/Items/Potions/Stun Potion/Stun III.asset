@@ -28,6 +28,6 @@ MonoBehaviour:
   itemDescription: This potion will stun your enemies for 7 seconds. Use carefully
     as it only lasts for a couple seconds!
   xpCost: 21
-  xpLevelToUnlockSpell: 7
+  xpLevelToUnlockSpell: 9
   effectRadius: 7
   timeout: 7

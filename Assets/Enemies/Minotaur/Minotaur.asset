@@ -20,6 +20,6 @@ MonoBehaviour:
   dealsDamage: 2
   attackRadius: 2
   xpValue: 25
-  minItemDropCount: 5
+  minItemDropCount: 10
   maxItemDropCount: 15
   spawnProbability: 20

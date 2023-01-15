@@ -10,6 +10,9 @@ public class EnemySpawner : MonoBehaviour {
     public static EnemySpawner Instance { get { return instance; } }
 
     [SerializeField]
+    private TextMeshProUGUI enemyKillCounterTextbox;
+
+    [SerializeField]
     private TextMeshProUGUI roundCounterTextbox; //Double use, make it a timer or display the round
 
     private void Awake() {
@@ -133,6 +136,7 @@ public class EnemySpawner : MonoBehaviour {
                 //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
                 enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
             }
+            enemyKillCounterTextbox.text = "Enemies Killed: 0/" + enemiesToSpawnThisRound;
             //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
@@ -194,27 +198,56 @@ public class EnemySpawner : MonoBehaviour {
 		};
         float locationToSpawn = Random.Range(0, spawnRooms.Count);
         Vector3 spawnLocation = Random.insideUnitSphere * spawnRadius + spawnRooms[(int)locationToSpawn];
-        //Step #3: Spawn at location inside hierarchy parent
-        var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
-        //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
-        var enemyController = newEnemy.GetComponent<EnemyController>();
-        enemyController.initStats(
-            enemyName: chosenEnemy.name,
-            speed: chosenEnemy.speed,
-            maxHealth: adjustedEnemyHealth,
-            dealsDamage: chosenEnemy.dealsDamage,
-            attackRadius: chosenEnemy.attackRadius,
-            xpValue: chosenEnemy.xpValue,
-            minItemDropCount: chosenEnemy.minItemDropCount,
-            maxItemDropCount: chosenEnemy.maxItemDropCount);
-        enemiesSpawned++;
-        Debug.Log(chosenEnemy.name);
+        if (chosenEnemy.name.Contains("Zombie")) {
+            //Try spawning them in hordes
+            int numZombiesToSpawn = Random.Range(1, 3);
+            for (int i = 0; i < numZombiesToSpawn; i++) {
+                if (enemiesSpawned < enemiesToSpawnThisRound) {
+                    //Step #3: Spawn at location inside hierarchy parent
+                    var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
+                    //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
+                    var enemyController = newEnemy.GetComponent<EnemyController>();
+                    enemyController.initStats(
+                        enemyName: chosenEnemy.name,
+                        speed: chosenEnemy.speed,
+                        maxHealth: adjustedEnemyHealth,
+                        dealsDamage: chosenEnemy.dealsDamage,
+                        attackRadius: chosenEnemy.attackRadius,
+                        xpValue: chosenEnemy.xpValue,
+                        minItemDropCount: chosenEnemy.minItemDropCount,
+                        maxItemDropCount: chosenEnemy.maxItemDropCount);
+                    enemiesSpawned++;
+                    Debug.Log(chosenEnemy.name);
+                }
+            }
+        }
+        else {
+            if (enemiesSpawned < enemiesToSpawnThisRound) {
+                //Step #3: Spawn at location inside hierarchy parent
+                var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
+                //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
+                var enemyController = newEnemy.GetComponent<EnemyController>();
+                enemyController.initStats(
+                    enemyName: chosenEnemy.name,
+                    speed: chosenEnemy.speed,
+                    maxHealth: adjustedEnemyHealth,
+                    dealsDamage: chosenEnemy.dealsDamage,
+                    attackRadius: chosenEnemy.attackRadius,
+                    xpValue: chosenEnemy.xpValue,
+                    minItemDropCount: chosenEnemy.minItemDropCount,
+                    maxItemDropCount: chosenEnemy.maxItemDropCount);
+                enemiesSpawned++;
+                Debug.Log(chosenEnemy.name);
+            }
+        }
+        
     }
     private int enemyKillCounter = 0;
     public void EnemyKilled() {
         enemyKillCounter++;
-        Debug.Log("enemyKillCounter: " + enemyKillCounter);
-        MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
+        enemyKillCounterTextbox.text = "Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound;
+        //Debug.Log("enemyKillCounter: " + enemyKillCounter);
+        //MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             

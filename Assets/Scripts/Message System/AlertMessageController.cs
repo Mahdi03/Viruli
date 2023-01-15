@@ -26,6 +26,8 @@ public class AlertMessageController : MonoBehaviour {
 
     WaitForSecondsRealtime fadeDelay = new WaitForSecondsRealtime(0.01f);
 
+    private float alertDelay = 10f;
+
     private IEnumerator fadeIn() {
         
         canvasGroup.alpha += 0.25f;
@@ -37,7 +39,7 @@ public class AlertMessageController : MonoBehaviour {
         }
         else {
             //Debug.Log("uhm2");
-            yield return new WaitForSecondsRealtime(5f);
+            yield return new WaitForSecondsRealtime(alertDelay);
             HideAlert();
         }
         

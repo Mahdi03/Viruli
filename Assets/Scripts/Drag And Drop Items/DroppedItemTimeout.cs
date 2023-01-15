@@ -18,13 +18,13 @@ public class DroppedItemTimeout : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         timeElapsed += Time.smoothDeltaTime;
-        if (timeElapsed > 7.5f) {
+        if (timeElapsed > 10f) {
             Destroy(gameObject); //Time out the pick up item correctly
         }
         canvasGroup.alpha =
             Mathf.Abs(
                 Mathf.Sin(
-                    2 * Mathf.Pow(Mathf.Exp(timeElapsed / 5), 2)
+                    2 * Mathf.Pow(Mathf.Exp(timeElapsed / 13f), 4)
                 )
             );
     }
