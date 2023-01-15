@@ -298,12 +298,17 @@ public class GameManager : MonoBehaviour {
         alert("Click on the potions to pick them up.");
         yield return new WaitForSeconds(5f);
         alert("Drag the potions from the inventory onto your enemies.");
+        yield return new WaitForSeconds(10f);
+        alert("Press 'c' to toggle the crafting menu.");
+        yield return new WaitForSeconds(10f);
+        alert("Use 'm' to toggle your message board.");
         yield return new WaitForSeconds(35f);
         alert("You can also press hotkeys 1-9 to select items in the inventory to drop onto the scene.");
         yield return new WaitForSeconds(15f);
-        alert("Press 'c' to toggle the crafting menu.");
-        yield return new WaitForSeconds(7f);
-        alert("Use 'm' to toggle your message board.");
+        alert("If you ever run out of potions and don't have enough materials to craft new ones, try dropping other materials onto the enemies.");
+        yield return new WaitForSeconds(15f);
+        alert("If you missed any of these messages, feel free to check out the message board.");
+
     }
 
     private void alert(string message) {
