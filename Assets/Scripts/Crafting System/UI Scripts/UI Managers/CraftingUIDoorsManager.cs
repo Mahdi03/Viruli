@@ -241,7 +241,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         */
         yield return new WaitForSeconds(Time.smoothDeltaTime); //Update every frame
         doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
-        StartCoroutine(doorRepairTableUpdateCoroutine);
+        //StartCoroutine(doorRepairTableUpdateCoroutine);
         //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
     }
 
