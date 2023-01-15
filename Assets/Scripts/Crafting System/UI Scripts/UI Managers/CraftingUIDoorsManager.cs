@@ -182,13 +182,16 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         //Now add text
         string colorStr = "#" + ColorUtility.ToHtmlStringRGB(lerpColor);
         healthTextboxText.text = "<color=" + colorStr + ">" + currentDoorHealth + "</color>/" + maxDoorHealth;
+        healthTextboxText.fontSize = 36;
 
 
         GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
 
         var doorRepairArrRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
-
+        if (currentDoorHealth == maxDoorHealth) {
+            this.doorRepairable = false; //Don't allow a repair if the door is already at full health
+        }
         int repairCostScaleFactor = 25;
         //Scale the repair cost but always ensure a minimum cost
         this.doorRepairCostScale = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
