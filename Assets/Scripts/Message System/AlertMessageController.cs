@@ -24,12 +24,14 @@ public class AlertMessageController : MonoBehaviour {
         StartCoroutine(fadeIn());
     }
 
+    WaitForSecondsRealtime fadeDelay = new WaitForSecondsRealtime(0.01f);
+
     private IEnumerator fadeIn() {
         
         canvasGroup.alpha += 0.25f;
         if (canvasGroup.alpha < 1f) {
             //Debug.Log("uhm1.5");
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return fadeDelay;
             //Debug.Log("uhm1");
             StartCoroutine(fadeIn());
         }
@@ -41,14 +43,10 @@ public class AlertMessageController : MonoBehaviour {
         
         
     }
-    private IEnumerator waitForUserRead() {
-        yield return new WaitForSeconds(5f);
-        HideAlert();
-    }
     private IEnumerator fadeOut() {
         canvasGroup.alpha -= 0.25f;
         if (canvasGroup.alpha > 0) {
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return fadeDelay;
             StartCoroutine(fadeOut());
         }
         else {
@@ -62,7 +60,7 @@ public class AlertMessageController : MonoBehaviour {
         StartCoroutine(fadeOut());
     }
 
-    //TODO: Fade in this object through canvas group opacity, and then keep on screen for 5 sec, and then fade out + self destruct
+    //Fade in this object through canvas group opacity, and then keep on screen for 5 sec, and then fade out + self destruct
 
 
 }
