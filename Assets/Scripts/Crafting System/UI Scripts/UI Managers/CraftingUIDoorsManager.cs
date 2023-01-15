@@ -239,7 +239,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
         }
         */
-        yield return new WaitForSeconds(Time.smoothDeltaTime); //Update every frame
+        yield return null; //Update every frame
         doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
         //StartCoroutine(doorRepairTableUpdateCoroutine);
         //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
