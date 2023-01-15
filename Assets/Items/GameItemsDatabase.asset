@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: GameItemsDatabase
   m_EditorClassIdentifier: 
   potions:
-  - {fileID: 11400000, guid: 362980411aaf196489f1b41ed50f767c, type: 2}
-  - {fileID: 11400000, guid: 0ed28ddd427a8b846be6acf09f07b4c7, type: 2}
-  - {fileID: 11400000, guid: 580d85997e963cd47a657d7bd9583131, type: 2}
-  - {fileID: 11400000, guid: 2c154343d1b684d408bbc12ad2b38daf, type: 2}
-  - {fileID: 11400000, guid: fa4fc24a60608c24ab7149a49a5337c7, type: 2}
-  - {fileID: 11400000, guid: 0f4a573021f709a42a19d9b4217b2693, type: 2}
-  - {fileID: 11400000, guid: 53362b55bbe25fd4a841eae099f9f9a6, type: 2}
-  - {fileID: 11400000, guid: f28b673193e6dea4592e2e107dc3b49d, type: 2}
-  - {fileID: 11400000, guid: ee4ad914737074a44be503bdeac0e2f5, type: 2}
-  - {fileID: 11400000, guid: 6a10fbe3b4d812c4785e7e1a7d920200, type: 2}
-  - {fileID: 11400000, guid: ae372ee4ba5738748bc850d19863d8ed, type: 2}
-  - {fileID: 11400000, guid: e6e47affb2656744095a5fc0795afcbc, type: 2}
-  - {fileID: 11400000, guid: 22093f3b2d66eb84ea96d2d434df76f6, type: 2}
-  - {fileID: 11400000, guid: 4cbfe8b98e1b6f74b99f2e283724e334, type: 2}
-  - {fileID: 11400000, guid: 7064a968bd86a3c4d807e40f4b618a15, type: 2}
+  - {fileID: 11400000, guid: 79106b91d951920498ca64170a8e6450, type: 2}
+  - {fileID: 11400000, guid: 4ca44b2719724744fa1d6d35618d2bd8, type: 2}
+  - {fileID: 11400000, guid: 71994e6d718da3b4cb8da2e32370ca1f, type: 2}
+  - {fileID: 11400000, guid: 101e86a88b483104f900786619682a74, type: 2}
+  - {fileID: 11400000, guid: d38f8ea161859b74db54169ab6e8fc70, type: 2}
+  - {fileID: 11400000, guid: b86c5a6fa5e86f541a548c21584dba1f, type: 2}
+  - {fileID: 11400000, guid: b0f1fe3ab3f5afe40a3e3a9aff4c36b2, type: 2}
+  - {fileID: 11400000, guid: ef4c56e95e6122342ac3a2f7ed3a4061, type: 2}
+  - {fileID: 11400000, guid: 56a49c91609978d4da02765f970d525d, type: 2}
+  - {fileID: 11400000, guid: 2aa41e7341b9ecc4d8cffee2d8104a80, type: 2}
+  - {fileID: 11400000, guid: 8f39f8c438a053c4d80b1390f510c7ac, type: 2}
+  - {fileID: 11400000, guid: 86d1780f8e6bc9c4f83e3af37c04f3e7, type: 2}
+  - {fileID: 11400000, guid: 6e77aee3cf0df544ba22a92369a871d4, type: 2}
+  - {fileID: 11400000, guid: 1014e8d38e540e04089e2bf853514acf, type: 2}
+  - {fileID: 11400000, guid: 3309a181d09950843bb9950da9974e44, type: 2}
   buildingMaterials:
   - {fileID: 11400000, guid: f6a81d480da3304449f067d6414e00f5, type: 2}
   - {fileID: 11400000, guid: ef62d96fefaad9846b31d3312caac203, type: 2}

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler {
-	public Image container;
+	public Image containerImage;
 	public Image item;
 	public GameObject countText;
 	private TextMeshProUGUI countTextValue;
@@ -115,5 +115,15 @@ public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler {
 		//Now remove the currently dragging stuff and then refresh the inventory UI
 		DroppableObject3DHotkeys.Instance.ClearHand();
 		InventoryManager.Instance.UpdateInventoryUIToReflectInternalInventoryChanges();
+    }
+	[SerializeField]
+	private Color slotHighlightColor;
+	private Color defaultSlotColor = new Color(0, 0, 0, 0.8f);
+	public void HighlightSlot() {
+		containerImage.color = slotHighlightColor;
+	}
+
+	public void ClearSlotHighlight() {
+		containerImage.color = defaultSlotColor;
     }
 }

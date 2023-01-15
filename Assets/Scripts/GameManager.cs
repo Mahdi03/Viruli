@@ -86,6 +86,9 @@ public class GameManager : MonoBehaviour {
                 PauseGame();
             }
         }
+        else if (Input.GetKeyUp(KeyCode.M)) {
+            MessageSystem.Instance.ToggleMessageBoardVisibility();
+        }
     }
 
     //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
@@ -106,7 +109,8 @@ public class GameManager : MonoBehaviour {
                 //Make sure to only unpause the gameplay when the crafting menu is closed
                 Time.timeScale = 1;
             }
-        } catch {
+        }
+        catch {
             //If that did not work, that means the crafting menu hasn't opened yet, we can just resume time to regular
             Time.timeScale = 1;
         }
@@ -123,7 +127,7 @@ public class GameManager : MonoBehaviour {
 
     /*Audio Controls*/
 
-    
+
 
     public GameObject GetTooltip() { return tooltipObjInScene; }
 
@@ -159,6 +163,7 @@ public class GameManager : MonoBehaviour {
         public int roundsPlayed;
         public string currentInventoryJSONString;
         public string allDoorInfoJSONString;
+        public string allMessagesJSONString;
     }
 
     [Serializable]
@@ -206,6 +211,8 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public void SaveGame(int roundsPlayed = 0) {
 
+        MessageSystem.Instance.PostMessage("Saving game...", alert: true);
+
         SaveGameData saveGameData = new SaveGameData();
 
         saveGameData.currentXP = XPSystem.Instance.XP;
@@ -228,6 +235,8 @@ public class GameManager : MonoBehaviour {
         string doorDataJSON = JsonHelper.ToJson(doorSaveDatas.ToArray()); //Make sure to unpack with the MainDoorSaveData struct type
         saveGameData.allDoorInfoJSONString = doorDataJSON;
 
+        saveGameData.allMessagesJSONString = MessageSystem.Instance.SaveMessages();
+        Debug.Log(saveGameData.allMessagesJSONString);
 
         //Now once again JSON serialize that data and then add it to PlayerPrefs
         string saveGameDataJSONString = JsonUtility.ToJson(saveGameData);
@@ -235,7 +244,7 @@ public class GameManager : MonoBehaviour {
         PlayerPrefs.SetString(SaveDataPlayerPrefsKeyName, saveGameDataJSONString);
         PlayerPrefs.Save();
         Debug.Log(saveGameDataJSONString);
-
+        MessageSystem.Instance.PostMessage("Game progress saved!", alert: true);
     }
 
     public static bool previousSaveAvailable() {
@@ -266,25 +275,39 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
-
-
+            MessageSystem.Instance.LoadMessages(saveData.allMessagesJSONString);
         }
         else {
             //There is no saved game, start from scratch
             EnemySpawner.Instance.LoadRound(0);
+            StartCoroutine(instructions());
 
             //Drop some stuff to begin with so that they can use it
-            //for (int i = 0; i < 14; i++) {
-                IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
+            IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1
 
-                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
-                myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
-                myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
+            myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
 
-                myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
-                myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
-            //}
         }
+    }
+
+    IEnumerator instructions() {
+        alert("Click on the potions to pick them up.");
+        yield return new WaitForSeconds(5f);
+        alert("Drag the potions from the inventory onto your enemies.");
+        yield return new WaitForSeconds(35f);
+        alert("You can also press hotkeys 1-9 to select items in the inventory to drop onto the scene.");
+        yield return new WaitForSeconds(15f);
+        alert("Press 'c' to toggle the crafting menu.");
+        yield return new WaitForSeconds(7f);
+        alert("Use 'm' to toggle your message board.");
+    }
+
+    private void alert(string message) {
+        MessageSystem.Instance.PostMessage(message, alert: true);
     }
 
     public void ClearAllGameSettings() {
@@ -305,7 +328,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void QuitGame() {
-        Application.Quit();
+        //Application.Quit();
+        Time.timeScale = 1;
+        SceneManager.LoadScene("StartMenu");
     }
 
 }

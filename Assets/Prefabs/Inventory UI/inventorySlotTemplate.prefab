@@ -91,9 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b5a7b3a66a7df941a5f8165b74bed2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 9129192614960368967}
+  containerImage: {fileID: 9129192614960368967}
   item: {fileID: 9129192616116940330}
   countText: {fileID: 9129192616630844157}
+  slotHighlightColor: {r: 0.31585976, g: 0.57274103, b: 0.6132076, a: 0.8}
 --- !u!1 &9129192616116940328
 GameObject:
   m_ObjectHideFlags: 0

@@ -77,18 +77,25 @@ public class EnemySpawner : MonoBehaviour {
     private int roundDelay = 30; //30 seconds in between rounds, we can vary this later
     private int timeRemaining;
     private void Update() {
-        if (currentlyInRoundBreak && Input.GetKeyDown(KeyCode.Space)) {
+        if (currentlyInRoundBreak && Input.GetKeyDown(KeyCode.Space) && !GameManager.Instance.IS_GAME_PAUSED) {
             //Let's cancel the round break and move to the next round
             StopCoroutine("updateTimer");
             stopRoundBreak();
         }
     }
     private void startRoundBreak() {
-        currentlyInRoundBreak= true;
+        currentlyInRoundBreak = true;
         timeRemaining = roundDelay;
         StartCoroutine("updateTimer");
         GameManager.Instance.SaveGame(this.roundNumber); //Save game between rounds
+        if (this.roundNumber == 1) {
+            MessageSystem.Instance.PostMessage("You can press \"Space\" to skip round breaks", alert: true);
+        }
+
     }
+
+    WaitForSeconds oneSecondDelay = new WaitForSeconds(1);
+
     private IEnumerator updateTimer() {
         timeRemaining--;
         string timeToPrint = "00:";
@@ -99,7 +106,7 @@ public class EnemySpawner : MonoBehaviour {
             timeToPrint += "0" + timeRemaining;
         }
         roundCounterTextbox.text = timeToPrint;
-        yield return new WaitForSeconds(1);
+        yield return oneSecondDelay;
         if (timeRemaining <= 0) {
             stopRoundBreak();
         }
@@ -207,6 +214,7 @@ public class EnemySpawner : MonoBehaviour {
     public void EnemyKilled() {
         enemyKillCounter++;
         Debug.Log("enemyKillCounter: " + enemyKillCounter);
+        MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             

@@ -20,6 +20,9 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     [SerializeField]
     private GameObject sliderPrefab;
 
+    [SerializeField]
+    private GameObject actionButtonPrefab;
+
 
     public int doorID { get; set; } = -1;
     private bool doorRepairable { get; set; } = false; //private variable referring to whether a door is repairable
@@ -179,13 +182,16 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         //Now add text
         string colorStr = "#" + ColorUtility.ToHtmlStringRGB(lerpColor);
         healthTextboxText.text = "<color=" + colorStr + ">" + currentDoorHealth + "</color>/" + maxDoorHealth;
+        healthTextboxText.fontSize = 36;
 
 
         GameManager.clearAllChildrenOfObj(this.doorRepairRecipeTable);
 
         var doorRepairArrRecipeItems = mainDoor.repairRecipe;
         this.doorRepairable = true;
-
+        if (currentDoorHealth == maxDoorHealth) {
+            this.doorRepairable = false; //Don't allow a repair if the door is already at full health
+        }
         int repairCostScaleFactor = 25;
         //Scale the repair cost but always ensure a minimum cost
         this.doorRepairCostScale = ((maxDoorHealth - currentDoorHealth) / repairCostScaleFactor == 0) ? 1 : (maxDoorHealth - currentDoorHealth) / repairCostScaleFactor;
@@ -215,7 +221,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         }
         */
         int currentLevel = doorController.getLevel();
-        //TODO: Adjust XP cost score
+        //Adjust XP cost score
         doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < doorRepairXPCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + doorRepairXPCost;
@@ -228,9 +234,14 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             Destroy(this.doorRepairButtonGameObject);
         }
 
-        doorRepairButtonGameObject = createDefaultButton(parentContainerToSpawnElementsIn, "Repair");
+        GameObject buttonParent = new GameObject("ActionButton");
+        RectTransform buttonParentRectTransform = buttonParent.AddComponent<RectTransform>();
+        buttonParentRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
+        
+
+        doorRepairButtonGameObject = createActionButton(buttonParentRectTransform, "Repair");
         Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
-        buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
+        buttonButton.interactable = this.doorRepairable; //Enable button depending on whether we can repair
         buttonButton.onClick.AddListener(RepairDoor);
         /*
         }
@@ -239,9 +250,9 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
         }
         */
-        yield return new WaitForSeconds(Time.smoothDeltaTime); //Update every frame
+        yield return null; //Update every frame
         doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
-        StartCoroutine(doorRepairTableUpdateCoroutine);
+        //StartCoroutine(doorRepairTableUpdateCoroutine);
         //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
     }
 
@@ -348,10 +359,17 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             if (xpCost > XPSystem.Instance.XP) {
                 this.doorUpgradable = false;
             }
+
+
+            GameObject buttonParent = new GameObject("ActionButton");
+            RectTransform buttonParentRectTransform = buttonParent.AddComponent<RectTransform>();
+            buttonParentRectTransform.SetParent(containerRectTransform, false);
+
+
             //Upgrade button (disabled if not upgradable or max level)
-            var buttonGameObject = createDefaultButton(containerRectTransform, "Upgrade");
+            var buttonGameObject = createActionButton(buttonParentRectTransform, "Upgrade");
             Button buttonButton = buttonGameObject.GetComponent<Button>();
-            buttonButton.enabled = this.doorUpgradable; //Enable button depending on whether we can repair
+            buttonButton.interactable = this.doorUpgradable; //Enable button depending on whether we can repair
             buttonButton.onClick.AddListener(UpgradeDoor);
         }
 
@@ -407,6 +425,13 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         buttonRectTransform.SetParent(parent, false);
         buttonRectTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = setText;
         return button;
+    }
+
+    private GameObject createActionButton(Transform parent, string setText = "Button") {
+        GameObject newButton = Instantiate(actionButtonPrefab, parent);
+        RectTransform newButtonRectTransform = newButton.GetComponent<RectTransform>();
+        newButtonRectTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = setText;
+        return newButton;
     }
 
 
