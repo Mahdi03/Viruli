@@ -15,10 +15,10 @@ public class PoisonSpell : SpellAction {
 		//First set stats based on what level spell we are
 		int level = InGameItemsDatabaseManager.Instance.getItemByID(itemID).spellLevel;
 		if (level == 1) {
-			delay = 3f;
+			delay = 2f;
 		}
 		else if (level == 2) {
-			delay = 1f;
+			delay = 0.75f;
 		}
 		else if (level == 3) {
 			delay = 0.25f;

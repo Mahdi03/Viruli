@@ -93,7 +93,7 @@ public class EnemyController : MonoBehaviour {
     IEnumerator recurringPoison(float delay, int amountToDamage) {
         this.DamageHealth(amountToDamage);
         yield return new WaitForSeconds(delay);
-        StartCoroutine(recurringPoison(delay, amountToDamage + 1));
+        StartCoroutine(recurringPoison(delay, 2 * amountToDamage + 1));
     }
     private bool isAlive = true;
 
