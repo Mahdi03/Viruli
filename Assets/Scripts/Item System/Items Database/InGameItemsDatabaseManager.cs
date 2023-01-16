@@ -138,9 +138,9 @@ public class InGameItemsDatabaseManager : MonoBehaviour {
 
 			
             //Set public mainDoors list from database file and set each of their ID's for later use in the game
-			mainDoors = db.mainDoors;
-			//TODO: Get game save data to apply to the door
-            for (int i = 0; i < db.mainDoors.Count; i++) {
+			mainDoors = db.mainDoorsForEachLayout.mainDoorsForEachLayout[0].mainDoorsList;
+			//Get game save data to apply to the door
+            for (int i = 0; i < mainDoors.Count; i++) {
 				mainDoors[i].ID = i;
                 //Convert dirty repair recipe to clean repair recipe
                 List<(int, int)> finalRepairRecipe = new List<(int, int)>();
