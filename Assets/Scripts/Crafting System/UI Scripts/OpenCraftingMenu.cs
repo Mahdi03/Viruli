@@ -54,8 +54,6 @@ public class OpenCraftingMenu : MonoBehaviour, IPointerDownHandler {
 						CraftingUIDoorsManager.Instance.LoadDoorUI();
 						//Actively glow the door that is actively selected
 						MainDoorManager.Instance.GlowDoorByID(CraftingUIDoorsManager.Instance.doorID);
-                        //We are in the door repair/upgrade UI, deal with door UI
-                        CraftingUIDoorsManager.Instance.resumeCoroutines(); //Game is paused when crafting menu is opened, we don't need to have a coroutine
                     }
                 }
                 break;

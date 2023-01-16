@@ -55,11 +55,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         /*foreach (GameObject g in new[] { doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject, doorRepairRecipeTable }) {
             Destroy(g);
         }*/
-
-        if (doorRepairTableUpdateCoroutine != null) {
-            StopCoroutine(doorRepairTableUpdateCoroutine);
-            doorRepairTableUpdateCoroutine = null;
-        }
         GameManager.clearAllChildrenOfObj(DoorRepairCenterContainer_BottomLeftCorner);
         GameManager.clearAllChildrenOfObj(DoorUpgradeCenterContainer_BottomRightCorner);
     }
@@ -111,28 +106,18 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         titleTextboxText.text = "Repair " + getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
         //Show recipe table (should update as door health changes)
         doorRepairRecipeTable = Table.createNewTable(containerRectTransform, 220, 100);
-        if (doorRepairTableUpdateCoroutine != null) {
-            StopCoroutine(doorRepairTableUpdateCoroutine);
-            doorRepairTableUpdateCoroutine = null;
-        }
-        doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
-        StartCoroutine(doorRepairTableUpdateCoroutine);
-
+        
+        UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
     }
     //Use this method to resume our update coroutine if we close the crafting ui and then reopen it
-    public void resumeCoroutines() {
-        if (doorRepairTableUpdateCoroutine != null) {
-            StartCoroutine(doorRepairTableUpdateCoroutine);
-        }
-    }
+    
     private GameObject doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject;
     private GameObject doorRepairRecipeTable;
-    private IEnumerator doorRepairTableUpdateCoroutine;
 
     private int doorRepairXPCost = -1;
     private int doorRepairCostScale = -1;
 
-    private IEnumerator UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
+    private void UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
         (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
@@ -250,8 +235,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
         }
         */
-        yield return null; //Update every frame
-        doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
         //StartCoroutine(doorRepairTableUpdateCoroutine);
         //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
     }
@@ -382,7 +365,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private void UpdateDoorUpgradeRecipeTable(Transform parentContainerToSpawnElementsIn, List<(int, int)> upgradeRecipe) {
         GameManager.clearAllChildrenOfObj(doorUpgradeRecipeTable);
         //Loop through all items in upgrade recipe and add them to the table
-        //implement table????
 
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorUpgradeRecipeTable, upgradeRecipe);
         if (!recipeRequirementsMet) { this.doorUpgradable = false; }
@@ -405,7 +387,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         if (this.doorRepairable) {
 
             InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
-                        //Then we need to refresh the UI again
+            //Then we need to refresh the UI again
             LoadDoorUI();
         }
     }
