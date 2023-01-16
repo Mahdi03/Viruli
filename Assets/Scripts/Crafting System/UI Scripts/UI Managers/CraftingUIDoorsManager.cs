@@ -106,11 +106,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         titleTextboxText.text = "Repair " + getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
         //Show recipe table (should update as door health changes)
         doorRepairRecipeTable = Table.createNewTable(containerRectTransform, 220, 100);
-        
+
         UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
     }
     //Use this method to resume our update coroutine if we close the crafting ui and then reopen it
-    
+
     private GameObject doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject;
     private GameObject doorRepairRecipeTable;
 
@@ -222,7 +222,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         GameObject buttonParent = new GameObject("ActionButton");
         RectTransform buttonParentRectTransform = buttonParent.AddComponent<RectTransform>();
         buttonParentRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
-        
+
 
         doorRepairButtonGameObject = createActionButton(buttonParentRectTransform, "Repair");
         Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
@@ -284,17 +284,18 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         if (alreadyUpgradedToMaxLevel) {
             //TODO: Show wall stats and that's it
 
-            var descriptionTextbox = new GameObject("Title"); //We don't need to be worried about copies since the entire container is cleared on click anyways
-            var descriptionTextboxText = titleTextbox.AddComponent<TextMeshProUGUI>();
+            var descriptionTextbox = new GameObject("Upgrade Description"); //We don't need to be worried about copies since the entire container is cleared on click anyways
+            var descriptionTextboxText = descriptionTextbox.AddComponent<TextMeshProUGUI>();
 
             //Set font size to 16
             descriptionTextboxText.fontSize = 16f;
-            descriptionTextboxText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            descriptionTextboxText.font = GameManager.Instance.CRAFTINGUI_regularTextFont;
+            descriptionTextboxText.verticalAlignment = VerticalAlignmentOptions.Top;
 
             var descriptionTextboxRectTransform = descriptionTextbox.GetComponent<RectTransform>();
-            titleTextboxRectTransform.SetParent(containerRectTransform, false);
+            descriptionTextboxRectTransform.SetParent(containerRectTransform, false);
 
-            descriptionTextboxText.text = getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + ")" + " is already upgraded to the maximum level";
+            descriptionTextboxText.text = getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + ")" + " is already upgraded to the maximum level.";
         }
         else {
             //Calculate upgrade costs first
