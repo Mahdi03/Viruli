@@ -55,11 +55,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         /*foreach (GameObject g in new[] { doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject, doorRepairRecipeTable }) {
             Destroy(g);
         }*/
-
-        if (doorRepairTableUpdateCoroutine != null) {
-            StopCoroutine(doorRepairTableUpdateCoroutine);
-            doorRepairTableUpdateCoroutine = null;
-        }
         GameManager.clearAllChildrenOfObj(DoorRepairCenterContainer_BottomLeftCorner);
         GameManager.clearAllChildrenOfObj(DoorUpgradeCenterContainer_BottomRightCorner);
     }
@@ -111,28 +106,18 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         titleTextboxText.text = "Repair " + getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + "):";
         //Show recipe table (should update as door health changes)
         doorRepairRecipeTable = Table.createNewTable(containerRectTransform, 220, 100);
-        if (doorRepairTableUpdateCoroutine != null) {
-            StopCoroutine(doorRepairTableUpdateCoroutine);
-            doorRepairTableUpdateCoroutine = null;
-        }
-        doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
-        StartCoroutine(doorRepairTableUpdateCoroutine);
 
+        UpdateDoorRepairRecipeTable(containerRectTransform); //This will take care of filling in the table for the first time
     }
     //Use this method to resume our update coroutine if we close the crafting ui and then reopen it
-    public void resumeCoroutines() {
-        if (doorRepairTableUpdateCoroutine != null) {
-            StartCoroutine(doorRepairTableUpdateCoroutine);
-        }
-    }
+
     private GameObject doorRepairLifeBarContainer, doorRepairXPRequiredTextbox, doorRepairButtonGameObject;
     private GameObject doorRepairRecipeTable;
-    private IEnumerator doorRepairTableUpdateCoroutine;
 
     private int doorRepairXPCost = -1;
     private int doorRepairCostScale = -1;
 
-    private IEnumerator UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
+    private void UpdateDoorRepairRecipeTable(Transform parentContainerToSpawnElementsIn) {
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         var doorController = mainDoor.getDoorController();
         (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
@@ -220,7 +205,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             xpText = doorRepairXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
         }
         */
-        int currentLevel = doorController.getLevel();
+        int currentLevel = doorController.Level;
         //Adjust XP cost score
         doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
@@ -237,7 +222,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         GameObject buttonParent = new GameObject("ActionButton");
         RectTransform buttonParentRectTransform = buttonParent.AddComponent<RectTransform>();
         buttonParentRectTransform.SetParent(parentContainerToSpawnElementsIn, false);
-        
+
 
         doorRepairButtonGameObject = createActionButton(buttonParentRectTransform, "Repair");
         Button buttonButton = doorRepairButtonGameObject.GetComponent<Button>();
@@ -250,8 +235,6 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             buttonButton.enabled = this.doorRepairable; //Enable button depending on whether we can repair
         }
         */
-        yield return null; //Update every frame
-        doorRepairTableUpdateCoroutine = UpdateDoorRepairRecipeTable(parentContainerToSpawnElementsIn);
         //StartCoroutine(doorRepairTableUpdateCoroutine);
         //StartCoroutine("UpdateDoorRepairRecipeTable", parentContainerToSpawnElementsIn); //Use string so that we can 
     }
@@ -292,7 +275,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         titleTextboxRectTransform.SetParent(containerRectTransform, false);
 
         titleTextboxText.text = "Upgrade " + getDoorName(this.doorID) + ":";
-        //TODO: Show recipe table for upgrade (text if max level reached)
+        //Show recipe table for upgrade (text if max level reached)
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         int doorLevel = mainDoor.getDoorController().Level;
         int numberOfTotalDoorUpgradableLevels = mainDoor.doorStatsAtDifferentUpgradeLevels.Count;
@@ -301,17 +284,18 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         if (alreadyUpgradedToMaxLevel) {
             //TODO: Show wall stats and that's it
 
-            var descriptionTextbox = new GameObject("Title"); //We don't need to be worried about copies since the entire container is cleared on click anyways
-            var descriptionTextboxText = titleTextbox.AddComponent<TextMeshProUGUI>();
+            var descriptionTextbox = new GameObject("Upgrade Description"); //We don't need to be worried about copies since the entire container is cleared on click anyways
+            var descriptionTextboxText = descriptionTextbox.AddComponent<TextMeshProUGUI>();
 
             //Set font size to 16
             descriptionTextboxText.fontSize = 16f;
-            descriptionTextboxText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            descriptionTextboxText.font = GameManager.Instance.CRAFTINGUI_regularTextFont;
+            descriptionTextboxText.verticalAlignment = VerticalAlignmentOptions.Top;
 
             var descriptionTextboxRectTransform = descriptionTextbox.GetComponent<RectTransform>();
-            titleTextboxRectTransform.SetParent(containerRectTransform, false);
+            descriptionTextboxRectTransform.SetParent(containerRectTransform, false);
 
-            descriptionTextboxText.text = getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + ")" + " is already upgraded to the maximum level";
+            descriptionTextboxText.text = getDoorName(this.doorID) + " (" + repeatStringNTimes("I", getDoorLevel(this.doorID)) + ")" + " is already upgraded to the maximum level.";
         }
         else {
             //Calculate upgrade costs first
@@ -382,20 +366,17 @@ public class CraftingUIDoorsManager : MonoBehaviour {
     private void UpdateDoorUpgradeRecipeTable(Transform parentContainerToSpawnElementsIn, List<(int, int)> upgradeRecipe) {
         GameManager.clearAllChildrenOfObj(doorUpgradeRecipeTable);
         //Loop through all items in upgrade recipe and add them to the table
-        //implement table????
 
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.doorUpgradeRecipeTable, upgradeRecipe);
         if (!recipeRequirementsMet) { this.doorUpgradable = false; }
 
     }
 
-
-
     private string getDoorName(int id) {
         return InGameItemsDatabaseManager.Instance.mainDoors[id].doorName;
     }
     private int getDoorLevel(int id) {
-        return InGameItemsDatabaseManager.Instance.mainDoors[id].getDoorController().Level;
+        return MainDoorManager.Instance.GetDoorControllerByID(id).Level;
     }
     private string repeatStringNTimes(string str, int n) {
         return string.Concat(Enumerable.Repeat(str, n));
@@ -404,15 +385,18 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         Debug.Log("Button Clicked"); //On click works
         if (this.doorRepairable) {
 
-            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
-                        //Then we need to refresh the UI again
+            //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
+            MainDoorManager.Instance.RepairDoorByID(this.doorID, this.doorRepairXPCost, this.doorRepairCostScale);
+            //Then we need to refresh the UI again
+
             LoadDoorUI();
         }
     }
     public void UpgradeDoor() {
 
         if (this.doorUpgradable) {
-            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
+            MainDoorManager.Instance.UpgradeDoorByID(this.doorID);
+            //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
             //Then we need to refresh the UI again
             LoadDoorUI();
         }

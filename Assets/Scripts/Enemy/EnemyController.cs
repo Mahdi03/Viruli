@@ -88,6 +88,7 @@ public class EnemyController : MonoBehaviour {
             return; //This enemy is already running in the poison coroutine
         }
         StartCoroutine(recurringPoison(delay, 1));
+        alreadyPoisoned = true;
     }
     IEnumerator recurringPoison(float delay, int amountToDamage) {
         this.DamageHealth(amountToDamage);

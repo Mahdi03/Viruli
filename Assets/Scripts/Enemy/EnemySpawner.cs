@@ -28,6 +28,9 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     [SerializeField]
+    private GameObject craftingOverlay;
+
+    [SerializeField]
     private Transform enemiesContainer;
 
     private float spawnRadius = 7f;
@@ -134,16 +137,22 @@ public class EnemySpawner : MonoBehaviour {
             }
             else {
                 //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
-                enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
+                //enemiesToSpawnThisRound = (int)(15 * Mathf.Pow(roundNumber, 1f/2f) + 57);
+                //1/7 e^(x-2) + 85
+                enemiesToSpawnThisRound = (int)(85 + Mathf.Exp(roundNumber - 2) / 7);
             }
             enemyKillCounterTextbox.text = "Enemies Killed: 0/" + enemiesToSpawnThisRound;
-            //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
+            //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
             //enemiesToSpawnThisRound = roundNumber;
             Debug.Log("roundNumber: " + roundNumber);
             //Actually start the spawning again
             StartCoroutine(spawner());
+            if (craftingOverlay.activeSelf) {
+                //The crafting menu is still open tho, let's pause time, closing the crafting menu will take care of the rest
+                Time.timeScale = 0;
+            }
         }
         else {
             SceneManager.LoadScene("WinGame", LoadSceneMode.Additive);
@@ -151,8 +160,8 @@ public class EnemySpawner : MonoBehaviour {
     }
     /*
     private IEnumerator startRoundBreak() {
-        //TODO: Here we need to save all the game data so that we can load in between rounds
-        yield return new WaitForSeconds(roundDelay); //TODO: maybe instead of one 30 sec break, every 1 sec make a timer somewhere on the screen to show a round break
+        //Here we need to save all the game data so that we can load in between rounds
+        yield return new WaitForSeconds(roundDelay); //maybe instead of one 30 sec break, every 1 sec make a timer somewhere on the screen to show a round break
 
         //We are guaranteed that if round break was called, we are still in the game
         
@@ -162,7 +171,6 @@ public class EnemySpawner : MonoBehaviour {
     */
     private void spawnRandomEnemy() {
         //Step #1: Pick an enemy from random to spawn
-        //TODO: Make round 1&2 only zombies, add trolls lvl 3 and minotaurs in lvl 5
         var listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
         float enemyToSpawn = Random.Range(0, listOfEnemies.Count);
         Enemy chosenEnemy = InGameItemsDatabaseManager.Instance.getEnemyByID(listOfEnemies[(int)enemyToSpawn]);
@@ -251,7 +259,7 @@ public class EnemySpawner : MonoBehaviour {
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             
-            if (finalRound - 1 == roundNumber) {
+            if (finalRound == roundNumber) {
                 //We are currently in the n-1 round
                 stopRoundBreak(); //Stop round break has the logic to end the game right there and then
                 

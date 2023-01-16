@@ -11,7 +11,7 @@ public interface ISpellAction {
 [RequireComponent(typeof(ItemInstance))]
 public class SpellAction : MonoBehaviour, ISpellAction {
 
-	//TODO: Add potion timeout bar at the top of the potion
+	//Add potion timeout bar at the top of the potion
 	private HealthBarBehavior potionTimeoutController;
 
 	protected int itemID;

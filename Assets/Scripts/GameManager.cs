@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour {
         foreach (MainDoor door in InGameItemsDatabaseManager.Instance.mainDoors) {
             MainDoorController doorController = door.getDoorController();
             (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
-            int currentDoorLevel = doorController.getLevel();
+            int currentDoorLevel = doorController.Level;
             //string doorName = doorController.gameObject.GetComponent<MainDoorInstance>().doorName;
             string doorName = door.name;
             MainDoorSaveData doorSaveData = new MainDoorSaveData(doorName, currentDoorLevel, currentDoorHealth);
@@ -290,7 +290,24 @@ public class GameManager : MonoBehaviour {
             myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
-
+            /*
+            //10 iron, 7 wood, 200 xp
+            XPSystem.Instance.increaseXP(200);
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(15);
+            for (int i = 0; i < 200; i++) {
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            }
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(16);
+            for (int i = 0; i < 200; i++) {
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            }
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(2);
+            for (int i = 0; i < 30; i++) {
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            }
+            //myItem = InGameItemsDatabaseManager.Instance.getItemByID(6);
+            //myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            */
         }
     }
 
@@ -298,12 +315,17 @@ public class GameManager : MonoBehaviour {
         alert("Click on the potions to pick them up.");
         yield return new WaitForSeconds(5f);
         alert("Drag the potions from the inventory onto your enemies.");
+        yield return new WaitForSeconds(10f);
+        alert("Press 'c' to toggle the crafting menu.");
+        yield return new WaitForSeconds(10f);
+        alert("Use 'm' to toggle your message board.");
         yield return new WaitForSeconds(35f);
         alert("You can also press hotkeys 1-9 to select items in the inventory to drop onto the scene.");
         yield return new WaitForSeconds(15f);
-        alert("Press 'c' to toggle the crafting menu.");
-        yield return new WaitForSeconds(7f);
-        alert("Use 'm' to toggle your message board.");
+        alert("If you ever run out of potions and don't have enough materials to craft new ones, try dropping other materials onto the enemies.");
+        yield return new WaitForSeconds(15f);
+        alert("If you missed any of these messages, feel free to check out the message board.");
+
     }
 
     private void alert(string message) {

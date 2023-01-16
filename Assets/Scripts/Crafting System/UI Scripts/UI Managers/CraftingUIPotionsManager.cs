@@ -95,11 +95,11 @@ public class CraftingUIPotionsManager : MonoBehaviour {
 
             var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
             xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
-            //TODO: Try setting the parent transform of the input action group again, maybe that will stop it from changing order
+            
             xpTextRectTransform.sizeDelta = new Vector2(xpTextRectTransform.sizeDelta.x, 30);
 
-        
-        
+
+
         var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
@@ -138,15 +138,14 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     private GameObject craftableItemXPRequiredTextbox;
     CraftingUIPotionCraftingInputGroupController inputGroupController;
     private void ShowCraftableItemAction(int amountToCraft = 1) {
-        
 
         craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), 220, 100);
         craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
 
-        UpdateCraftingRecipeTable(amountToCraft);
-        
         var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
+
+        UpdateCraftingRecipeTable(amountToCraft);        
         
     }
     public void CraftPotion(int amountToCraft) {
