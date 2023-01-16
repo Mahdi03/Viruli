@@ -322,7 +322,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(35f);
         alert("You can also press hotkeys 1-9 to select items in the inventory to drop onto the scene.");
         yield return new WaitForSeconds(15f);
-        alert("If you ever run out of potions and don't have enough materials to craft new ones, try dropping other materials onto the enemies.");
+        alert("If you ever run out of potions, try dropping other materials onto the enemies.");
         yield return new WaitForSeconds(15f);
         alert("If you missed any of these messages, feel free to check out the message board.");
 
