@@ -290,7 +290,24 @@ public class GameManager : MonoBehaviour {
             myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
-
+            /*
+            //10 iron, 7 wood, 200 xp
+            XPSystem.Instance.increaseXP(200);
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(15);
+            for (int i = 0; i < 200; i++) {
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            }
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(16);
+            for (int i = 0; i < 200; i++) {
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            }
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(2);
+            for (int i = 0; i < 30; i++) {
+                myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            }
+            //myItem = InGameItemsDatabaseManager.Instance.getItemByID(6);
+            //myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
+            */
         }
     }
 
