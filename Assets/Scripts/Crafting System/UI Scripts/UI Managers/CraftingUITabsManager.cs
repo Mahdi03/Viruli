@@ -74,6 +74,13 @@ public class CraftingUITabsManager : MonoBehaviour {
             //We are selecting Tab #1, the potions tab, update which spell levels are craftable
             populateScrollViewWithSpells(scrollViewContent1);
         }
+        else {
+            //We are selecting the doors tab
+            if (CraftingUIDoorsManager.Instance.doorID != -1) {
+                //There is a current door selected, make sure to update it
+                CraftingUIDoorsManager.Instance.LoadDoorUI();
+            }
+        }
         if (tabID != 1) {
             //If we are selecting another tab than tab #2, then make sure to unglow any of the doors
             MainDoorManager.Instance.UnglowAllDoors();
