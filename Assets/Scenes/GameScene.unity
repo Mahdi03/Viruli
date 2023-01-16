@@ -38245,6 +38245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyKillCounterTextbox: {fileID: 1785851006}
   roundCounterTextbox: {fileID: 547134152}
+  craftingOverlay: {fileID: 2120541826}
   enemiesContainer: {fileID: 486560452}
 --- !u!114 &1283569839
 MonoBehaviour:

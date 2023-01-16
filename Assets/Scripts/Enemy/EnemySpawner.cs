@@ -28,6 +28,9 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     [SerializeField]
+    private GameObject craftingOverlay;
+
+    [SerializeField]
     private Transform enemiesContainer;
 
     private float spawnRadius = 7f;
@@ -146,6 +149,10 @@ public class EnemySpawner : MonoBehaviour {
             Debug.Log("roundNumber: " + roundNumber);
             //Actually start the spawning again
             StartCoroutine(spawner());
+            if (craftingOverlay.activeSelf) {
+                //The crafting menu is still open tho, let's pause time, closing the crafting menu will take care of the rest
+                Time.timeScale = 0;
+            }
         }
         else {
             SceneManager.LoadScene("WinGame", LoadSceneMode.Additive);
