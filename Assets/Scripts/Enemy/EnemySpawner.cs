@@ -142,7 +142,7 @@ public class EnemySpawner : MonoBehaviour {
                 enemiesToSpawnThisRound = (int)(85 + Mathf.Exp(roundNumber - 2) / 7);
             }
             enemyKillCounterTextbox.text = "Enemies Killed: 0/" + enemiesToSpawnThisRound;
-            //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //TODO: make exponential enemy spawner
+            //enemiesToSpawnThisRound = 10 + 5 * (roundNumber); //make exponential enemy spawner
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
             //enemiesToSpawnThisRound = roundNumber;
@@ -160,8 +160,8 @@ public class EnemySpawner : MonoBehaviour {
     }
     /*
     private IEnumerator startRoundBreak() {
-        //TODO: Here we need to save all the game data so that we can load in between rounds
-        yield return new WaitForSeconds(roundDelay); //TODO: maybe instead of one 30 sec break, every 1 sec make a timer somewhere on the screen to show a round break
+        //Here we need to save all the game data so that we can load in between rounds
+        yield return new WaitForSeconds(roundDelay); //maybe instead of one 30 sec break, every 1 sec make a timer somewhere on the screen to show a round break
 
         //We are guaranteed that if round break was called, we are still in the game
         
@@ -171,7 +171,6 @@ public class EnemySpawner : MonoBehaviour {
     */
     private void spawnRandomEnemy() {
         //Step #1: Pick an enemy from random to spawn
-        //TODO: Make round 1&2 only zombies, add trolls lvl 3 and minotaurs in lvl 5
         var listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
         float enemyToSpawn = Random.Range(0, listOfEnemies.Count);
         Enemy chosenEnemy = InGameItemsDatabaseManager.Instance.getEnemyByID(listOfEnemies[(int)enemyToSpawn]);

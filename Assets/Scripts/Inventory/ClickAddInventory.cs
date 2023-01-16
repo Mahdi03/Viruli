@@ -15,7 +15,7 @@ public class ClickAddInventory : MonoBehaviour, IPointerDownHandler {
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        //TODO: If there are a lot of items in the click radius then click them all, if not then just click this one
+        //If there are a lot of items in the click radius then click them all, if not then just click this one
         GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
 
         //Let's simulate a circle collider
