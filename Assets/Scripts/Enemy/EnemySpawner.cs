@@ -253,7 +253,7 @@ public class EnemySpawner : MonoBehaviour {
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
             
-            if (finalRound - 1 == roundNumber) {
+            if (finalRound == roundNumber) {
                 //We are currently in the n-1 round
                 stopRoundBreak(); //Stop round break has the logic to end the game right there and then
                 
