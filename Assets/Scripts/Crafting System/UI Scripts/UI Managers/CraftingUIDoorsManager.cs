@@ -205,7 +205,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
             xpText = doorRepairXPRequiredTextbox.GetComponent<TextMeshProUGUI>();
         }
         */
-        int currentLevel = doorController.getLevel();
+        int currentLevel = doorController.Level;
         //Adjust XP cost score
         doorRepairXPCost = (maxDoorHealth - currentDoorHealth) / 5; //formula of xpCost for repair based on mainDoors.Level and difference in health
 
@@ -275,7 +275,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         titleTextboxRectTransform.SetParent(containerRectTransform, false);
 
         titleTextboxText.text = "Upgrade " + getDoorName(this.doorID) + ":";
-        //TODO: Show recipe table for upgrade (text if max level reached)
+        //Show recipe table for upgrade (text if max level reached)
         var mainDoor = InGameItemsDatabaseManager.Instance.mainDoors[doorID];
         int doorLevel = mainDoor.getDoorController().Level;
         int numberOfTotalDoorUpgradableLevels = mainDoor.doorStatsAtDifferentUpgradeLevels.Count;
@@ -371,13 +371,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
     }
 
-
-
     private string getDoorName(int id) {
         return InGameItemsDatabaseManager.Instance.mainDoors[id].doorName;
     }
     private int getDoorLevel(int id) {
-        return InGameItemsDatabaseManager.Instance.mainDoors[id].getDoorController().Level;
+        return MainDoorManager.Instance.GetDoorControllerByID(id).Level;
     }
     private string repeatStringNTimes(string str, int n) {
         return string.Concat(Enumerable.Repeat(str, n));
@@ -386,15 +384,18 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         Debug.Log("Button Clicked"); //On click works
         if (this.doorRepairable) {
 
-            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
+            //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
+            MainDoorManager.Instance.RepairDoorByID(this.doorID, this.doorRepairXPCost, this.doorRepairCostScale);
             //Then we need to refresh the UI again
+
             LoadDoorUI();
         }
     }
     public void UpgradeDoor() {
 
         if (this.doorUpgradable) {
-            InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
+            MainDoorManager.Instance.UpgradeDoorByID(this.doorID);
+            //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
             //Then we need to refresh the UI again
             LoadDoorUI();
         }

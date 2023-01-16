@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MainDoorController : MonoBehaviour {
 
-    public int Level { get; private set; }
+	public int Level { get; private set; } = -1;
 	private float attackRange = 4f;
 	private int damageDealt;
 
@@ -22,7 +22,7 @@ public class MainDoorController : MonoBehaviour {
 
 	public void initStats(bool isBigDoor, int level, float attackRange, int currentHealth, int maxHealth, int damageDealt, GameObject twoDimensionalPrefab) {
 		this.bigDoor = isBigDoor;
-		this.Level= level;
+		this.Level = level;
 		this.attackRange = attackRange;
 		this.maxHealth = maxHealth;
 		this.currentHealth = currentHealth;
@@ -41,10 +41,9 @@ public class MainDoorController : MonoBehaviour {
 	public (int, int) getCurrentHealthStats() {
 		return (this.currentHealth, this.maxHealth);
 	}
-	public int getLevel() {
-	return this.Level;
-	}
+
 	private bool isAlive = true;
+	
 	public void DamageHealth(int dealsDamage, Transform enemyTransform) {
 
 		//Play a door breaking sound

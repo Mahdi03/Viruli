@@ -34,6 +34,8 @@ public class MainDoor : ScriptableObject {
     private string parentTransformTagName;
     private Transform parentTransform; //Where to spawn the door
 
+    private MainDoorController doorController;
+
     //public int initialHealth; //Have small doors have lesser health than the big doors
     [Serializable]
     public class recipeItem {
@@ -73,7 +75,8 @@ public class MainDoor : ScriptableObject {
         
         DoorStats doorStats = doorStatsAtDifferentUpgradeLevels[level - 1];
         var newDoor = Instantiate(doorStats.doorPrefab, parentTransform);
-        MainDoorController doorController = getDoorController(newDoor.transform);
+
+        doorController = newDoor.transform.GetComponentInChildren<MainDoorController>();
         //Add this tidbit in case we want to supply a current health for a door like if we are loading the game from a save point
         if (currentDoorHealth < 0) {
             currentDoorHealth = doorStats.maxHealth;
@@ -109,7 +112,7 @@ public class MainDoor : ScriptableObject {
             Debug.LogError("Surpassed upgradable amount");
             return;
         }
-        Debug.Log("We made it here");
+        //Debug.Log("We made it here");
 
         //Get upgrade costs
         List<(int, int)> upgradeRecipe = new List<(int, int)>();
@@ -140,9 +143,8 @@ public class MainDoor : ScriptableObject {
 
     }
 
-    public MainDoorController getDoorController(Transform t = null) {
-        if (t == null) { t = parentTransform; }
-        return t.GetComponentInChildren<MainDoorController>(); //Remember this could be null so be sure to check
+    public MainDoorController getDoorController() {
+        return this.doorController;
     }
     
 }

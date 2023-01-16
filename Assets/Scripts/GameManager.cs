@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour {
         foreach (MainDoor door in InGameItemsDatabaseManager.Instance.mainDoors) {
             MainDoorController doorController = door.getDoorController();
             (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
-            int currentDoorLevel = doorController.getLevel();
+            int currentDoorLevel = doorController.Level;
             //string doorName = doorController.gameObject.GetComponent<MainDoorInstance>().doorName;
             string doorName = door.name;
             MainDoorSaveData doorSaveData = new MainDoorSaveData(doorName, currentDoorLevel, currentDoorHealth);
