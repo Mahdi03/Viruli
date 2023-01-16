@@ -45,7 +45,7 @@ public class MessageSystemUIController : MonoBehaviour {
     }
 
     public void AddNewMessageToMessageBoardUI(Message message) {
-        //TODO: append a new message to the bottom of the message board - UI work
+        //append a new message to the bottom of the message board - UI work
         var newMessageBoardScrollViewElement = Instantiate(messageBoardScrollViewElementPrefab, messageBoardUI.transform.GetChild(0).GetChild(0));
         MessageSystemScrollViewElementController newMessageBoardScrollViewElementController = newMessageBoardScrollViewElement.GetComponent<MessageSystemScrollViewElementController>();
         newMessageBoardScrollViewElementController.SetMessageText(message.message);

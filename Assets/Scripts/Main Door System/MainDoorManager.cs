@@ -79,5 +79,13 @@ public class MainDoorManager : MonoBehaviour {
     public void UpgradeDoorByID(int doorID) {
         mainDoors[doorID].UpgradeDoor();
     }
+    public void RepairDoorByID(int doorID, int xpCost, int repairCostScale) {
+        mainDoors[doorID].RepairDoor(xpCost, repairCostScale);
+    }
+
+    public MainDoorController GetDoorControllerByID(int doorID) {
+        return mainDoors[doorID].getDoorController();
+    }
+
 
 }
