@@ -40,12 +40,11 @@ public class CraftingUITabsManager : MonoBehaviour {
             }
 
 
-            populateScrollViewWithSpells(scrollViewContent1);
-            populateScrollViewWithDoors(scrollViewContent2);
+            populateScrollViewWithSpells(scrollViewContent1); //Set up tab content #1
+            populateScrollViewWithDoors(scrollViewContent2); //Set up tab content #2
             //For starters select tab #1
 
             SelectTab(0);
-
 
         }
     }
