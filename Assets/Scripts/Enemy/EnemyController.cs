@@ -147,7 +147,7 @@ public class EnemyController : MonoBehaviour {
             }
         }
         else {
-            Debug.Log("Target nonexistent");
+            //Debug.Log("Target nonexistent");
             SetTarget(findNearestDoor());
         }
 

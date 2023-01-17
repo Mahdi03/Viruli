@@ -74,8 +74,8 @@ public class EnemySpawner : MonoBehaviour {
         }
 
         yield return new WaitForSeconds(spawnDelay);
-        Debug.Log("enemiesToSpawnThisRound: " + enemiesToSpawnThisRound);
-        Debug.Log("enemiesSpawned: " + enemiesSpawned);
+        //Debug.Log("enemiesToSpawnThisRound: " + enemiesToSpawnThisRound);
+        //Debug.Log("enemiesSpawned: " + enemiesSpawned);
         if (enemiesSpawned < enemiesToSpawnThisRound) {
             StartCoroutine(spawner());
         }
@@ -146,7 +146,7 @@ public class EnemySpawner : MonoBehaviour {
             //enemiesToSpawnThisRound = 1 + 2 * (roundNumber);
             enemiesSpawned = 0;
             //enemiesToSpawnThisRound = roundNumber;
-            Debug.Log("roundNumber: " + roundNumber);
+            //Debug.Log("roundNumber: " + roundNumber);
             //Actually start the spawning again
             StartCoroutine(spawner());
             if (craftingOverlay.activeSelf) {
@@ -225,7 +225,7 @@ public class EnemySpawner : MonoBehaviour {
                         minItemDropCount: chosenEnemy.minItemDropCount,
                         maxItemDropCount: chosenEnemy.maxItemDropCount);
                     enemiesSpawned++;
-                    Debug.Log(chosenEnemy.name);
+                    //Debug.Log(chosenEnemy.name);
                 }
             }
         }
@@ -245,7 +245,7 @@ public class EnemySpawner : MonoBehaviour {
                     minItemDropCount: chosenEnemy.minItemDropCount,
                     maxItemDropCount: chosenEnemy.maxItemDropCount);
                 enemiesSpawned++;
-                Debug.Log(chosenEnemy.name);
+                //Debug.Log(chosenEnemy.name);
             }
         }
         

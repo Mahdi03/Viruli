@@ -24,7 +24,7 @@ public class PoisonSpell : SpellAction {
 			delay = 0.25f;
 		}
 		else {
-			Debug.Log("OOPS how did we make it here?!?!?");
+			//Debug.Log("OOPS how did we make it here?!?!?");
 		}
 		startPoisoning = true;
 		//Set the destroy timer

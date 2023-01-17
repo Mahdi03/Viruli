@@ -52,7 +52,7 @@ public class ScrollViewElementController : MonoBehaviour, IHoverable2D, IClickab
 			 * copy those over
 			 */
             ScrollViewElementController scrollViewElementController = GetComponent<ScrollViewElementController>();
-            Debug.Assert(this.GetType().Name != scrollViewElementController.GetType().Name);
+            //Debug.Assert(this.GetType().Name != scrollViewElementController.GetType().Name);
             if (scrollViewElementController != null) {
                 if (this.background == null) {
                     this.background = scrollViewElementController.background;

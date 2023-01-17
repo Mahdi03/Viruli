@@ -44,7 +44,7 @@ public class imageLoader : MonoBehaviour
         for (int i = 0; i < imagesToLoad.Length - 2; i++)
         {
             img = imagesToLoad[i];
-            Debug.Log("Loading Correctly");
+            //Debug.Log("Loading Correctly");
             imgColor = img.color;
             //set alpha to 0
             img.color = new Color(imgColor.r, imgColor.g, imgColor.b, 0f);
@@ -291,7 +291,7 @@ public class imageLoader : MonoBehaviour
         {
             Image img = imagesToLoad[i];
            
-                Debug.Log("Loading Correctly");
+                //Debug.Log("Loading Correctly");
                 Color imgColor = img.color;
                 //set alpha to 0
                 img.color = new Color(imgColor.r, imgColor.g, imgColor.b, 0f);

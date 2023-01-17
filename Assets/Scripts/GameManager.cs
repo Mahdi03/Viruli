@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour {
     private bool gameAlreadyLost = false;
     public void GameOver() {
         if (!gameAlreadyLost) {
-            Debug.Log("Game lost");
+            //Debug.Log("Game lost");
 
             SceneManager.LoadScene("LoseGame", LoadSceneMode.Additive);
         }
@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour {
         PlayerPrefs.SetString(GameSettingsPlayerPrefsKeyName, gameSettingsJSONString);
         PlayerPrefs.Save();
         //Not sure if we need to save if it will save on application quit anyways
-        Debug.Log(gameSettingsJSONString);
+        //Debug.Log(gameSettingsJSONString);
     }
 
 
@@ -236,14 +236,14 @@ public class GameManager : MonoBehaviour {
         saveGameData.allDoorInfoJSONString = doorDataJSON;
 
         saveGameData.allMessagesJSONString = MessageSystem.Instance.SaveMessages();
-        Debug.Log(saveGameData.allMessagesJSONString);
+        //Debug.Log(saveGameData.allMessagesJSONString);
 
         //Now once again JSON serialize that data and then add it to PlayerPrefs
         string saveGameDataJSONString = JsonUtility.ToJson(saveGameData);
 
         PlayerPrefs.SetString(SaveDataPlayerPrefsKeyName, saveGameDataJSONString);
         PlayerPrefs.Save();
-        Debug.Log(saveGameDataJSONString);
+        //Debug.Log(saveGameDataJSONString);
         MessageSystem.Instance.PostMessage("Game progress saved!", alert: true);
     }
 

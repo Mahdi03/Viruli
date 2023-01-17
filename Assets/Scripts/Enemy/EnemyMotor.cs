@@ -20,7 +20,7 @@ public class EnemyMotor : MonoBehaviour {
 			meshAgent.SetDestination(target.position);
 		}
 		else {
-			Debug.Log("Target isn't set");
+			//Debug.Log("Target isn't set");
 		}
 	}
 	public void changeMovementSpeed(float speed) {

@@ -57,7 +57,7 @@ public class XPSystemUIController : MonoBehaviour {
 			currentXPTextboxText.text = this.currentXp + "/" + this.maxXp;
 		}
 		else {
-			Debug.LogError("XPSystemUIController not yet initialized");
+			//Debug.LogError("XPSystemUIController not yet initialized");
 		}
 	}
 }

@@ -382,7 +382,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
         return string.Concat(Enumerable.Repeat(str, n));
     }
     public void RepairDoor() {
-        Debug.Log("Button Clicked"); //On click works
+        //Debug.Log("Button Clicked"); //On click works
         if (this.doorRepairable) {
 
             //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
