@@ -387,8 +387,11 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
             //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].RepairDoor(this.doorRepairXPCost, this.doorRepairCostScale);
             MainDoorManager.Instance.RepairDoorByID(this.doorID, this.doorRepairXPCost, this.doorRepairCostScale);
-            //Then we need to refresh the UI again
 
+            //Keep count of how many times they repair a door for game stats
+            GameManager.Instance.gameStatsData.numberOfTimesDoorRepaired++;
+
+            //Then we need to refresh the UI again
             LoadDoorUI();
         }
     }
@@ -396,7 +399,7 @@ public class CraftingUIDoorsManager : MonoBehaviour {
 
         if (this.doorUpgradable) {
             MainDoorManager.Instance.UpgradeDoorByID(this.doorID);
-            //InGameItemsDatabaseManager.Instance.mainDoors[this.doorID].UpgradeDoor();
+
             //Then we need to refresh the UI again
             LoadDoorUI();
         }

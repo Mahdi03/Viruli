@@ -106,7 +106,7 @@ public class EnemyController : MonoBehaviour {
             //enemyKilledNoise.PlayOneShot(enemyKilledNoise.clip); 
             isAlive = false;
             //Notify the Enemy Spawner that another enemy has been killed (it is keeping track to know when to start the next round)
-            EnemySpawner.Instance.EnemyKilled();
+            EnemySpawner.Instance.EnemyKilled(gameObject.name);
             //Tell DatabaseManager to drop some items for killing the enemy
             for (int i = 0; i < (int)Random.Range(minItemDropCount, maxItemDropCount); i++) {
                 InGameItemsDatabaseManager.Instance.DropRandomItem(transform.position, Quaternion.identity, this.enemyName);

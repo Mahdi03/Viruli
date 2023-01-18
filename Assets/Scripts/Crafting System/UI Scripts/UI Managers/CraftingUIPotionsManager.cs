@@ -151,6 +151,10 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     public void CraftPotion(int amountToCraft) {
         if (this.itemCraftable) {
             GetComponent<CraftingManager>().Craft(this.itemID, amountToCraft); //Pass it on to the attached Crafting Manager script
+
+            //Keep count of how many potions we craft
+            GameManager.Instance.gameStatsData.potionsCrafted++;
+
             UpdateCraftingRecipeTable(amountToCraft);
         }
     }

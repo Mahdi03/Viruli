@@ -38,7 +38,7 @@ public class EnemySpawner : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        
+
     }
 
     private float spawnDelay;
@@ -133,7 +133,7 @@ public class EnemySpawner : MonoBehaviour {
             if (roundNumber < 5) {
                 //Use parabolic growth function
                 //(10/3.2)x^2 + 7
-                enemiesToSpawnThisRound = (int)(7 + 10f/3.2f * Mathf.Pow(roundNumber, 2));
+                enemiesToSpawnThisRound = (int)(7 + 10f / 3.2f * Mathf.Pow(roundNumber, 2));
             }
             else {
                 //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
@@ -248,26 +248,38 @@ public class EnemySpawner : MonoBehaviour {
                 //Debug.Log(chosenEnemy.name);
             }
         }
-        
+
     }
     private int enemyKillCounter = 0;
-    public void EnemyKilled() {
+    public void EnemyKilled(string enemyName) {
         enemyKillCounter++;
         enemyKillCounterTextbox.text = "Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound;
+
+        enemyName = enemyName.ToLower();
+        if (enemyName.Contains("zombie")) {
+            GameManager.Instance.gameStatsData.zombiesKilled++;
+        }
+        else if (enemyName.Contains("troll")) {
+            GameManager.Instance.gameStatsData.trollsKilled++;
+        }
+        else if (enemyName.Contains("minotaur")) {
+            GameManager.Instance.gameStatsData.minotaursKilled++;
+        }
+
         //Debug.Log("enemyKillCounter: " + enemyKillCounter);
         //MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
-            
+
             if (finalRound == roundNumber) {
                 //We are currently in the n-1 round
                 stopRoundBreak(); //Stop round break has the logic to end the game right there and then
-                
+
             }
             else {
                 //The last enemy was just killed, we can start the round break now
                 startRoundBreak();
-            }            
+            }
         }
     }
 

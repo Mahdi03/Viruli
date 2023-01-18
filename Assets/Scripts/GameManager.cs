@@ -89,6 +89,11 @@ public class GameManager : MonoBehaviour {
         else if (Input.GetKeyUp(KeyCode.M)) {
             MessageSystem.Instance.ToggleMessageBoardVisibility();
         }
+        //Empty try-catch just in case the save data hasn't fully loaded in the game yet
+        try {
+            this.gameStatsData.timeElapsed += Time.unscaledDeltaTime;
+        }
+        catch { }
     }
 
     //This global variable is what allows all the individual pieces to do a pause-check every frame whether they want ot pause the audio or not
@@ -140,6 +145,23 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public GameStatsData gameStatsData;
+
+    [Serializable]
+    public struct GameStatsData {
+        public uint zombiesKilled, trollsKilled, minotaursKilled,
+        potionsCrafted, numberOfTimesDoorRepaired;
+        public float timeElapsed;
+        public GameStatsData(uint zKilled, uint tKilled, uint mKilled, uint pCrafted, uint dRepaired, float timeElapsed) {
+            this.zombiesKilled = zKilled;
+            this.trollsKilled = tKilled;
+            this.minotaursKilled = mKilled;
+            this.potionsCrafted = pCrafted;
+            this.numberOfTimesDoorRepaired = dRepaired;
+            this.timeElapsed = timeElapsed;
+        }
+    }
+
     [Serializable]
     public struct MainDoorSaveData {
         public MainDoorSaveData(string doorName, int currentLevel, int currentHealth) {
@@ -164,6 +186,7 @@ public class GameManager : MonoBehaviour {
         public string currentInventoryJSONString;
         public string allDoorInfoJSONString;
         public string allMessagesJSONString;
+        public string gameStatsDataJSONString;
     }
 
     [Serializable]
@@ -238,6 +261,9 @@ public class GameManager : MonoBehaviour {
         saveGameData.allMessagesJSONString = MessageSystem.Instance.SaveMessages();
         //Debug.Log(saveGameData.allMessagesJSONString);
 
+        //Save game stats
+        saveGameData.gameStatsDataJSONString = JsonUtility.ToJson(this.gameStatsData);
+
         //Now once again JSON serialize that data and then add it to PlayerPrefs
         string saveGameDataJSONString = JsonUtility.ToJson(saveGameData);
 
@@ -275,10 +301,25 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
-            MessageSystem.Instance.LoadMessages(saveData.allMessagesJSONString);
+
+            if (saveData.gameStatsDataJSONString != null) {
+                MessageSystem.Instance.LoadMessages(saveData.allMessagesJSONString);
+                this.gameStatsData = JsonUtility.FromJson<GameStatsData>(saveData.gameStatsDataJSONString);
+            }
+            else {
+                //We need to send a native alert that something went wrong with the save data and that we need to restart
+                /// ORRRRRRRRR we avoid that hassle of writing a bunch of native-specific code by simply defining it to be empty
+                /// and start counting from now instead of breaking game flow!
+                /// 
+                this.gameStatsData = new GameStatsData(); //The default parameterless constructor will set all values to 0U
+
+            }
+
         }
         else {
             //There is no saved game, start from scratch
+            this.gameStatsData = new GameStatsData(); //The default parameterless constructor will set all values to 0U
+
             EnemySpawner.Instance.LoadRound(0);
             StartCoroutine(instructions());
 
