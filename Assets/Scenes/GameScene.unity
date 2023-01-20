@@ -8179,7 +8179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a650ec6ddaf1414183bcafdcc175dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customMessage: Doors
+  customMessage: Repair/Upgrade Doors
 --- !u!114 &295338849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38608,6 +38608,20 @@ MonoBehaviour:
     type: 2}
   CRAFTINGUI_costTextFont: {fileID: 11400000, guid: 5ffd4f3911c4edf4aad5785b41745ede,
     type: 2}
+  currentGameStatsData:
+    zombiesKilled: 0
+    trollsKilled: 0
+    minotaursKilled: 0
+    potionsCrafted: 0
+    numberOfTimesDoorRepaired: 0
+    timeElapsed: 0
+  persistentGameStatsData:
+    zombiesKilled: 0
+    trollsKilled: 0
+    minotaursKilled: 0
+    potionsCrafted: 0
+    numberOfTimesDoorRepaired: 0
+    timeElapsed: 0
 --- !u!114 &1283569837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39971,7 +39985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1329388729
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56001,7 +56015,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 96.66665, y: 0}
+  m_AnchoredPosition: {x: 96.66675, y: 0}
   m_SizeDelta: {x: 193.3333, y: 40}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1905251378
@@ -62007,6 +62021,7 @@ GameObject:
   - component: {fileID: 2120541830}
   - component: {fileID: 2120541829}
   - component: {fileID: 2120541828}
+  - component: {fileID: 2120541835}
   m_Layer: 5
   m_Name: Crafting Overlay
   m_TagString: Untagged
@@ -62157,6 +62172,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2120541826}
   m_CullTransparentMesh: 1
+--- !u!114 &2120541835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120541826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb908f8b75abef149a7a15bf36f803a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameStatsTabContent: {fileID: 165749718}
 --- !u!1001 &2122049044
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -76,3 +76,4 @@ crashlytics-build.properties
 /ProjectSettings/ProjectSettings.asset
 /ProjectSettings/QualitySettings.asset
 *.zip
+/Assets/Scripts/Native Methods/

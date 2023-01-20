@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour {
     private static EnemySpawner instance;
-    public static EnemySpawner Instance { get { return instance; } }
+    public static EnemySpawner Instance => instance;
 
     [SerializeField]
     private TextMeshProUGUI enemyKillCounterTextbox;
@@ -38,7 +37,7 @@ public class EnemySpawner : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        
+
     }
 
     private float spawnDelay;
@@ -77,7 +76,7 @@ public class EnemySpawner : MonoBehaviour {
         //Debug.Log("enemiesToSpawnThisRound: " + enemiesToSpawnThisRound);
         //Debug.Log("enemiesSpawned: " + enemiesSpawned);
         if (enemiesSpawned < enemiesToSpawnThisRound) {
-            StartCoroutine(spawner());
+            _ = StartCoroutine(spawner());
         }
     }
     private int roundDelay = 30; //30 seconds in between rounds, we can vary this later
@@ -92,7 +91,7 @@ public class EnemySpawner : MonoBehaviour {
     private void startRoundBreak() {
         currentlyInRoundBreak = true;
         timeRemaining = roundDelay;
-        StartCoroutine("updateTimer");
+        _ = StartCoroutine("updateTimer");
         GameManager.Instance.SaveGame(this.roundNumber); //Save game between rounds
         if (this.roundNumber == 1) {
             MessageSystem.Instance.PostMessage("You can press \"Space\" to skip round breaks", alert: true);
@@ -117,7 +116,7 @@ public class EnemySpawner : MonoBehaviour {
             stopRoundBreak();
         }
         else {
-            StartCoroutine("updateTimer");
+            _ = StartCoroutine("updateTimer");
         }
     }
 
@@ -133,7 +132,7 @@ public class EnemySpawner : MonoBehaviour {
             if (roundNumber < 5) {
                 //Use parabolic growth function
                 //(10/3.2)x^2 + 7
-                enemiesToSpawnThisRound = (int)(7 + 10f/3.2f * Mathf.Pow(roundNumber, 2));
+                enemiesToSpawnThisRound = (int)(7 + 10f / 3.2f * Mathf.Pow(roundNumber, 2));
             }
             else {
                 //15 * sqrt(x-4)+57 (start off at same position as last one, just grow slower)
@@ -148,7 +147,7 @@ public class EnemySpawner : MonoBehaviour {
             //enemiesToSpawnThisRound = roundNumber;
             //Debug.Log("roundNumber: " + roundNumber);
             //Actually start the spawning again
-            StartCoroutine(spawner());
+            _ = StartCoroutine(spawner());
             if (craftingOverlay.activeSelf) {
                 //The crafting menu is still open tho, let's pause time, closing the crafting menu will take care of the rest
                 Time.timeScale = 0;
@@ -171,7 +170,7 @@ public class EnemySpawner : MonoBehaviour {
     */
     private void spawnRandomEnemy() {
         //Step #1: Pick an enemy from random to spawn
-        var listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
+        List<int> listOfEnemies = InGameItemsDatabaseManager.Instance.enemiesToSpawnFrom; //weighted probability in between the different enemies
         float enemyToSpawn = Random.Range(0, listOfEnemies.Count);
         Enemy chosenEnemy = InGameItemsDatabaseManager.Instance.getEnemyByID(listOfEnemies[(int)enemyToSpawn]);
         //Scale the enemy health based on what round we are to make the game harder
@@ -188,12 +187,12 @@ public class EnemySpawner : MonoBehaviour {
             case 5:
             case 6:
             case 7:
-                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 2);
+                adjustedEnemyHealth = chosenEnemy.maxHealth * 2;
                 break;
             case 8:
             case 9:
             case 10:
-                adjustedEnemyHealth = (int)(chosenEnemy.maxHealth * 3);
+                adjustedEnemyHealth = chosenEnemy.maxHealth * 3;
                 break;
         }
 
@@ -212,9 +211,9 @@ public class EnemySpawner : MonoBehaviour {
             for (int i = 0; i < numZombiesToSpawn; i++) {
                 if (enemiesSpawned < enemiesToSpawnThisRound) {
                     //Step #3: Spawn at location inside hierarchy parent
-                    var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
+                    GameObject newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
                     //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
-                    var enemyController = newEnemy.GetComponent<EnemyController>();
+                    EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
                     enemyController.initStats(
                         enemyName: chosenEnemy.name,
                         speed: chosenEnemy.speed,
@@ -232,9 +231,9 @@ public class EnemySpawner : MonoBehaviour {
         else {
             if (enemiesSpawned < enemiesToSpawnThisRound) {
                 //Step #3: Spawn at location inside hierarchy parent
-                var newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
+                GameObject newEnemy = Instantiate(chosenEnemy.enemyPrefab, spawnLocation, Quaternion.identity, enemiesContainer);
                 //Step #4: Ready the enemy - pass in data from ScriptableObject to instance in scene
-                var enemyController = newEnemy.GetComponent<EnemyController>();
+                EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
                 enemyController.initStats(
                     enemyName: chosenEnemy.name,
                     speed: chosenEnemy.speed,
@@ -248,26 +247,38 @@ public class EnemySpawner : MonoBehaviour {
                 //Debug.Log(chosenEnemy.name);
             }
         }
-        
+
     }
     private int enemyKillCounter = 0;
-    public void EnemyKilled() {
+    public void EnemyKilled(string enemyName) {
         enemyKillCounter++;
         enemyKillCounterTextbox.text = "Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound;
+
+        enemyName = enemyName.ToLower();
+        if (enemyName.Contains("zombie")) {
+            GameManager.Instance.persistentGameStatsData.zombiesKilled++;
+        }
+        else if (enemyName.Contains("troll")) {
+            GameManager.Instance.persistentGameStatsData.trollsKilled++;
+        }
+        else if (enemyName.Contains("minotaur")) {
+            GameManager.Instance.persistentGameStatsData.minotaursKilled++;
+        }
+
         //Debug.Log("enemyKillCounter: " + enemyKillCounter);
         //MessageSystem.Instance.PostMessage("Enemies Killed: " + enemyKillCounter + "/" + enemiesToSpawnThisRound, muted: true);
         if (enemyKillCounter >= enemiesToSpawnThisRound) {
             enemyKillCounter = 0;
-            
+
             if (finalRound == roundNumber) {
                 //We are currently in the n-1 round
                 stopRoundBreak(); //Stop round break has the logic to end the game right there and then
-                
+
             }
             else {
                 //The last enemy was just killed, we can start the round break now
                 startRoundBreak();
-            }            
+            }
         }
     }
 
