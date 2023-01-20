@@ -15,6 +15,13 @@ public class CraftingUIController : MonoBehaviour, IPointerClickHandler {
     [SerializeField]
     private static readonly Color tablePaddingColor = Color.HSVToRGB(213 / 360f, 17 / 100f, 21 / 100f);
 
+    private void Start() {
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer) {
+            //TODO: If we are on either android or iOS, resize the crafting menu
+
+        }
+    }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.C) && !GameManager.Instance.IS_GAME_PAUSED) {
             if (gameObject.activeSelf) {

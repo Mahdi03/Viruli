@@ -23,7 +23,7 @@ public class AttackSpell : SpellAction {
 			dealsDamage = 15;
 		}
 		else {
-			Debug.Log("OOPS how did we make it here?!?!?");
+			//Debug.Log("OOPS how did we make it here?!?!?");
 		}
 
          attackDelay = new WaitForSeconds(delay);

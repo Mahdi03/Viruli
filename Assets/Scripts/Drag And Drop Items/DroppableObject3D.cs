@@ -42,7 +42,7 @@ public class DroppableObject3D : MonoBehaviour, IDraggableObject2D {
 			threeDimensionalPrefab.transform.SetParent(threeDimensionalItemsContainerForDraggingInWorldSpace.transform, true);
 
 			//if we are dealing with a potion, resize the effect ring visually to match the radius
-			Debug.Log(item.itemType);
+			//Debug.Log(item.itemType);
 			if (item.itemType == "Potion") {
 				float ringRadius = item.EffectRadius;
 				threeDimensionalPrefab.transform.GetChild(2).transform.localScale = new Vector3(ringRadius, ringRadius, ringRadius);

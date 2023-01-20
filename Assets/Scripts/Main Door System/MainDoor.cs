@@ -109,7 +109,7 @@ public class MainDoor : ScriptableObject {
     public void UpgradeDoor() {
         int currentDoorLevel = getDoorController().Level;
         if (currentDoorLevel + 1 > doorStatsAtDifferentUpgradeLevels.Count) {
-            Debug.LogError("Surpassed upgradable amount");
+            //Debug.LogError("Surpassed upgradable amount");
             return;
         }
         //Debug.Log("We made it here");

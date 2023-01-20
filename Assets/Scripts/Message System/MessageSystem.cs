@@ -41,11 +41,11 @@ public class MessageSystem : MonoBehaviour {
     public void PostMessage(string message, bool muted = false, bool alert = false, string timestamp = "") {
         Message newMessage = new Message(message, muted, alert, timestamp);
         if (alert) {
-            Debug.Log(message);
+            //Debug.Log(message);
             alertMessage(message);
         }
         messages.Add(newMessage);
-        Debug.Log(messages);
+        //Debug.Log(messages);
         messageSystemUIController.PostMessage(newMessage);
     }
 
@@ -54,7 +54,7 @@ public class MessageSystem : MonoBehaviour {
     }
 
     public string SaveMessages() {
-        Debug.Log(messages.ToArray());
+        //Debug.Log(messages.ToArray());
         return JsonHelper.ToJson(messages.ToArray());
     }
 

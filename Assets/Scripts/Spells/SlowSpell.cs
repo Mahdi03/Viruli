@@ -24,7 +24,7 @@ public class SlowSpell : SpellAction {
 			slowDownFactor = 0.25f;
 		}
 		else {
-			Debug.Log("OOPS how did we make it here?!?!?");
+			//Debug.Log("OOPS how did we make it here?!?!?");
 		}
 
 		startSlowingDown = true;
