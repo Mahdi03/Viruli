@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     public Canvas mainCanvas;
 
     private static GameManager instance;
-    public static GameManager Instance { get { return instance; } }
+    public static GameManager Instance => instance;
 
     private AudioManager audioManager;
 
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
         }
         //Empty try-catch just in case the save data hasn't fully loaded in the game yet
         try {
-            this.gameStatsData.timeElapsed += Time.unscaledDeltaTime;
+            this.persistentGameStatsData.timeElapsed += Time.unscaledDeltaTime;
         }
         catch { }
     }
@@ -145,7 +145,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public GameStatsData gameStatsData;
+    public GameStatsData currentGameStatsData;
+    public GameStatsData persistentGameStatsData;
 
     [Serializable]
     public struct GameStatsData {
@@ -247,7 +248,7 @@ public class GameManager : MonoBehaviour {
 
         foreach (MainDoor door in InGameItemsDatabaseManager.Instance.mainDoors) {
             MainDoorController doorController = door.getDoorController();
-            (int currentDoorHealth, int maxDoorHealth) = doorController.getCurrentHealthStats();
+            (int currentDoorHealth, _) = doorController.getCurrentHealthStats();
             int currentDoorLevel = doorController.Level;
             //string doorName = doorController.gameObject.GetComponent<MainDoorInstance>().doorName;
             string doorName = door.name;
@@ -262,7 +263,7 @@ public class GameManager : MonoBehaviour {
         //Debug.Log(saveGameData.allMessagesJSONString);
 
         //Save game stats
-        saveGameData.gameStatsDataJSONString = JsonUtility.ToJson(this.gameStatsData);
+        saveGameData.gameStatsDataJSONString = JsonUtility.ToJson(this.persistentGameStatsData);
 
         //Now once again JSON serialize that data and then add it to PlayerPrefs
         string saveGameDataJSONString = JsonUtility.ToJson(saveGameData);
@@ -291,10 +292,10 @@ public class GameManager : MonoBehaviour {
             InventoryManager.Instance.LoadInventoryFromJSONString(saveData.currentInventoryJSONString); //WORKS
             //WORKS
             MainDoorSaveData[] allDoorSaveData = JsonHelper.FromJson<MainDoorSaveData>(saveData.allDoorInfoJSONString);
-            foreach (var doorSaveData in allDoorSaveData) {
+            foreach (MainDoorSaveData doorSaveData in allDoorSaveData) {
                 //We need to set door current health and door level matching each of the doors
                 //Loop thru the current doors in the game until we find our match and set its data
-                foreach (var door in InGameItemsDatabaseManager.Instance.mainDoors) {
+                foreach (MainDoor door in InGameItemsDatabaseManager.Instance.mainDoors) {
                     if (door.doorName == doorSaveData.doorName) {
                         door.InitDoor(doorSaveData.currentLevel, doorSaveData.currentHealth);
                         break;
@@ -304,24 +305,24 @@ public class GameManager : MonoBehaviour {
 
             if (saveData.gameStatsDataJSONString != null) {
                 MessageSystem.Instance.LoadMessages(saveData.allMessagesJSONString);
-                this.gameStatsData = JsonUtility.FromJson<GameStatsData>(saveData.gameStatsDataJSONString);
+                this.persistentGameStatsData = JsonUtility.FromJson<GameStatsData>(saveData.gameStatsDataJSONString);
             }
             else {
                 //We need to send a native alert that something went wrong with the save data and that we need to restart
                 /// ORRRRRRRRR we avoid that hassle of writing a bunch of native-specific code by simply defining it to be empty
                 /// and start counting from now instead of breaking game flow!
                 /// 
-                this.gameStatsData = new GameStatsData(); //The default parameterless constructor will set all values to 0U
+                this.persistentGameStatsData = new GameStatsData(); //The default parameterless constructor will set all values to 0U
 
             }
 
         }
         else {
             //There is no saved game, start from scratch
-            this.gameStatsData = new GameStatsData(); //The default parameterless constructor will set all values to 0U
+            this.persistentGameStatsData = new GameStatsData(); //The default parameterless constructor will set all values to 0U
 
             EnemySpawner.Instance.LoadRound(0);
-            StartCoroutine(instructions());
+            _ = StartCoroutine(instructions());
 
             //Drop some stuff to begin with so that they can use it
             IItem myItem = InGameItemsDatabaseManager.Instance.getItemByID(0); //Item ID:0 is attack potion #1

@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class CraftingUIPotionsManager : MonoBehaviour {
     private static CraftingUIPotionsManager instance;
-    public static CraftingUIPotionsManager Instance {  get { return instance; } }
+    public static CraftingUIPotionsManager Instance => instance;
 
     //Bottom half UI containers for tab #1
     [SerializeField]
@@ -59,10 +58,10 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         else {
             CraftableItemInfoGroup = CraftingUIInfoContainer_BottomLeftCorner.transform.GetChild(0);
         }
-        var craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
+        CraftableUIInfoGroupContainerController craftableUIInfoGroupContainerController = CraftableItemInfoGroup.GetComponent<CraftableUIInfoGroupContainerController>();
         CraftableItemInfoGroup.gameObject.SetActive(true);
 
-        var item = InGameItemsDatabaseManager.Instance.getItemByID(this.itemID);
+        IItem item = InGameItemsDatabaseManager.Instance.getItemByID(this.itemID);
 
         craftableUIInfoGroupContainerController.SetIcon(item.TwoDimensionalPrefab);
         craftableUIInfoGroupContainerController.SetItemName(item.itemName);
@@ -76,8 +75,8 @@ public class CraftingUIPotionsManager : MonoBehaviour {
     public void UpdateCraftingRecipeTable(int amountToCraft) {
         this.amountToCraft = amountToCraft;
         GameManager.clearAllChildrenOfObj(this.craftableItemRecipeTable);
-        var itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
-        var arrOfRecipeItems = itemToCraft.Recipe;
+        IItem itemToCraft = InGameItemsDatabaseManager.Instance.getItemByID(itemID);
+        List<(int, int)> arrOfRecipeItems = itemToCraft.Recipe;
         this.itemCraftable = true;
         bool recipeRequirementsMet = CraftingUIController.fillOutRecipeTable(this.craftableItemRecipeTable, arrOfRecipeItems, amountToCraft);
         if (!recipeRequirementsMet) { this.itemCraftable = false; }
@@ -86,21 +85,21 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         if (craftableItemXPRequiredTextbox != null) {
             Destroy(craftableItemXPRequiredTextbox);
         }
-            craftableItemXPRequiredTextbox = new GameObject("Required XP");
-            xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
-            //Set font size to 10
-            xpText.fontSize = 10f;
-            xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
-            xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
+        craftableItemXPRequiredTextbox = new GameObject("Required XP");
+        xpText = craftableItemXPRequiredTextbox.AddComponent<TextMeshProUGUI>();
+        //Set font size to 10
+        xpText.fontSize = 10f;
+        xpText.font = GameManager.Instance.CRAFTINGUI_costTextFont;
+        xpText.verticalAlignment = VerticalAlignmentOptions.Middle;
 
-            var xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
-            xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
-            
-            xpTextRectTransform.sizeDelta = new Vector2(xpTextRectTransform.sizeDelta.x, 30);
+        RectTransform xpTextRectTransform = craftableItemXPRequiredTextbox.GetComponent<RectTransform>();
+        xpTextRectTransform.SetParent(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), false);
+
+        xpTextRectTransform.sizeDelta = new Vector2(xpTextRectTransform.sizeDelta.x, 30);
 
 
 
-        var xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
+        int xpCost = InGameItemsDatabaseManager.Instance.getItemByID(itemID).XPCost * amountToCraft; //Don't forget to factor in the amount they are trying to make
 
         xpText.text = "XP: <color=\"" + ((XPSystem.Instance.XP < xpCost) ? "red" : "green") + "\">" + XPSystem.Instance.XP + "</color>/" + xpCost;
 
@@ -122,7 +121,7 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         }
         //Last number check to make sure that 
         if (!(amountToCraft > 0)) {
-            this.itemCraftable= false;
+            this.itemCraftable = false;
         }
         if (inputGroupController != null) {
             inputGroupController.SetAmountToCraft(amountToCraft);
@@ -142,18 +141,15 @@ public class CraftingUIPotionsManager : MonoBehaviour {
         craftableItemRecipeTable = Table.createNewTable(CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0), 220, 100);
         craftableItemRecipeTable.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -10); //Bring it 10px down for padding
 
-        var inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
+        GameObject inputGroup = Instantiate(this.craftingUIPotionCraftingInputGroup, CraftingUIActionContainer_BottomRightCorner.transform.GetChild(0));
         inputGroupController = inputGroup.GetComponent<CraftingUIPotionCraftingInputGroupController>();
 
-        UpdateCraftingRecipeTable(amountToCraft);        
-        
+        UpdateCraftingRecipeTable(amountToCraft);
+
     }
     public void CraftPotion(int amountToCraft) {
         if (this.itemCraftable) {
             GetComponent<CraftingManager>().Craft(this.itemID, amountToCraft); //Pass it on to the attached Crafting Manager script
-
-            //Keep count of how many potions we craft
-            GameManager.Instance.gameStatsData.potionsCrafted++;
 
             UpdateCraftingRecipeTable(amountToCraft);
         }
