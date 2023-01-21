@@ -329,9 +329,20 @@ public class GameManager : MonoBehaviour {
 
             myItem.drop2DSprite(new Vector2(0, 0), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(30, 10), Quaternion.identity);
+            //myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
+            //myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
+            //myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(3); //Item ID:3 is stun potion #1
             myItem.drop2DSprite(new Vector2(-30, -10), Quaternion.identity);
             myItem.drop2DSprite(new Vector2(0 - 4, 0 + 49), Quaternion.identity);
+
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(9); //Item ID:9 is lure potion #1
             myItem.drop2DSprite(new Vector2(13, 1), Quaternion.identity);
+
+            myItem = InGameItemsDatabaseManager.Instance.getItemByID(12); //Item ID:12 is instant kill potion #1
+            myItem.drop2DSprite(new Vector2(1, 13), Quaternion.identity);
+
             /*
             //10 iron, 7 wood, 200 xp
             XPSystem.Instance.increaseXP(200);
@@ -355,7 +366,9 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator instructions() {
         alert("Click on the potions to pick them up.");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
+        alert("Hover over the potions in your inventory to see what kind of potion they are.");
+        yield return new WaitForSeconds(3f);
         alert("Drag the potions from the inventory onto your enemies.");
         yield return new WaitForSeconds(10f);
         alert("Press 'c' to toggle the crafting menu.");
